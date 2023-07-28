@@ -1,0 +1,264 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+
+<div class="card">
+    <div class="card-header">
+        <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+        <span class="card-title mb-0 text-primary">{{label}}</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input disabled="" type="date" class="form-control" placeholder="Select" [(ngModel)]="date" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="mb-3">
+                            <label class="form-label">Branch Code</label>
+                            <input type="text" class="form-control" placeholder="Enter Branch Code" readonly="" value="#{{branchCode}}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="mb-3">
+                            <label class="form-label required">Utility Name</label>
+                            <ng-select [(ngModel)]="utility" [ngModelOptions]="{standalone: true}" (change)="getUtilityDetails($event)" [disabled]="action == 0">
+                                <ng-option *ngFor="let item of utilitiesL;let i=index" value="{{item._id}}">{{item.utility?.name}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    
+                </div>
+                <hr *ngIf="meters.length > 0">
+                <div class="row">
+                    <ul ngbNav #ModifierCustom="ngbNav" [activeId]="0" class="nav nav-pills nav-customs nav-danger">
+                        <li *ngFor="let item of meters;let i=index" [ngbNavItem]="i">
+                            <a ngbNavLink class="nav-link">
+                              {{item.name}}
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Customer Id</label>
+                                            <input disabled="" type="text" class="form-control"
+                                                placeholder="Enter Customer Id" [(ngModel)]="meters[i].meterId" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Bill No. / A/c No.</label>
+                                            <input [disabled]="action == 0" type="text" class="form-control"
+                                                placeholder="Enter Bill No. / A/c No." [(ngModel)]="meters[i].billNo" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label">Bill Type</label>
+                                            <input disabled="" type="text" class="form-control"
+                                                placeholder="Enter Bill Type" value="{{meters[i].billType}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Invoice Date</label>
+                                            <input type="date" class="form-control" [disabled]="action == 0" [(ngModel)]="meters[i].invoiceDate" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">From Bill Date</label>
+                                            <input type="date" class="form-control" [disabled]="action == 0" [(ngModel)]="meters[i].fromBillDate" [ngModelOptions]="{standalone: true}" (change)="getDate(i)">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">To Bill Date</label>
+                                            <input type="date" class="form-control" [disabled]="action == 0" [(ngModel)]="meters[i].toBillDate" [ngModelOptions]="{standalone: true}" (change)="getDate(i)">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">No. of Days <span class="text-primary">(Consumption)</span></label>
+                                            <input disabled="" type="number" class="form-control"
+                                                placeholder="Enter No. of Days (Consumption)" [(ngModel)]="meters[i].noOfDays" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="meters[i].billType == 'Sub Meter'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Initial Reading</label>
+                                            <input [disabled]="action == 0" type="number" class="form-control" (keyup)="getConsumptionInitial(i,$event)"
+                                            placeholder="Enter Initial Reading" [(ngModel)]="meters[i].initReading" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="meters[i].billType == 'Sub Meter'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Final Reading</label>
+                                            <input [disabled]="action == 0" type="number" class="form-control" (keyup)="getConsumptionFinal(i,$event)"
+                                            placeholder="Enter Final Reading" [(ngModel)]="meters[i].finalReading" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="meters[i].billType == 'Sub Meter'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Consumption <span class="text-primary">(Units)</span></label>
+                                            <input disabled="" type="number" class="form-control"
+                                                placeholder="Enter Consumption (Units)" [(ngModel)]="meters[i].consumption" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="meters[i].billType == 'Shared'">
+                                        <div class="mb-3">
+                                            <label class="form-label">Consumption <span class="text-primary">(Units)</span></label>
+                                            <input disabled="" type="number" class="form-control"
+                                                placeholder="Enter Consumption (Units)" [(ngModel)]="meters[i].consumption" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="meters[i].billType != 'Sub Meter' && meters[i].billType != 'Shared'">
+                                        <div class="mb-3">
+                                            <label class="form-label">Consumption <span class="text-primary">(Units)</span></label>
+                                            <input [disabled]="action == 0"  type="number" class="form-control"
+                                                placeholder="Enter Consumption (Units)" [(ngModel)]="meters[i].consumption" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="meters[i].billType == 'Sub Meter'">
+                                        <div class="mb-3">
+                                            <label class="form-label">Charges Per Unit</label>
+                                            <input [disabled]="action == 0" type="number" class="form-control" (keyup)="getBillAmt(i,$event)"
+                                                placeholder="Enter Charges Per Unit" [(ngModel)]="meters[i].chargesPerUnit" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-lg-3" *ngIf="meters[i].billType == 'Shared'">
+                                        <div class="mb-3">
+                                            <label class="form-label">Total Bill</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₹</span>
+                                                <input [disabled]="action == 0" type="number" class="form-control" (keyup)="getTotalBill(i,$event)"
+                                                placeholder="Enter Total Bill" [(ngModel)]="meters[i].totalBill" [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3" *ngIf="meters[i].billType == 'Shared'">
+                                        <div class="mb-3">
+                                            <label class="form-label">% of Total bill</label>
+                                            <div class="input-group">
+                                                <input [disabled]="action == 0" type="number" class="form-control" (keyup)="getPerTotalBill(i,$event)"
+                                                placeholder="Enter % of Total Bill" [(ngModel)]="meters[i].perTotalBill" [ngModelOptions]="{standalone: true}">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Bill Amount</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₹</span>
+                                                <input [disabled]="action == 0" type="number" class="form-control" (keyup)="getGrossBill(i,$event)"
+                                                placeholder="Enter Bill Amount" [(ngModel)]="meters[i].billAmount" [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Late Fee</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₹</span>
+                                                <input [disabled]="action == 0" type="number" class="form-control" (keyup)="getGrossLate(i,$event)"
+                                                placeholder="Enter Late Fee" [(ngModel)]="meters[i].lateFee" [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label">Arrear</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₹</span>
+                                                <input [disabled]="action == 0" type="number" class="form-control" (keyup)="getGrossArrear(i,$event)"
+                                                placeholder="Enter Arrear" [(ngModel)]="meters[i].arrear" [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Gross Amount</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₹</span>
+                                                <input disabled="" type="number" class="form-control"
+                                                placeholder="Enter Gross Amount" [(ngModel)]="meters[i].grossAmount" [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Due Date</label>
+                                            <input type="date" class="form-control" [disabled]="action == 0" [(ngModel)]="meters[i].dueDate" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                   
+                                   
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Current Bill</label>
+                                            <input [disabled]="action == 0" type="file" multiple accept="image/*,application/pdf" 
+                                            #billChild (change)="uploadBillDocument($event,i)" class="form-control mb-1"
+                                                placeholder="Enter Remarks" >
+                                            <ng-container  *ngIf="meters[i].billDocument.length > 0">
+                                                <div class="mb-1" *ngFor="let data of meters[i].billDocument;let ind=index">
+                                                    <a href="{{baseURL}}retrieve/{{data}}" target="_blank">View Document</a>
+                                                    <i class="ri-delete-bin-line ms-2 text-danger" style="vertical-align: bottom;cursor: pointer;" (click)="deleteBillDoc(i,ind)"></i>
+                                                </div>
+                                            </ng-container>
+                                                
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </li>
+                    </ul>
+                    <div class="tab-content text-muted">
+                        <div [ngbNavOutlet]="ModifierCustom"></div>
+                    </div>
+                   
+                </div>
+
+                <hr *ngIf="meters.length > 0">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="mb-3">
+                            <label class="form-label">Fund To Be Transferred</label>
+                            <input [disabled]="action == 0" type="text" class="form-control"
+                            placeholder="Enter Fund To Be Transferred" [(ngModel)]="fundsToBeTransferred" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="mb-3">
+                            <label class="form-label required">Disbursement Branch Account</label>
+                            <ng-select [disabled]="action == 0" [(ngModel)]="branchAccount" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="" disabled="" selected="">Select Disbursement Branch Account</ng-option>
+                                <ng-option value="Branch Disbursement Account">Branch Disbursement Account</ng-option>
+                                <ng-option value="Cash Collection Account">Cash Collection Account</ng-option>
+                                <ng-option value="MSME BM Account">MSME BM Account</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Remarks</label>
+                            <input [disabled]="action == 0" type="text" class="form-control"
+                                placeholder="Enter Remarks" [(ngModel)]="remark" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                </div>
+    </div>
+    <div class="card-footer" *ngIf="action !== 0">
+        <button type="button" style="float: right;" class="btn btn-outline-primary waves-effect waves-light me-2" (click)="draft()"
+            [disabled]="loader">{{label}} <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                style="margin-left: 10px;"></i></button>
+
+        <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light me-2" (click)="save()"
+            [disabled]="loader">{{label}} & Submit<i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                style="margin-left: 10px;"></i></button>
+    </div>
+</div>

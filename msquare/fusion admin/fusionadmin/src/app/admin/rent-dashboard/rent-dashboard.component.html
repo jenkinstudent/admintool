@@ -1,0 +1,438 @@
+<div class="row project-wrapper">
+    <div class="col-xxl-8">
+        <div class="grid-container">
+            <div class="grid-item">
+                <div class="card rounded rounded-2">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Total Transactions</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{rentsL}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="card rounded rounded-2">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Created By Admin</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{rentsL}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="card rounded rounded-2">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Approved by Finance</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{approvedFinance}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="card rounded rounded-2">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Pending Raised</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{pendingRaised}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+            <!---->
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <div class="d-flex align-items-lg-center flex-lg-row flex-column " >
+                    <div class="flex-grow-1">
+                        <div class="exceed position-absolute top-50 start-0 translate-middle-y ps-4">
+                            <p class="text-muted mb-0">Rent <span class="text-primary">(INR)</span></p>
+                            <h4 class="fs-16 mb-1">Status</h4>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <ul ngbNav #ModifierCustom="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink class="nav-link">
+                            Commercial
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="card crm-widget">
+                                <div class="card-body p-0">
+                                    <div class="row row-cols-md-4 row-cols-2">
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    {{currentMonth}}
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{cCurrentMonth}}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    {{previousMonth}}
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0">
+                                                            <span>{{cPreviousMonth}}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    {{previousMonth1}}
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{cPreviousMonth1}}</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    {{previousMonth2}}
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{cPreviousMonth2}}</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!---->
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink class="nav-link">
+                            Domestic
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="card crm-widget">
+                                <div class="card-body p-0">
+                                    <div class="row row-cols-md-3 row-cols-1">
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    {{currentMonth}}
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{dCurrentMonth}}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    {{previousMonth}}
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0">
+                                                            <span>{{dPreviousMonth}}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    {{previousMonth1}}
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{dPreviousMonth1}}</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    {{previousMonth2}}
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{dPreviousMonth2}}</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!---->
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+                <div class="tab-content text-muted">
+                    <div [ngbNavOutlet]="ModifierCustom"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card rounded rounded-3">
+                    <div class="card-header border-bottom-0 rounded-top align-items-center d-flex rounded-3">
+                        <h4 class="card-title mb-0 flex-grow-1 text-primary">Transactions Overview</h4>
+                        <div class="flex-shrink-0">
+                            <div class="dropdown card-header-dropdown" ngbDropdown>
+                                <a class="text-reset dropdown-btn arrow-none" style="cursor: pointer;"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    ngbDropdownToggle>
+                                    <span class="text-muted">Year:  {{salesSelectedName}}
+                                        <!-- <i class="mdi mdi-chevron-down ms-1"></i> -->
+                                    </span>
+                                </a>
+                                <!-- <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                        (click)="changeYearSelection('2021')">2021</a>
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                        (click)="changeYearSelection('2020')">2020</a>
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                        (click)="changeYearSelection('2019')">2019</a>
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                        (click)="changeYearSelection('2018')">2018</a>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div><!-- end card header -->
+
+                    <div class="card-header p-0 border-0 bg-soft-light">
+                        <div class="row g-0 text-center">
+                            <div class="col-6 col-sm-3">
+                                <div class="p-3 border border-dashed border-start-0">
+                                    <h5 class="mb-1"><span class="counter-value">{{kpi.totalRaised}}</span></h5>
+                                    <p class="text-muted mb-0">Total Raised</p>
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-6 col-sm-3">
+                                <div class="p-3 border border-dashed border-start-0">
+                                    <h5 class="mb-1"><span class="counter-value">{{kpi.escalatedTransactions}}</span></h5>
+                                    <p class="text-muted mb-0">Escalated Transactions</p>
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-6 col-sm-3">
+                                <div class="p-3 border border-dashed border-start-0">
+                                    <h5 class="mb-1">₹<span class="counter-value">{{kpi.lastExceeded}}</span></h5>
+                                    <p class="text-muted mb-0">Last Exceeded</p>
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-6 col-sm-3">
+                                <div class="p-3 border border-dashed border-start-0 border-end-0">
+                                    <h5 class="mb-1">₹<span class="counter-value">{{kpi.pendingTransactions}}</span></h5>
+                                    <p class="text-muted mb-0">Pending Transactions</p>
+                                </div>
+                            </div>
+                            <!--end col-->
+                        </div>
+                    </div><!-- end card header -->
+                    <div class="card-body p-0 pb-2">
+                        <div class="mb-n3">
+                            <apx-chart *ngIf="chart != undefined" [series]="chart.series" [chart]="chart.chart"
+                                [stroke]="chart.stroke" [fill]="chart.fill" [markers]="chart.markers"
+                                [xaxis]="chart.xaxis" [grid]="chart.grid" [legend]="chart.legend"
+                                [plotOptions]="chart.plotOptions" [colors]="chart.colors" [tooltip]="chart.tooltip">
+                            </apx-chart>
+                        </div>
+                    </div><!-- end card body -->
+                </div><!-- end card -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    
+    </div><!-- end col -->
+
+    <div class="col-xxl-4">
+        <div class="card card-height-100 rounded rounded-3">
+            <div class="card-header border-bottom-0 rounded-top rounded-3">
+                <h4 class="card-title mb-0 text-primary">Approvals</h4>
+            </div><!-- end cardheader -->
+            <div class="card-body pt-0">
+                <div>
+                    <div type="text" [(ngModel)]="selectedDate" (change)="onSelectedDate($event)"
+                    mwlFlatpickr [altInput]="true" [convertModelValue]="true" [inline]="true" mode="range"></div>
+                </div>
+
+                <h6 class="text-uppercase fw-semibold mt-4 mb-3 text-primary">List:</h6>
+                <!-- <div class="text-center" *ngIf="upcomingSchedulesTasks.length == 0">
+                    <span>No Event Found</span>
+                </div> -->
+                <div class="table-responsive table-card mt-2">
+                    <table class="table table-borderless table-nowrap align-middle mb-0 table-sm">
+                        <thead class="table-light text-muted">
+                            <tr>
+                                <th scope="col">Branch</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Pending Arrear</th>
+                                <th scope="col">Waiver</th>
+                                <th scope="col">Deduction</th>
+                                <th scope="col">Total Transfer Rent</th>
+                                <th scope="col">Increment</th>
+                                <th scope="col">Expiry Date</th>
+                                <th scope="col">Admin Status</th>
+                                <th scope="col">Finance Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of events;let i=index">
+                                <tr >
+                                    <td scope="col">#{{item.rent?.branchCode}} - {{item.rent?.branchName}}</td>
+                                    <td scope="col">{{item.createdAt | date:'dd MMM, yyyy'}}</td>
+                                    <td scope="col">₹ {{item.pendingArrear}}</td>
+                                    <td scope="col">₹ {{item.waiver}}</td>
+                                    <td scope="col">₹ {{item.deduction}}</td>
+                                    <td scope="col">₹ {{item.totalTransferRent}}</td>
+                                    <td scope="col">{{item.increment}}</td>
+                                    <td scope="col">{{item.expiryDate | date:'dd MMM, yyyy'}}</td>
+                                    <td scope="col"><span *ngIf="item.adminStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                        <span ngbTooltip="Approve By {{item.adminApproved?.name}}" placement="top" *ngIf="item.adminStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span></td>
+                                    <td scope="col"><span *ngIf="item.financeStatus== 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                        <span  ngbTooltip="Approve By {{item.financeApproved?.name}}" placement="top" *ngIf="item.financeStatus== 'Approved'" class="badge rounded-pill bg-success">Approve</span></td>
+                                    <td scope="col">
+                                        <ul class="list-inline hstack gap-0 mb-0" >
+                                            <li ngbTooltip="Details" placement="top" class="list-inline-item edit me-0" [routerLink]="['/admin/rent-transaction-details',item._id]">
+                                                <button 
+                                                    class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                    <i class="ri-eye-line fs-18"></i>
+                                                </button>
+                                            </li>
+
+                                            <li ngbTooltip="Activity" *ngIf="item?.adminStatus != 'Rejected' "
+                                            placement="top" class="list-inline-item edit me-0">
+                                            <button (click)="openModal(fullDataModal,item)"
+                                                class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                <i class="ri-pages-line fs-18"></i>
+                                            </button>
+                                        </li>
+                                            
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    
+
+</div>
+
+<div class="row">
+    <div class="col-xl-8">
+        <div class="card card-height-100 rounded rounded-3">
+            <div class="card-header align-items-center d-flex border-bottom-0 rounded rounded-3">
+                <h4 class="card-title mb-0 flex-grow-1 text-primary">Active Transactions</h4>
+
+            </div><!-- end card header -->
+
+            <div class="card-body">
+
+                <div class="table-responsive table-card" style="height: 300px;">
+                    <table class="table table-borderless table-nowrap align-middle mb-0 table-sm">
+                        <thead class="table-light text-muted">
+                            <tr>
+                                <th scope="col">Branch</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Pending Arrear</th>
+                                <th scope="col">Waiver</th>
+                                <th scope="col">Deduction</th>
+                                <th scope="col">Total Transfer Rent</th>
+                                <th scope="col">Increment</th>
+                                <th scope="col">Expiry Date</th>
+                                <th scope="col">Admin Status</th>
+                                <th scope="col">Finance Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of rentBills;let i=index">
+                                <tr >
+                                    <td scope="col">#{{item.rent?.branchCode}} - {{item.rent?.branchName}}</td>
+                                    <td scope="col">{{item.createdAt | date:'dd MMM, yyyy'}}</td>
+                                    <td scope="col">₹ {{item.pendingArrear}}</td>
+                                    <td scope="col">₹ {{item.waiver}}</td>
+                                    <td scope="col">₹ {{item.deduction}}</td>
+                                    <td scope="col">₹ {{item.totalTransferRent}}</td>
+                                    <td scope="col">{{item.increment}}</td>
+                                    <td scope="col">{{item.expiryDate | date:'dd MMM, yyyy'}}</td>
+                                    <td scope="col"><span *ngIf="item.adminStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                        <span ngbTooltip="Approve By {{item.adminApproved?.name}}" placement="top" *ngIf="item.adminStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span></td>
+                                    <td scope="col"><span *ngIf="item.financeStatus== 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                        <span  ngbTooltip="Approve By {{item.financeApproved?.name}}" placement="top" *ngIf="item.financeStatus== 'Approved'" class="badge rounded-pill bg-success">Approve</span></td>
+                                    <td scope="col">
+                                        <ul class="list-inline hstack gap-0 mb-0" >
+                                            <li ngbTooltip="Details" placement="top" class="list-inline-item edit me-0" [routerLink]="['/admin/rent-transaction-details',item._id]">
+                                                <button 
+                                                    class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                    <i class="ri-eye-line fs-18"></i>
+                                                </button>
+                                            </li>
+                                            <li ngbTooltip="Activity" *ngIf="item?.adminStatus != 'Rejected' "
+                                            placement="top" class="list-inline-item edit me-0">
+                                            <button (click)="openModal(fullDataModal,item)"
+                                                class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                <i class="ri-pages-line fs-18"></i>
+                                            </button>
+                                        </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+</div>
+
+<ng-template #fullDataModal let-modal>
+    <app-tracking-modal  type="rent" id="{{item._id}}"></app-tracking-modal>
+</ng-template>

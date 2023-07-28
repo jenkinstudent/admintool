@@ -1,0 +1,11 @@
+.margin{
+    margin: 1.5rem;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .margin{
+        margin: unset !important;
+    }
+
+}

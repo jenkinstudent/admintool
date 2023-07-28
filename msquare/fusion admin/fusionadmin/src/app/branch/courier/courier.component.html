@@ -1,0 +1,305 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Courier" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card" id="tasksList">
+      <div class="card-body border border-dashed border-end-0 border-start-0">
+        <form>
+          <div class="row g-3">
+            <div class="col-xxl-4 col-sm-12">
+              <div class="search-box">
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search for tasks or something..."
+                  [(ngModel)]="searchTerm"  (keyup)="search($event)">
+                <i class="ri-search-line search-icon"></i>
+              </div>
+            </div>
+            <!--end col-->
+            <div class="col-xxl-4 col-sm-12">
+              <ng-select [(ngModel)]="selectGst" [ngModelOptions]="{standalone: true}"
+                (change)="onSelectedGst($event)">
+                    <ng-option value="" disabled>Select GST Filter</ng-option>
+                    <ng-option value="With GST">
+                        With GST
+                    </ng-option>
+                    <ng-option value="Without GST">
+                      Without GST
+                  </ng-option>
+                </ng-select>
+            </div>
+
+            <div class="col-xxl-4 col-sm-12 flex items-end">
+              <button class="btn btn-outline-primary" *ngIf="selectGst"
+              (click)="clear()">Clear</button>
+              <button style="float: right;" [routerLink]="['action/create']" type="button" class="btn btn-primary"> <i
+                  class="ri-add-fill me-1 align-bottom"></i>
+                Create
+              </button>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </form>
+      </div>
+      <!--end card-body-->
+      <div class="card-body">
+        <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-tabs nav-tabs-custom nav-primary mb-3">
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>
+              Current Month
+            </a>
+            <ng-template ngbNavContent>
+              <div class="table-responsive table-card mb-2">
+                <table class="table">
+                  <thead>
+                    <tr class="bg-light text-muted">
+                      <th style="min-width: 50px;">SR</th>
+                      <th>Invoice No.</th>
+                      <th>Vendor Name</th>
+                      <th>Total Amount</th>
+                      <th> Date</th>
+                      <th> Admin Approval</th>
+                      <th> Finance Approval</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of currentMonth | filter:searchTerm;let i = index;">
+                      <td style="min-width: 50px;">{{i+1}}</td>
+                      <td>#{{item.invoiceNo}}</td>
+                      <td>{{item.vendorName}}</td>
+                      <td>{{item.totalAmount}}</td>
+                      <td>{{item.date | date:'dd MMM, yyyy'}}</td>
+                      <td><span *ngIf="item?.adminStatus == 'Pending'"
+                          class="badge rounded-pill bg-warning">Pending</span>
+                        <span
+                          ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                          placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                          class="badge rounded-pill bg-success">Approve</span>
+                        <span
+                          ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                          placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                          class="badge rounded-pill bg-danger">Reject</span></td>
+                      <td><span *ngIf="item?.financeStatus == 'Pending'"
+                          class="badge rounded-pill bg-warning">Pending</span>
+                        <span
+                          ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                          placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                          class="badge rounded-pill bg-success">Approve</span>
+                        <span
+                          ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                          placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                          class="badge rounded-pill bg-danger">Reject</span></td>
+                      <td>
+                        <ul class="list-inline hstack gap-2 mb-0">
+                          <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                      ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                      class="list-inline-item edit me-2">
+                                      <button
+                                          class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                          <i class="ri-message-fill fs-18"></i>
+                                      </button>
+                                  </li>
+                                  <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                      ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                      class="list-inline-item edit me-2">
+                                      <button
+                                          class=" btn btn-ghost-danger text-danger d-inline-block edit-item-btn p-0">
+                                          <i class="ri-message-line fs-18"></i>
+                                      </button>
+                                  </li>
+                                  <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                      ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                      class="list-inline-item edit me-2">
+                                      <button
+                                          class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                          <i class="ri-message-fill fs-18"></i>
+                                      </button>
+                                  </li>
+                                  <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                      ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                      class="list-inline-item edit me-2">
+                                      <button
+                                          class=" btn btn-ghost-danger text-danger d-inline-block edit-item-btn p-0">
+                                          <i class="ri-message-line fs-18"></i>
+                                      </button>
+                                  </li>
+                          <li class="list-inline-item edit" *ngIf="item.adminStatus == 'Pending' || item.financeStatus == 'Pending' || item.adminStatus == 'Rejected' || item.financeStatus == 'Rejected'" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                            ngbTooltip="Edit" placement="top">
+                            <a (click)="edit(item._id)" class="text-primary d-inline-block edit-item-btn">
+                              <i class="ri-pencil-fill fs-16"></i>
+                            </a>
+                          </li>
+                          <li *ngIf="item.adminStatus == 'Approved' && item.financeStatus == 'Approved'" class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                            ngbTooltip="View" placement="top">
+                            <a (click)="viewData(item._id)" class="text-primary d-inline-block edit-item-btn">
+                              <i class="ri-eye-fill fs-16"></i>
+                            </a>
+                          </li>
+                          <li ngbTooltip="Activity" *ngIf="item.adminStatus != 'Rejected' "
+                          placement="top" class="list-inline-item edit me-0">
+                          <button (click)="openModal(fullDataModal,item)"
+                              class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                              <i class="ri-pages-line fs-18"></i>
+                          </button>
+                      </li>
+                        </ul>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>
+              All
+            </a>
+            <ng-template ngbNavContent>
+              <div class="table-responsive table-card mb-2">
+                <table class="table">
+                  <thead>
+                    <tr class="bg-light text-muted">
+                      <th style="min-width: 50px;">SR</th>
+                      <th>Invoice No.</th>
+                      <th>Vendor Name</th>
+                      <th>Total Amount</th>
+                      <th> Date</th>
+                      <th> Admin Approval</th>
+                      <th> Finance Approval</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of data | filter:searchTerm;let i = index;">
+                      <td style="min-width: 50px;">{{i+1}}</td>
+                      <td>#{{item.invoiceNo}}</td>
+                      <td>{{item.vendorName}}</td>
+                      <td>{{item.totalAmount}}</td>
+                      <td>{{item.date | date:'dd MMM, yyyy'}}</td>
+                      <td><span *ngIf="item?.adminStatus == 'Pending'"
+                          class="badge rounded-pill bg-warning">Pending</span>
+                        <span
+                          ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                          placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                          class="badge rounded-pill bg-success">Approve</span>
+                        <span
+                          ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                          placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                          class="badge rounded-pill bg-danger">Reject</span></td>
+                      <td><span *ngIf="item?.financeStatus == 'Pending'"
+                          class="badge rounded-pill bg-warning">Pending</span>
+                        <span
+                          ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                          placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                          class="badge rounded-pill bg-success">Approve</span>
+                        <span
+                          ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                          placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                          class="badge rounded-pill bg-danger">Reject</span></td>
+                      <td>
+                        <ul  class="list-inline hstack gap-2 mb-0">
+                          <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                      ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                      class="list-inline-item edit me-2">
+                                      <button
+                                          class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                          <i class="ri-message-fill fs-18"></i>
+                                      </button>
+                                  </li>
+                                  <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                      ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                      class="list-inline-item edit me-2">
+                                      <button
+                                          class=" btn btn-ghost-danger text-danger d-inline-block edit-item-btn p-0">
+                                          <i class="ri-message-line fs-18"></i>
+                                      </button>
+                                  </li>
+                                  <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                      ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                      class="list-inline-item edit me-2">
+                                      <button
+                                          class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                          <i class="ri-message-fill fs-18"></i>
+                                      </button>
+                                  </li>
+                                  <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                      ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                      class="list-inline-item edit me-2">
+                                      <button
+                                          class=" btn btn-ghost-danger text-danger d-inline-block edit-item-btn p-0">
+                                          <i class="ri-message-line fs-18"></i>
+                                      </button>
+                                  </li>
+                          <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" *ngIf="item.adminStatus == 'Rejected' || item.financeStatus == 'Rejected'"
+                            ngbTooltip="Edit" placement="top">
+                            <a (click)="edit(item._id)" class="text-primary d-inline-block edit-item-btn">
+                              <i class="ri-pencil-fill fs-16"></i>
+                            </a>
+                          </li>
+                          <li *ngIf="item.adminStatus == 'Approved' && item.financeStatus == 'Approved'" class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                            ngbTooltip="View" placement="top">
+                            <a (click)="viewData(item._id)" class="text-primary d-inline-block edit-item-btn">
+                              <i class="ri-eye-fill fs-16"></i>
+                            </a>
+                          </li>
+                          <li ngbTooltip="Activity" *ngIf="item.adminStatus != 'Rejected' "
+                          placement="top" class="list-inline-item edit me-0">
+                          <button (click)="openModal(fullDataModal,item)"
+                              class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                              <i class="ri-pages-line fs-18"></i>
+                          </button>
+                      </li>
+                        </ul>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content text-muted">
+          <div [ngbNavOutlet]="nav"></div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6"></div>
+            <div class="col-sm-12 col-md-6">
+                <div class="text-md-right float-md-end ">
+                    <ul class="pagination">
+                        <li class="page-item me-2">
+                            <button class="btn btn-sm btn-soft-primary" [disabled]="page==1"
+                                (click)="previousPage()">
+                                <span aria-hidden="true"><i class="ri-arrow-left-s-line fs-18"></i></span>
+                            </button>
+                        </li>
+                        <li class="page-item me-2">
+                            <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore"
+                                (click)="nextPage()">
+                                <span aria-hidden="true"><i class="ri-arrow-right-s-line fs-18"></i></span>
+                            </button>
+                        </li>
+                        <li class="page-item" *ngIf="loading">
+                            <span class="spinner-border flex-shrink-0" role="status"><span
+                                    class="visually-hidden">Loading...</span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+
+      </div>
+      <!--end card-->
+    </div>
+    <!--end col-->
+  </div>
+  <!--end row-->
+
+  <ng-template #fullDataModal let-modal>
+    <app-tracking-modal  type="courier" id="{{item._id}}"></app-tracking-modal>
+</ng-template>

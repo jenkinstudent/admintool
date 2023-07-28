@@ -1,0 +1,63 @@
+<app-breadcrumbs isBack="Yes" title="{{'CEO Corner'  | translate}}"></app-breadcrumbs>
+<div class="row project-wrapper">
+    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div style="padding: 5px;">
+            <h4 class="fusionnews fs-17 text-white" style="margin: 0 !important;"><p>{{'CEO Message' | translate}}</p></h4>
+        </div>
+    </div>
+    <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 h-100">
+        <div style="padding: 5px;">
+            <div class="card" style="background-color: #fff;box-shadow:unset;margin-top: 5px;margin-bottom: unset;">
+                <div class="card-body" >
+                    <div class="square">
+                        <div *ngIf="chairman.default">
+                            <img src="{{chairman.photo}}"  style="height:230px; width: 350px; float: left; display: block;
+                            margin: 0px 20px 10px 0px;" onerror="this.src='assets/img/avatar.png';">
+                        </div>
+                        <div *ngIf="!chairman.default">
+                            <iframe width="400px" style="margin: 0px 20px 10px 0px;float: left; display: block;"  height="300" [src]="chairman.youtubeLink | youtubePipe"
+                                    title="YouTube video player" frameborder="0"
+                                    allowfullscreen></iframe>
+                        </div>
+                        <p style="text-align: justify;" [innerHTML]="chairman.description"></p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div><!-- end col -->
+
+    <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 h-100">
+        <div style="padding: 5px;">
+            <div class="card" style="background-color: #fff;box-shadow:unset;margin-top: 5px;margin-bottom: unset;">
+                <div class="card-body" style="padding: unset">
+                    <ng-container *ngFor="let item of data;let i=index" >
+                        <div class="grid-container" (click)="select(i)" [ngClass]="(index == i)?'active':''">
+                            <div class="grid-item">
+                                <div class="img-center">
+                                    <img alt=""  style="width:100%;" class="avatar-xl rounded" src="{{item.photo}}">
+                                    <div class="centered"><i class=" ri-play-circle-line"  style="color: #cd5e29;font-size: 60px;"></i></div>
+                                  </div>
+                                
+                            </div>
+                            <div class="grid-item" style="padding-left: unset;">
+                                <div style="vertical-align: middle; margin: 0;
+                                position: relative;
+                                top: 50%;
+                                -ms-transform: translateY(-50%);
+                                transform: translateY(-50%);">
+                                    <p class="mb-0 fs-13 desc" [innerHTML]="item.description">
+                                    </p>
+                                    <p class="date text-muted fs-12 mb-1">Date : {{item.createdAt | date:'dd-M-yyyy, EEEE'}}</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </ng-container>
+                    
+                </div>
+            </div>
+        </div>
+    </div><!-- end col -->
+
+</div>

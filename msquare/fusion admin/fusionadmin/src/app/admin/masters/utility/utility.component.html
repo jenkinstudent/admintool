@@ -1,0 +1,491 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Utility Master Product" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul ngbNav #ModifierCustom="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink class="nav-link">
+                    Statistics
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card crm-widget">
+                        <div class="card-body p-0">
+                            <div class="row row-cols-md-3 row-cols-1">
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Total
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                     class="counter-value text-primary">{{commercial.total}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Recent
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0">
+                                                    <span class="counter-value text-primary">{{commercial.recent}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Assigned
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span class="counter-value text-primary">{{commercial.assigned}}</span></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Pending Assigned
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span class="counter-value text-primary">{{commercial.pendingAssigned}}</span></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content text-muted">
+            <div [ngbNavOutlet]="ModifierCustom"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card"  id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-6">
+                            <div class="search-box">
+                                <input type="text"  name="searchTerm" class="form-control" placeholder="Search for Branch Code, Name, Cluster, Zone" (keyup)="search($event)">
+                              <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div><!--end col-->
+  
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="input-light">
+                                <select class="form-control bg-light border-light" data-choices data-choices-search-false name="choices-single-default"  id="idStatus" (change)="statusSearch($event)">
+                                    <option value="" disabled>Status</option>
+                                    <option value="" selected>All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xxl-4 col-sm-3 flex items-end">
+                          
+                            <button [routerLink]="['action/create']" style="float: right;" type="button" class="btn btn-primary" > <i class="ri-add-fill me-1 align-bottom"></i>
+                                Create
+                            </button>
+                            <button [routerLink]="['master']" style="float: right; margin-right: 10px;" type="button" class="btn btn-outline-primary" >
+                                Utility Master
+                            </button>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </form>
+            </div><!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                  <table class="table">
+                    <thead>
+                    <tr class="bg-light text-muted">
+                      <th style="min-width: 50px;">SR</th>
+                      <th>Utility Name</th>
+                      <th>Branch</th>
+                      <th>Property Type</th>
+                      <th>Premises Type</th>
+                      <th>Meters</th>
+                      <th>Status</th>
+                      <th>Details</th>
+                      <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of data;let i = index; ">
+                      <td style="min-width: 50px;">{{i+1}}</td>
+                      <td>{{item.utility?.name}}</td>
+                      <td>#{{item.branchCode}} - {{item.branchName}}</td>
+                      <td>{{item.propertyType}}</td>
+                      <td>{{item.premisesType}}</td>
+                      <td>{{item.utilities.length}}</td>
+                      <td>
+                        <div dir="ltr" class=" ms-1 form-check form-switch form-switch-success form-switch-md">
+                    
+                            <input type="checkbox" id="customSwitchsizelg" [checked]="item.status == 'Active'" (change)="changeStatus($event,item._id,i)"  class="form-check-input">
+                           
+                        </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-info rounded-pill"
+                                (click)="openCanvas(auditCanvas,item)"><i
+                                    class="ri-eye-2-line fs-16"></i></button>
+                        </td>
+                      <td>
+                        
+                        <ul class="list-inline hstack gap-2 mb-0">
+                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                <a (click)="edit(item._id)"
+                                    class="text-primary d-inline-block edit-item-btn">
+                                    <i class="ri-pencil-fill fs-16"></i>
+                                </a>
+                            </li>
+                        </ul>
+                      </td>
+                      
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="text-md-right float-md-end ">
+                            <ul class="pagination">
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="page==1" (click)="previousPage()">
+                                        <span aria-hidden="true"><i class="ri-arrow-left-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore" (click)="nextPage()">
+                                        <span aria-hidden="true"><i class="ri-arrow-right-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item" *ngIf="loading">
+                                    <span class="spinner-border flex-shrink-0" role="status"><span class="visually-hidden">Loading...</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->
+
+<ng-template #auditCanvas let-offcanvas>
+    <div class="d-flex align-items-center bg-primary bg-gradient p-3 offcanvas-header">
+        <h5 class="m-0 me-2 text-white">Modification History</h5>
+        <button type="button" class="btn-close btn-close-white ms-auto " data-bs-dismiss="offcanvas" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click');"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <ngx-simplebar class="h-100">
+            <div class="card" *ngFor="let item of activities">
+                <div class="card-header">
+                    <button class="btn btn-outline-primary btn-sm rounded-pill float-end" (click)="openModal(dataModal, item)">
+                        <i class="ri-eye-line" style="vertical-align: middle;"></i>
+                    </button>
+                    <h6 class="card-title">{{item.user?.name}}</h6>
+                    <p class="card-subtitle text-muted mb-0">{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</p>
+                </div>
+            </div>
+        </ngx-simplebar>
+    </div>
+</ng-template>
+
+<ng-template #dataModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalFullscreenLabel">{{item.user?.name}} |
+                {{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="modal.dismiss('Close click');"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-6 border-right">
+                    <h5>Previous Data</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Branch Code
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.branchCode == undefined || item.currentData?.branchCode == '' || item.currentData?.branchCode == null)?'-':item.currentData?.branchCode}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Branch Name
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.branchName == undefined || item.currentData?.branchName == '' || item.currentData?.branchName == null)?'-':item.currentData?.branchName}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Premises Type
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.premisesType == undefined || item.currentData?.premisesType == '' || item.currentData?.premisesType == null)?'-':item.currentData?.premisesType}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Property Type
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.propertyType == undefined || item.currentData?.propertyType == '' || item.currentData?.propertyType == null)?'-':item.currentData?.propertyType}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1">
+                                Address
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.address == undefined || item.currentData?.address == '' || item.currentData?.address == null)?'-':item.currentData?.address}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Cluster
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.cluster == undefined || item.currentData?.cluster == '' || item.currentData?.cluster == null)?'-':item.currentData?.cluster}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Division
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.division == undefined || item.currentData?.division == '' || item.currentData?.division == null)?'-':item.currentData?.division}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                State
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.state == undefined || item.currentData?.state == '' || item.currentData?.state == null)?'-':item.currentData?.state}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Zone
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.zone == undefined || item.currentData?.zone == '' || item.currentData?.zone == null)?'-':item.currentData?.zone}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Utility
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.utility?.name == undefined || item.currentData?.utility?.name == '' || item.currentData?.utility?.name == null)?'-':item.currentData?.utility?.name}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Status
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.status == undefined || item.currentData?.status == '' || item.currentData?.status == null)?'-':item.currentData?.status}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1">
+                                Meters
+                            </h6>
+                            <div class="table-responsive mb-2">
+                                <table class="table table-nowrap">
+                                    <thead>
+                                        <tr class="bg-light text-muted">
+                                            <th style="min-width: 50px;">SR</th>
+                                            <th>Customer Id</th>
+                                            <th>Name</th>
+                                            <th>Bill Type</th>
+                                            <th>Allowed Consumption</th>
+                                            <th>Maximum Consumption</th>
+                                            <th>Utility Start Date</th>
+                                            <th>Utility Cycle (Days)</th>
+                                            <th>TDS Amount</th>
+                                            <th>TDS Certificate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of item.currentData?.utilities;let i = index;">
+                                            <td style="min-width: 50px;">{{i+1}}</td>
+                                            <td>{{data.meterId}}</td>
+                                            <td>{{data.name}}</td>
+                                            <td>{{data.billType}}</td>
+                                            <td>{{data.allowedConsumption}}</td>
+                                            <td>{{data.maximumConsumption}}</td>
+                                            <td>{{data.utilityStartDate | date:'dd MMM, yyyy'}}</td>
+                                            <td>{{data.utilityCycle}}</td>
+                                            <td>{{data.tdsAmount}}</td>
+                                            <td><a href="{{baseURL}}retrieve/{{data.tdsCertificate}}" target="_blank">View</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5>Updated Data</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.branchCode == item.currentData?.branchCode)?'':'text-primary'">
+                                Branch Code
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.branchCode == undefined || item.updatedData?.branchCode == '' || item.updatedData?.branchCode == null)?'-':item.updatedData?.branchCode}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.branchName == item.currentData?.branchName)?'':'text-primary'">
+                                Branch Name
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.branchName == undefined || item.updatedData?.branchName == '' || item.updatedData?.branchName == null)?'-':item.updatedData?.branchName}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.premisesType == item.currentData?.premisesType)?'':'text-primary'">
+                                Premises Type
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.premisesType == undefined || item.updatedData?.premisesType == '' || item.updatedData?.premisesType == null)?'-':item.updatedData?.premisesType}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.propertyType == item.currentData?.propertyType)?'':'text-primary'">
+                                Property Type
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.propertyType == undefined || item.updatedData?.propertyType == '' || item.updatedData?.propertyType == null)?'-':item.updatedData?.propertyType}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.address == item.currentData?.address)?'':'text-primary'">
+                                Address
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.address == undefined || item.updatedData?.address == '' || item.updatedData?.address == null)?'-':item.updatedData?.address}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.cluster == item.currentData?.cluster)?'':'text-primary'">
+                                Cluster
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.cluster == undefined || item.updatedData?.cluster == '' || item.updatedData?.cluster == null)?'-':item.updatedData?.cluster}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.division == item.currentData?.division)?'':'text-primary'">
+                                Division
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.division == undefined || item.updatedData?.division == '' || item.updatedData?.division == null)?'-':item.updatedData?.division}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.state == item.currentData?.state)?'':'text-primary'">
+                                State
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.state == undefined || item.updatedData?.state == '' || item.updatedData?.state == null)?'-':item.updatedData?.state}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.zone == item.currentData?.zone)?'':'text-primary'">
+                                Zone
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.zone == undefined || item.updatedData?.zone == '' || item.updatedData?.zone == null)?'-':item.updatedData?.zone}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.utility?.name == item.currentData?.utility?.name)?'':'text-primary'">
+                                Utility
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.utility?.name == undefined || item.updatedData?.utility?.name == '' || item.updatedData?.utility?.name == null)?'-':item.updatedData?.utility?.name}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.status == item.currentData?.status)?'':'text-primary'">
+                                Status
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.status == undefined || item.updatedData?.status == '' || item.updatedData?.status == null)?'-':item.updatedData?.status}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1" [class]="arrayEqual(item.currentData?.utilities,item.currentData?.utilities)?'':'text-primary'">
+                                Meters
+                            </h6>
+                            <div class="table-responsive mb-2">
+                                <table class="table table-nowrap">
+                                    <thead>
+                                        <tr class="bg-light text-muted">
+                                            <th style="min-width: 50px;">SR</th>
+                                            <th>Customer Id</th>
+                                            <th>Name</th>
+                                            <th>Bill Type</th>
+                                            <th>Allowed Consumption</th>
+                                            <th>Maximum Consumption</th>
+                                            <th>Utility Start Date</th>
+                                            <th>Utility Cycle (Days)</th>
+                                            <th>TDS Amount</th>
+                                            <th>TDS Certificate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of item.updatedData?.utilities;let i = index;">
+                                            <td style="min-width: 50px;">{{i+1}}</td>
+                                            <td>{{data.meterId}}</td>
+                                            <td>{{data.name}}</td>
+                                            <td>{{data.billType}}</td>
+                                            <td>{{data.allowedConsumption}}</td>
+                                            <td>{{data.maximumConsumption}}</td>
+                                            <td>{{data.utilityStartDate | date:'dd MMM, yyyy'}}</td>
+                                            <td>{{data.utilityCycle}}</td>
+                                            <td>{{data.tdsAmount}}</td>
+                                            <td><a href="{{baseURL}}retrieve/{{data.tdsCertificate}}" target="_blank">View</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

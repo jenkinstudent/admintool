@@ -1,0 +1,202 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Course" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul ngbNav #ModifierCustom="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink class="nav-link">
+                    Snapshot
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card crm-widget">
+                        <div class="card-body p-0">
+                            <div class="row row-cols-md-3 row-cols-1">
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3" [routerLink]="['/pages/programs/program']">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Program
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{programCount}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3" [routerLink]="['/pages/programs/course']">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Course
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0">
+                                                    <span
+                                                        class="counter-value text-primary">{{courseCount}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3" [routerLink]="['/pages/programs/module']">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Module
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{moduleCount}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg">
+                                    <div class="py-4 px-3" [routerLink]="['/pages/programs/quiz']">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Quiz
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{qbCount}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content text-muted">
+            <div [ngbNavOutlet]="ModifierCustom"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control"
+                                    placeholder="Search..." [(ngModel)]="searchTerm">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+
+                        <div class="col-xxl-3 col-sm-4">
+                            <div class="input-light">
+                                <select class="form-control" data-choices
+                                    data-choices-search-false name="choices-single-default" id="idStatus">
+                                    <option value="" disabled>Status</option>
+                                    <option value="" selected>All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-4 col-sm-8 flex items-end">
+                            <button type="button" class="btn btn-primary" style="float:right;"
+                                [routerLink]="['activity/create']"> <i class="ri-add-fill me-1 align-bottom"></i>
+                                Create
+                            </button>
+                            <button type="button" class="btn btn-outline-primary me-2" style="float:right;"
+                                (click)="getData()"> <i class="ri-refresh-line align-bottom"></i>
+                            </button>
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th style="min-width: 50px;">SR</th>
+                                <th class="text-center">Thumbnail</th>
+                                <th class="text-center">Code</th>
+                                <th>Course Title</th>
+                                <th>Modules</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data | filter: searchTerm;let i = index">
+                                <td>{{i+1}}</td>
+                                <td class="text-center"><a  data-toggle="modal" data-target="#modal-default" (click)="openModal(dataModal,item.thumbnail)"><img src="{{item.thumbnail}}"
+                                    onerror="this.src='assets/images/course.png';" style="width: 50px; height: 50px;cursor: zoom-in;" class="image" /></a></td>
+                                <td class="text-center">C{{item.code}}</td>
+                                <td>{{item.title}}</td>
+                                <td>
+                                    <div style="height:100px; overflow:auto">
+                                    <ng-template ngFor let-mod [ngForOf]="item.modules" let-i="index">
+                                        {{mod.moduleId?.title}}<span *ngIf="i < (item.modules.length-1)">,<br></span>
+                                    </ng-template>
+                                </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="form-check form-switch form-switch-success form-switch-md" style="text-align: center;">
+                                        <input type="checkbox" [checked]="item.status == '1'" (click)="changeCourseStatus(item,$event)" class="form-check-input">
+                                    </div>
+                                </td>
+                                <td>{{item.createdAt | date:'short'}}</td>
+                                <td class="text-center"> 
+                                    <ul class="list-inline hstack gap-2 mb-0">
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                            data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                            <a (click)="editCourse(item._id)"
+                                                class="text-primary d-inline-block edit-item-btn" style="cursor: pointer;">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                            data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                            <a (click)="confirm(item._id)"
+                                                class="text-danger d-inline-block edit-item-btn" style="cursor: pointer;">
+                                                <i class="ri-delete-bin-line fs-16"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                              </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+</div>
+
+<!-- Center Modal -->
+<ng-template #dataModal let-modal>
+    <div class="modal-body text-center p-5">
+        <button type="button" style="float:right;" (click)="modalService.dismissAll()" class="close" data-dismiss="modal" #close aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        <img src="{{imageModal}}" 
+        onerror="this.src='assets/images/image.png';" style="width: 100%; height: auto;" />
+    </div>
+</ng-template>

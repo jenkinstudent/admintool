@@ -1,0 +1,97 @@
+<app-breadcrumbs isBack="Yes" title="{{'News' | translate}}"></app-breadcrumbs>
+
+<div class="row project-wrapper">
+    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 h-100">
+        <div style="padding: 5px;">
+            <h4 class="fusionnews fs-17 text-white" style="margin: 0 !important;"><p>{{'Fusion News & Update' | translate}}</p></h4>
+            <div class="card" style="background-color: #fff;box-shadow:unset;margin-top: 5px;margin-bottom: unset;">
+                <div class="card-body" style="padding: unset;">
+                    <ng-container *ngFor="let item of fusionNews;let i=index;">
+                        <div class="grid-container" *ngIf="(i%2) == 0">
+                            <div class="grid-item">
+                                <img alt=""  style="width:100%;" class="avatar-xl object-cover rounded" src="{{item.photo}}">
+                            </div>
+                            <div class="grid-item" style="padding-left: unset;">
+                               
+                                <h5 class="fs-18 mb-1 mt-1">
+                                    <a class="text-dark">{{item.type}}</a>
+                                </h5>
+                                <p class="text-muted fs-12 mb-1">{{'Date' | translate}} : {{item.date | date:'dd-M-yyyy, EEEE'}}</p>
+                                <p class="mb-0 fs-13 news" [id]="'newsFusion'+i" [innerHTML]="item.description">
+                                </p>
+                                <a style="float:right; cursor: pointer; text-decoration: underline !important;font-size: 11px;padding:0px 10px 10px; display: unset;" [id]="'knowMoreFusion'+i" (click)="displayFullNews(i,1)">{{'Know more' | translate}}</a>
+                                <a style="float:right; cursor: pointer; text-decoration: underline !important;font-size: 11px;padding:0px 10px 10px; display: none;" [id]="'knowLessFusion'+i" (click)="hideFullNews(i,1)">{{'Know Less' | translate}}</a>
+                            </div>
+                        </div>
+                        <div class="grid-container1" *ngIf="(i%2) != 0">
+                            <div class="grid-item1" >
+                               
+                                <h5 class="fs-18 mb-1 mt-1">
+                                    <a class="text-dark">{{item.type}}</a>
+                                </h5>
+                                <p class="text-muted fs-12 mb-1">Date : {{item.date | date:'dd-M-yyyy, EEEE'}}</p>
+                                <p class="mb-0 fs-13 news" [id]="'newsFusion'+i" [innerHTML]="item.description">
+                                </p>
+                                <a style="float:right; cursor: pointer; text-decoration: underline !important;font-size: 11px;padding:0px 10px 10px; display: unset;" [id]="'knowMoreFusion'+i" (click)="displayFullNews(i,1)">{{'Know more' | translate}}</a>
+                                <a style="float:right; cursor: pointer; text-decoration: underline !important;font-size: 11px;padding:0px 10px 10px; display: none;" [id]="'knowLessFusion'+i" (click)="hideFullNews(i,1)">{{'Know Less' | translate}}</a>
+                            </div>
+                            <div class="grid-item1" >
+                                <img alt=""  style="width:100%;" class="avatar-xl object-cover rounded" src="{{item.photo}}">
+                            </div>
+                        </div>
+                        <hr style="margin: 5px 20px;">
+                    </ng-container>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div><!-- end col -->
+
+    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 h-100">
+        <div style="padding: 5px;">
+            <h4 class="fusionnews1 fs-17 text-white" style="margin: 0 !important;"><p>{{'Other News & Current Affairs' | translate}}</p></h4>
+            <div class="card" style="background-color: #fff;box-shadow:unset;margin-top: 5px;margin-bottom: unset;">
+                <div class="card-body" style="padding: unset;">
+                    <ng-container *ngFor="let item of otherNews;let i=index;">
+                        <div class="grid-container" *ngIf="(i%2) == 0">
+                            <div class="grid-item">
+                                <img alt=""  style="width:100%;" class="avatar-xl object-cover rounded" src="{{item.photo}}">
+                            </div>
+                            <div class="grid-item" style="padding-left: unset;">
+                               
+                                <h5 class="fs-18 mb-1 mt-1">
+                                    <a class="text-dark">{{item.type}}</a>
+                                </h5>
+                                <p class="text-muted fs-12 mb-1">Date : {{item.date | date:'dd-M-yyyy, EEEE'}}</p>
+                                <p class="mb-0 fs-13 news" [id]="'newsOther'+i" [innerHTML]="item.description">
+                                </p>
+                                <a style="float:right; cursor: pointer; text-decoration: underline !important;font-size: 11px;padding:0px 10px 10px; display: unset;" [id]="'knowMoreOther'+i" (click)="displayFullNews(i,2)">{{'Know more' | translate}}</a>
+                                <a style="float:right; cursor: pointer; text-decoration: underline !important;font-size: 11px;padding:0px 10px 10px; display: none;" [id]="'knowLessOther'+i" (click)="hideFullNews(i,2)">{{'Know Less' | translate}}</a>
+                            </div>
+                        </div>
+                        <div class="grid-container1" *ngIf="(i%2) != 0">
+                            <div class="grid-item1" >
+                               
+                                <h5 class="fs-18 mb-1 mt-1">
+                                    <a class="text-dark">{{item.type}}</a>
+                                </h5>
+                                <p class="text-muted fs-12 mb-1">Date : {{item.date | date:'dd-M-yyyy, EEEE'}}</p>
+                                <p class="mb-0 fs-13 news" [id]="'newsOther'+i" [innerHTML]="item.description">
+                                </p>
+                                <a style="float:right; cursor: pointer; text-decoration: underline !important;font-size: 11px;padding:0px 10px 10px; display: unset;" [id]="'knowMoreOther'+i" (click)="displayFullNews(i,2)">{{'Know more' | translate}}</a>
+                                <a style="float:right; cursor: pointer; text-decoration: underline !important;font-size: 11px;padding:0px 10px 10px; display: none;" [id]="'knowLessOther'+i" (click)="hideFullNews(i,2)">{{'Know Less' | translate}}</a>
+                            </div>
+                            <div class="grid-item1" >
+                                <img alt=""  style="width:100%;" class="avatar-xl object-cover rounded" src="{{item.photo}}">
+                            </div>
+                        </div>
+                        <hr style="margin: 5px 20px;">
+                    </ng-container>
+                </div>
+            </div>
+            
+        </div>
+    </div><!-- end col -->
+
+</div>

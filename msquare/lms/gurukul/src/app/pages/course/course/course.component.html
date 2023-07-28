@@ -1,0 +1,83 @@
+<app-breadcrumbs title="{{'My Courses' | translate}}"></app-breadcrumbs>
+<div class="row project-wrapper">
+    <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 h-100" style="padding: unset;">
+        <app-sidebar type="course"></app-sidebar>
+    </div>
+    <div class="col-xxl-10 col-xl-10 col-lg-9 col-md-9 col-sm-12 col-xs-12 h-100" >
+        <div class="mobileCardPadding" style="padding: 20px;">
+            <div class="card">
+                <div class="card-body">
+                    <i *ngIf="!dataLoad" class="ri-refresh-line fa fa-spin" style="margin-left: 10px;"></i>
+                    <div class="row" *ngIf="dataLoad && course.length > 0">
+                        <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12" *ngFor="let course of course;let c = index">
+                            <div class="card card-height-100" style="box-shadow: unset; border:1px solid #f0f0f1;border-radius: unset;" >
+                                <div class="card-body cursor-pointer" style="padding:0.5rem;border-top: 1px solid #eee;" *ngIf="course.unlock" [routerLink]="['/pages/my-courses/module',c]">
+                                    <div class="mb-1" style="display: grid;grid-template-columns:1fr 1fr;">
+                                        <div class="grid text-center">
+                                            <img src="assets/images/educationHat.png" style="width: 15px;">
+                                            <span class="" style="font-size: 9px;"> {{course.modules.length}} Modules </span>
+                                        </div>
+                                        <div class="grid text-center">
+                                            <img src="assets/images/user.png" style="width: 14px;">
+                                            <span class="" style="font-size: 9px;"> {{counts[c]}} Done </span>
+                                        </div>
+                                    </div>
+                                    <img style="width: 100%;" class="thumbnail cursor-pointer" onerror="this.src='assets/images/course.png';" src="{{course.courseId?.thumbnail}}">
+                                    <h4 class="card-title mt-1 mb-1 fs-12" style="font-weight: bold;">{{course.courseId?.title}}</h4>
+                                    <p class="card-text text-muted fs-12"> {{course.courseId?.description}}</p>
+                                </div>
+                                <div class="card-body" style="padding:0.5rem;border-top: 1px solid #eee;" *ngIf="!course.unlock">
+                                    <div class="mb-1" style="display: grid;grid-template-columns:1fr 1fr;">
+                                        <div class="grid text-center">
+                                            <img src="assets/images/educationHat.png" style="width: 15px;">
+                                            <span class="" style="font-size: 9px;"> {{course.modules.length}} Modules </span>
+                                        </div>
+                                        <div class="grid text-center">
+                                            <img src="assets/images/user.png" style="width: 14px;">
+                                            <span class="" style="font-size: 9px;"> {{counts[c]}} Done </span>
+                                        </div>
+                                    </div>
+                                    <img style="width: 100%;filter:grayscale(100%)" class="thumbnail" onerror="this.src='assets/images/course.png';" src="{{course.courseId?.thumbnail}}">
+                                    <h4 class="card-title mt-1 mb-1 fs-12" style="font-weight: bold;">{{course.courseId?.title}}</h4>
+                                    <p class="card-text text-muted fs-12"> {{course.courseId?.description}}</p>
+                                </div>
+                                <ngb-progressbar [value]="course.percentage" style="height: 1px"></ngb-progressbar>
+                                <div class="card-footer cursor-pointer" style="padding:0.5rem;" *ngIf="course.unlock" [routerLink]="['/pages/my-courses/module',c]">
+                                    <div style="display: grid;grid-template-columns:3fr 1fr;">
+                                        <div class="grid" style="line-height: 10px;">
+                                            <img src="assets/images/quality.png" style="width: 11px;">
+                                            <span class="" style="font-size: 10px;"> Get certified by completing the course.</span>
+                                        </div>
+                                        <div class="grid align-self-center">
+                                            <button *ngIf="course.percentage == 0" style="background-color: #ae3033; " class="btn btn-cust btn-rounded btn-sm">{{'Start' | translate}}</button>
+                                            <button *ngIf="course.percentage > 0 && course.percentage < 100" style="background-color: #e9983e;"class="btn btn-cust btn-rounded btn-sm">{{'Resume' | translate}}</button>
+                                            <button *ngIf="course.percentage == 100" style="background-color: #5fb157;"class="btn btn-cust btn-rounded btn-sm">{{'Completed' | translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="padding:0.5rem;" *ngIf="!course.unlock">
+                                    <div style="display: grid;grid-template-columns:3fr 1fr;">
+                                        <div class="grid" style="line-height: 10px;">
+                                            <img src="assets/images/quality.png" style="width: 11px; ">
+                                            <span class="" style="font-size: 10px;"> Get certified by completing the course.</span>
+                                        </div>
+                                        <div class="grid align-self-center">
+                                            <button style="background-color: lightgray; cursor: unset !important;" class="btn btn-cust btn-rounded btn-sm">{{'Locked' | translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="dataLoad && course.length == 0">
+                        <img src="assets/images/nodata.jpg" width="300px" style="margin: 0 auto;display:block;">
+                        <h5 class="text-center fw-bold" style="text-transform: uppercase;">{{'No Course Assigned To You' | translate}}</h5>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+ 
+</div>

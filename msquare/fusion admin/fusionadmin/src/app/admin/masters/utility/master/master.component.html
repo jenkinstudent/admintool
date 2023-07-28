@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-header">
+                <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;"
+                    (click)="_location.back();"></i>
+                <span class="card-title mb-0 text-primary">Utility Master</span>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="table-responsive mb-2">
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th scope="col" style="width: 40px;">#</th>
+                                    <th>Utility Name</th>
+                                    <th>Is Electricity?</th>
+                                    <th style="width: 350px;">Bill Type</th>
+                                    <th scope="col" style="width: 150px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tbody id="newlink">
+                                <tr *ngFor="let item of items;let i=index" id="{{i+1}}" class="product">
+                                    <th scope="row" class="product-id">{{i+1}}</th>
+                                    <td class="text-start">
+                                        <input type="text" class="form-control" placeholder="Utility Name" required
+                                            [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}" />
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" style="margin-right: 10px;"
+                                                [checked]="item.isElectricity" (change)="changeElectricity($event,i)"
+                                                type="checkbox">
+                                            <label class="form-check-label">Electricity</label>
+                                        </div>
+                                    </td>
+                                    <td style="width: 350px;">
+                                           <ol style="padding-left: 1rem;" class="mb-2">
+                                            <li class="mb-1" *ngFor="let data of item.billTypes;let bInd = index">
+                                                <span class="me-2">{{data}}</span><i
+                                                class="text-danger ri ri-delete-bin-line" style="vertical-align: text-bottom; cursor: pointer;" (click)="deleteBillType(bInd,item)"></i>
+                                            </li>
+                                           </ol> 
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="item.billType">
+                                            <button type="button" class="btn btn-outline-primary" (click)="addBillType(item)"><i class="ri ri-add-line"></i></button>
+                                        </div>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <a class="btn btn-success btn-sm" style="margin-right: 10px;"
+                                            (click)="save(i)"><i class="ri-check-fill"></i></a>
+                                        <a class="btn btn-danger btn-sm" (click)="delete(i)"><i
+                                                class="ri-delete-bin-fill"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tr id="newForm" style="display: none;"></tr>
+                            <tr>
+                                <td colspan="9">
+                                    <a class="btn btn-soft-secondary fw-medium" (click)="add()"><i
+                                            class="ri-add-fill me-1 align-bottom"></i> Add Item</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->

@@ -1,0 +1,117 @@
+
+<div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalFullscreenLabel">Bulk Approve/Reject</h5>
+      
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalService.dismissAll()"></button>
+    </div>
+    <div class="modal-body">
+        <div class="card" id="tasksList" style="box-shadow: unset;">
+            <div class="card-header mb-2" style="padding:unset;border-bottom:unset;">
+                <button class="btn btn-outline-primary" *ngIf="type == 'admin'" (click)="adminRejectAll()" style="float: right;" [disabled]="rloading">Reject Selected</button>
+                <button class="btn btn-primary me-2" *ngIf="type == 'admin'" (click)="adminApproveAll()" style="float: right;"[disabled]="aloading">Approve Selected</button>
+                <button class="btn btn-outline-primary" *ngIf="type == 'finance'" (click)="financeRejectAll()" style="float: right;" [disabled]="rloading">Reject Selected</button>
+                <button class="btn btn-primary me-2" *ngIf="type == 'finance'" (click)="financeApproveAll()" style="float: right;"[disabled]="aloading">Approve Selected</button>
+            </div>
+            <div class="table-responsive mb-2">
+                <table class="table table-nowrap align-middle mb-0 ">
+                  <thead class="table-light text-muted">
+                  <tr>
+                    <th class="text-center" *ngIf="type == 'admin'">
+                        <div class="form-check">
+                            <input class="form-check-input" (change)="allAdminSelection($event)" type="checkbox">
+                        </div>
+                        <!-- <input style="vertical-align: middle;" type="checkbox" (change)="allAdminSelection($event)"> -->
+                    </th>
+                    <th class="text-center" *ngIf="type == 'finance'">
+                        <div class="form-check">
+                            <input class="form-check-input" (change)="allFinanceSelection($event)" type="checkbox">
+                        </div>
+                    </th>
+                    <th style="min-width: 50px;">SR</th>
+                    <th>Invoice No.</th>
+                    <th>Vendor Name</th>
+                    <th>Total Amount</th>
+                    <th> Date</th>
+                    <th> Admin Approval</th>
+                    <th> Finance Approval</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let item of data | filter:searchTerm;let i = index;">
+                        <tr *ngIf="type == 'admin' && item?.adminStatus == 'Pending' && item?.financeStatus == 'Pending' && authS.hasApprovePermission('courier',item.grossAmount, item.verifyStatus)">
+                            <td class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" [(ngModel)]="item.checked" (click)="check(i)" type="checkbox">
+                                </div>
+                            </td>
+                            <td style="min-width: 50px;">{{i+1}}</td>
+                            <td>#{{item.invoiceNo}}</td>
+                            <td>{{item.vendorName}}</td>
+                            <td>{{item.totalAmount}}</td>
+                            <td>{{item.date | date:'dd MMM, yyyy'}}</td>
+                            <td><span *ngIf="item?.adminStatus == 'Pending'"
+                              class="badge rounded-pill bg-warning">Pending</span>
+                            <span
+                              ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                              placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                              class="badge rounded-pill bg-success">Approve</span>
+                            <span
+                              ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                              placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                              class="badge rounded-pill bg-danger">Reject</span></td>
+                          <td><span *ngIf="item?.financeStatus == 'Pending'"
+                              class="badge rounded-pill bg-warning">Pending</span>
+                            <span
+                              ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                              placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                              class="badge rounded-pill bg-success">Approve</span>
+                            <span
+                              ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                              placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                              class="badge rounded-pill bg-danger">Reject</span></td>
+                            
+                          </tr>
+                          <tr *ngIf="type == 'finance' && item?.adminStatus == 'Approved' && item?.financeStatus == 'Pending' && authS.hasFApprovePermission('courier',item.grossAmount, item.fverifyStatus)">
+                            <td class="text-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" [(ngModel)]="item.checked" (click)="check(i)" type="checkbox">
+                                </div>
+                            </td>
+                            <td style="min-width: 50px;">{{i+1}}</td>
+                            <td>#{{item.invoiceNo}}</td>
+                            <td>{{item.vendorName}}</td>
+                            <td>{{item.totalAmount}}</td>
+                            <td>{{item.date | date:'dd MMM, yyyy'}}</td>
+                            <td><span *ngIf="item?.adminStatus == 'Pending'"
+                              class="badge rounded-pill bg-warning">Pending</span>
+                            <span
+                              ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                              placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                              class="badge rounded-pill bg-success">Approve</span>
+                            <span
+                              ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                              placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                              class="badge rounded-pill bg-danger">Reject</span></td>
+                          <td><span *ngIf="item?.financeStatus == 'Pending'"
+                              class="badge rounded-pill bg-warning">Pending</span>
+                            <span
+                              ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                              placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                              class="badge rounded-pill bg-success">Approve</span>
+                            <span
+                              ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                              placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                              class="badge rounded-pill bg-danger">Reject</span></td>
+                            
+                          </tr>
+                    </ng-container>
+                 
+                  </tbody>
+                </table>
+              </div>
+        </div>
+        <!--end card-->
+    </div>
+    <!--end col-->
+</div>

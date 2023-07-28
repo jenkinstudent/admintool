@@ -1,0 +1,201 @@
+<div class="row">
+  <div class="card" id="tasksList">
+    <div class="card-header">
+      <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+      <span class="card-title mb-0 text-primary">Courier Transaction Details</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="mb-3">
+                <label class="form-label">Date</label>
+                <input class="form-control" disabled value="{{item.date | date:'dd MMM, yyyy'}}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+        <div class="col-lg-6 border-right">
+          <h5 class="fs-15">Origin</h5>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Branch Name</label>
+                <input class="form-control" disabled value="{{item.branch?.code}} - {{item.branch?.name}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Branch Address</label>
+                <input class="form-control" disabled value="{{item.branch?.address}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Cluster</label>
+                <input class="form-control" disabled value="{{item.branch?.cluster}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">State</label>
+                <input class="form-control" disabled value="{{item.branch?.state}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Vendor Name</label>
+                <input class="form-control" disabled value="{{item.vendorName}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Vendor GST No.</label>
+                <input class="form-control" style="text-transform: uppercase;" disabled value="{{item.vendorGstNo}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Invoice No.</label>
+                <input class="form-control" disabled value="{{item.invoiceNo}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Courier Invoice</label>
+                <div class="mt-1"
+                  *ngIf="item.courierInvoice != '' && item.courierInvoice != null && item.courierInvoice != undefined">
+                  <a href="{{baseURL}}retrieve/{{item.courierInvoice}}" target="_blank">View</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 border-right">
+          <h5 class="fs-15">Destination</h5>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Destination</label>
+                <input class="form-control" disabled value="{{item.destination}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Courier Charges</label>
+                <input class="form-control" disabled value="{{item.courierChanges}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">GST Charges</label>
+                <input class="form-control" disabled value="{{item.gstChanges}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label">Total Amount</label>
+                <input class="form-control" disabled value="{{item.totalAmount}}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="table-responsive  mb-2">
+          <table class="table">
+            <thead>
+              <tr class="bg-light text-muted">
+                <th style="min-width: 50px;">SR</th>
+                <th>Document Name</th>
+                <th>Document Reference No.</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of item.utility;let i = index;">
+                <td style="min-width: 50px;">{{i+1}}</td>
+                <td>{{data.documentName}}</td>
+                <td>{{data.refNo}}</td>
+                <td>{{data.quantity}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <button type="button" style="float: right;" placement="top"  class="btn btn-outline-primary waves-effect waves-light" (click)="openModal(fullDataModal)">
+          Activity </button>
+      <button type="button" style="float: right;" *ngIf="item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && (authS.hasApprovePermission('courier',item.grossAmount, item.verifyStatus) || authS.hasVerifiedPermission('courier',item.grossAmount, item.verifyStatus))" placement="top"  class="btn btn-outline-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'adminreject')">
+          Reject </button>
+      <button type="button" style="float: right;" *ngIf="item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && authS.hasApprovePermission('courier',item.grossAmount, item.verifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'adminapprove')">
+          Approve </button>
+      <button type="button" style="float: right;" *ngIf="item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && authS.hasVerifiedPermission('courier',item.grossAmount, item.verifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'adminverify')">
+          Verify </button>
+      <span  style="float: right;" *ngIf="item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && !authS.hasApprovePermission('courier',item.grossAmount, item.verifyStatus) && !authS.hasVerifiedPermission('courier',item.grossAmount, item.verifyStatus)" class="text-danger waves-effect waves-light me-2 fw-medium">
+          Permission Restricted </span>
+      <button type="button" style="float: right;" *ngIf="item.adminStatus == 'Approved'  && item.financeStatus == 'Pending' && (authS.hasFApprovePermission('courier',item.grossAmount, item.fverifyStatus) || authS.hasFVerifiedPermission('courier',item.grossAmount, item.fverifyStatus))" placement="top"  class="btn btn-outline-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'financereject')">
+          Reject </button>
+      <button type="button" style="float: right;" *ngIf="item.adminStatus == 'Approved'  && item.financeStatus == 'Pending' && authS.hasFApprovePermission('courier',item.grossAmount, item.fverifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'financeapprove')">
+          Approve </button>
+      <button type="button" style="float: right;" *ngIf="item.adminStatus == 'Approved'  && item.financeStatus == 'Pending' && authS.hasFVerifiedPermission('courier',item.grossAmount, item.fverifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'financeverify')">
+          Verify </button>
+      <span  style="float: right;" *ngIf="item.adminStatus == 'Approved'  && item.financeStatus == 'Pending' && !authS.hasFApprovePermission('courier',item.grossAmount, item.fverifyStatus) && !authS.hasFVerifiedPermission('courier',item.grossAmount, item.fverifyStatus)" class="text-danger waves-effect waves-light me-2 fw-medium">
+          Permission Restricted </span>
+             
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #fullDataModal let-modal>
+  <app-tracking-modal type="courier" id="{{item._id}}"></app-tracking-modal>
+</ng-template>
+
+<ng-template #dataModal let-modal>
+  <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="value == 'adminverify' || value == 'financeverify'">Verify Courier</h5>
+          <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="value == 'adminapprove' || value == 'financeapprove'">Approve Courier</h5>
+          <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="value == 'adminreject' || value == 'financereject'">Reject Courier</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="modal.dismiss('Close click')"></button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-lg-12">
+                  <div class="mb-3">
+                      <label class="form-label">Remark</label>
+                      <input [(ngModel)]="remark" [ngModelOptions]="{standalone: true}"  type="text" class="form-control"
+                          placeholder="Enter Remark">
+                  </div>
+              </div>
+              <!-- <div class="col-lg-12">
+                  <div class="mb-3">
+                      <label class="form-label">Upload Document</label>
+                      <input type="file" class="form-control" (change)="uploadDocument($event)"
+                          placeholder="Enter Remark">
+                      <div class="mt-1" *ngIf="document != ''">
+                          <a href="{{baseURL}}retrieve/{{document}}" target="_blank">View Document</a>
+                      </div>
+                  </div>
+              </div> -->
+          </div>
+
+      </div>
+      <div class="modal-footer">
+          <button type="button" *ngIf="value == 'financeverify'" (click)="updateFVerifiyStatus()" class="btn btn-primary waves-effect waves-light">Submit</button>
+          <button type="button" *ngIf="value == 'financeapprove'" (click)="updateFinanceStatus('Approved')" class="btn btn-primary waves-effect waves-light">Submit</button>
+          <button type="button" *ngIf="value == 'financereject'" (click)="updateFinanceStatus('Rejected')" class="btn btn-primary waves-effect waves-light">Submit</button>
+          <button type="button" *ngIf="value == 'adminverify'" (click)="updateVerifiyStatus()" class="btn btn-primary waves-effect waves-light">Submit</button>
+          <button type="button" *ngIf="value == 'adminapprove'" (click)="updateAdminStatus('Approved')" class="btn btn-primary waves-effect waves-light">Submit</button>
+          <button type="button" *ngIf="value == 'adminreject'" (click)="updateAdminStatus('Rejected')" class="btn btn-primary waves-effect waves-light">Submit</button>
+      </div>
+  </div><!-- /.modal-content -->
+
+</ng-template><!-- /.modal-dialog -->

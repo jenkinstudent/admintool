@@ -1,0 +1,547 @@
+<div class="row">
+    <div class="col-xxl-12">
+        <div class="card ">
+            <div class="card-header">
+                <ul ngbNav #customNav="ngbNav" [activeId]="1"
+                    class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                    <li [ngbNavItem]="1" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="far fa-user"></i>
+                            Users
+                        </a>
+                        <ng-template ngbNavContent>
+                            <form *ngIf="createU">
+                                <div class="row" style="border:1px solid #e0e0e0; border-radius: 10px; padding: 10px;">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" class="form-control" [(ngModel)]="userName"
+                                                [ngModelOptions]="{standalone: true}" placeholder="Enter name">
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label">Mobile</label>
+                                            <input type="text" class="form-control" placeholder="xxx xxx xxxx"
+                                                mask="000 000 0000" [(ngModel)]="mobile"
+                                                [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" [(ngModel)]="email"
+                                                [ngModelOptions]="{standalone: true}" placeholder="Enter email">
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-3" *ngIf="!editU && createU">
+                                        <div class="mb-3">
+                                            <label class="form-label">Password</label>
+                                            <input type="password" class="form-control" [(ngModel)]="password"
+                                                [ngModelOptions]="{standalone: true}" placeholder="Enter password">
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label">User Profile</label>
+                                            <ng-select [(ngModel)]="roleProfile" [ngModelOptions]="{standalone: true}" [closeOnSelect]="true">
+                                                <ng-option value="admin">Admin</ng-option>
+                                                <ng-option value="field admin">Field Admin</ng-option>
+                                                <ng-option value="business">Business</ng-option>
+                                                <ng-option value="finance">Finance</ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-3" *ngIf="roleProfile == 'admin'">
+                                        <div class="mb-3">
+                                            <label class="form-label">Designation</label>
+                                            <ng-select (change)="getadmin($event)" [closeOnSelect]="true">
+                                                <ng-option *ngFor="let item of userS.admin;let i=index"
+                                                    value="{{i}}">{{item.name}} - <span
+                                                        class="fs-11 text-capitalize">{{item.role}}</span></ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="roleProfile == 'field admin'">
+                                        <div class="mb-3">
+                                            <label class="form-label">Designation</label>
+                                            <ng-select (change)="getfieldadmin($event)" [closeOnSelect]="true">
+                                                <ng-option *ngFor="let item of userS.fieldadmin;let i=index"
+                                                    value="{{i}}">{{item.name}} - <span
+                                                        class="fs-11 text-capitalize">{{item.role}}</span></ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="roleProfile == 'business'">
+                                        <div class="mb-3">
+                                            <label class="form-label">Designation</label>
+                                            <ng-select (change)="getbusiness($event)" [closeOnSelect]="true">
+                                                <ng-option *ngFor="let item of userS.business;let i=index"
+                                                    value="{{i}}">{{item.name}} - <span
+                                                        class="fs-11 text-capitalize">{{item.role}}</span></ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-3" *ngIf="roleProfile == 'finance'">
+                                        <div class="mb-3">
+                                            <label class="form-label">Designation</label>
+                                            <ng-select (change)="getFinanceDesignation($event)" [closeOnSelect]="true">
+                                                <ng-option *ngFor="let item of userS.financedesignation;let i=index"
+                                                    value="{{i}}">{{item.name}} - <span
+                                                        class="fs-11 text-capitalize">{{item.role}}</span></ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-12">
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="submit" class="btn btn-primary" (click)="createUser()"><span
+                                                    *ngIf="!editU">Create</span><span
+                                                    *ngIf="editU">Update</span></button>
+                                            <button type="button" class="btn btn-outline-primary"
+                                                (click)="createU = !createU;editU = !editU;clearU()">Cancel</button>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+                            </form>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card" id="tasksList" style="box-shadow: unset;">
+                                        <div class="card-body" style="padding-right:unset;padding-left:unset">
+                                            <form>
+                                                <div class="row g-3">
+                                                    <div class="col-xxl-7 col-sm-5">
+                                                        <div class="search-box">
+                                                            <input type="text" name="searchTerm" class="form-control"
+                                                                placeholder="Search for users names or something..."
+                                                                [(ngModel)]="searchTermU">
+                                                            <i class="ri-search-line search-icon"></i>
+                                                        </div>
+                                                    </div>
+                                                    <!--end col-->
+
+                                                    <div class="col-xxl-5 col-sm-7 flex items-end">
+                                                        <button type="button" class="btn btn-primary"
+                                                            style="float:right;"
+                                                            (click)="createU = !createU;editU = false;click()"> <i
+                                                                class="ri-add-fill me-1 align-bottom"></i>
+                                                            Create
+                                                        </button>
+                                                    </div>
+                                                    <!--end col-->
+                                                </div>
+                                                <!--end row-->
+                                            </form>
+                                        </div>
+                                        <!--end card-body-->
+                                        <div class="card-body">
+                                            <div class="table-responsive table-card mb-2">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr class="bg-light text-muted">
+                                                            <th style="min-width: 50px;">SR</th>
+                                                            <th>Name</th>
+                                                            <th>Email</th>
+                                                            <th>Mobile</th>
+                                                            <th>Designation</th>
+                                                            <th>Role</th>
+                                                            <th>Slabs</th>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <ng-container
+                                                            *ngFor="let item of users | filter:searchTermU;let i = index;">
+                                                            <tr *ngIf="!item.issuperadmin">
+                                                                <td style="min-width: 50px;">{{i+1}}</td>
+                                                                <td>{{item.name}}</td>
+                                                                <td>{{item.email}}</td>
+                                                                <td>{{item.mobile}}</td>
+                                                                <td>{{item.designation?.name}} -
+                                                                    {{item.designation?.role}}</td>
+                                                                
+                                                                <td style="text-transform: capitalize;">{{item.roleProfile}}</td>
+                                                                <td>
+                                                                   <span *ngIf="item.permissions?.utilitySlab != undefined"> <b>Utility:</b> ₹{{item.permissions?.utilitySlab?.min}} - ₹{{item.permissions.utilitySlab?.max}}<br></span>
+                                                                   <span *ngIf="item.permissions?.rentSlab != undefined"> <b>Rent:</b> ₹{{item.permissions?.rentSlab?.min}} - ₹{{item.permissions.rentSlab?.max}}</span>
+                                                                </td>
+                                                                <td>
+                                                                    <div dir="ltr"
+                                                                        class=" ms-1 form-check form-switch form-switch-success form-switch-md">
+
+                                                                        <input type="checkbox" id="customSwitchsizelg"
+                                                                            [checked]="item.status == 'Active'"
+                                                                            (change)="changeStatus($event,item._id,i)"
+                                                                            class="form-check-input">
+
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <ul class="list-inline hstack gap-2 mb-0">
+                                                                        <li class="list-inline-item edit"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-trigger="hover" ngbTooltip="Edit"
+                                                                            placement="top">
+                                                                            <a (click)="editUser(i);click()"
+                                                                                class="text-primary d-inline-block edit-item-btn">
+                                                                                <i class="ri-pencil-fill fs-16"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="list-inline-item edit"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-trigger="hover"
+                                                                            ngbTooltip="Permissions" placement="top">
+                                                                            <a (click)="openModal(fullDataModal,item);"
+                                                                                class="text-primary d-inline-block edit-item-btn">
+                                                                                <i class="ri-eye-line fs-16"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+
+                                                            </tr>
+                                                        </ng-container>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!--end card-->
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="fas fa-home"></i>
+                            Permissions
+                        </a>
+                        <ng-template ngbNavContent>
+                            <form>
+                                <div class="row" style="border:1px solid #e0e0e0; border-radius: 10px; padding: 10px;">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" [(ngModel)]="selectUser"
+                                                    [ngModelOptions]="{standalone: true}" name="selectUser"
+                                                    id="selectUserByUser" value="By User">
+                                                <label class="form-check-label" for="selectUserByUser">By User</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" [(ngModel)]="selectUser"
+                                                    [ngModelOptions]="{standalone: true}" name="selectUser"
+                                                    id="selectUserByDesignation" value="By Designation" (click)="selectRole = '';">
+                                                <label class="form-check-label" for="selectUserByDesignation">By
+                                                    Designation</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="selectUser == 'By User'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Select Users</label>
+                                            <ng-select [(ngModel)]="selectedUser" [ngModelOptions]="{standalone: true}"
+                                                [closeOnSelect]="true"  (change)="getUserRole($event)">
+                                                <ng-container *ngFor="let item of users">
+                                                    <ng-option  *ngIf="!item.issuperadmin" value="{{item._id}}">{{item.name}}
+                                                    </ng-option>
+                                                </ng-container>
+                                               
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3" *ngIf="selectUser == 'By Designation'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Select Desginations</label>
+                                            <ng-select [(ngModel)]="designationS" [ngModelOptions]="{standalone: true}"
+                                                (change)="getUserByDesignation($event)"
+                                                [closeOnSelect]="true">
+                                                <ng-option *ngFor="let item of userS.admin" value="{{item.id}}">
+                                                    {{item.name}} - {{item.role}}</ng-option>
+                                                <ng-option *ngFor="let item of userS.business" value="{{item.id}}">
+                                                        {{item.name}} - {{item.role}}</ng-option>
+                                                <ng-option *ngFor="let item of userS.financedesignation" value="{{item.id}}">
+                                                            {{item.name}} - {{item.role}}</ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" [(ngModel)]="selectBranch"
+                                                    [ngModelOptions]="{standalone: true}" name="selectBranch"
+                                                    id="selectBranchByBranch" value="By Branch">
+                                                <label class="form-check-label" for="selectBranchByBranch">By
+                                                    Branch</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" [(ngModel)]="selectBranch"
+                                                    [ngModelOptions]="{standalone: true}" name="selectBranch"
+                                                    id="selectBranchByCluster" value="By Cluster">
+                                                <label class="form-check-label" for="selectBranchByCluster">By
+                                                    Cluster</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" [(ngModel)]="selectBranch"
+                                                    [ngModelOptions]="{standalone: true}" name="selectBranch"
+                                                    id="selectBranchByDivision" value="By Division">
+                                                <label class="form-check-label" for="selectBranchByDivision">By
+                                                    Division</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" [(ngModel)]="selectBranch"
+                                                    [ngModelOptions]="{standalone: true}" name="selectBranch"
+                                                    id="selectBranchByState" value="By State">
+                                                <label class="form-check-label" for="selectBranchByState">By
+                                                    State</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" [(ngModel)]="selectBranch"
+                                                    [ngModelOptions]="{standalone: true}" name="selectBranch"
+                                                    id="selectBranchByZone" value="By Zone">
+                                                <label class="form-check-label" for="selectBranchByZone">By Zone</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="selectBranch == 'By Branch'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Select Branch</label>
+                                            <ng-select [(ngModel)]="branch" [ngModelOptions]="{standalone: true}"
+                                                [multiple]="true" [closeOnSelect]="false">
+                                                <ng-option *ngFor="let item of branches" value="{{item._id}}">
+                                                    {{item.code}} - {{item.name}}</ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="selectBranch == 'By Cluster'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Select Cluster</label>
+                                            <ng-select [(ngModel)]="cluster" [ngModelOptions]="{standalone: true}"
+                                                (change)="getBranchByCluster($event)" [multiple]="true"
+                                                [closeOnSelect]="false">
+                                                <ng-option *ngFor="let item of clusters" value="{{item}}">{{item}}
+                                                </ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="selectBranch == 'By Division'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Select Division</label>
+                                            <ng-select [(ngModel)]="division" [ngModelOptions]="{standalone: true}"
+                                                (change)="getBranchByDivision($event)" [multiple]="true"
+                                                [closeOnSelect]="false">
+                                                <ng-option *ngFor="let item of divisions" value="{{item}}">{{item}}
+                                                </ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="selectBranch == 'By State'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Select State</label>
+                                            <ng-select [(ngModel)]="state" [ngModelOptions]="{standalone: true}"
+                                                (change)="getBranchByState($event)" [multiple]="true"
+                                                [closeOnSelect]="false">
+                                                <ng-option *ngFor="let item of states" value="{{item}}">{{item}}
+                                                </ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" *ngIf="selectBranch == 'By Zone'">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Select Zone</label>
+                                            <ng-select [(ngModel)]="zone" [ngModelOptions]="{standalone: true}"
+                                                (change)="getBranchByZone($event)" [multiple]="true"
+                                                [closeOnSelect]="false">
+                                                <ng-option *ngFor="let item of zones" value="{{item}}">{{item}}
+                                                </ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" *ngIf="selectRole == 'business'">
+                                        <div class="mb-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" [checked]="isUtility"
+                                                    (change)="changeUtility($event)" type="checkbox">
+                                                <label class="form-check-label">Utility Permissions?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ps-3" *ngIf="isUtility && selectRole == 'business'">
+                                        <div class="col-lg-3">
+                                            <div class="mb-3">
+                                                <label class="form-label">Select Approval Level</label>
+                                                <ng-select [(ngModel)]="utilitySlab"
+                                                    [ngModelOptions]="{standalone: true}" [closeOnSelect]="true">
+                                                    <ng-option *ngFor="let item of levels" value="{{item._id}}">
+                                                        ₹{{item.min}} - ₹{{item.max}}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" *ngIf="selectRole == 'business'">
+                                        <div class="mb-3">
+                                            <div class="form-check form-check-inline" style="margin-top: 27px;">
+                                                <input class="form-check-input" [checked]="isRent"
+                                                    (change)="changeRent($event)" type="checkbox">
+                                                <label class="form-check-label">Rent Permissions?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="row ps-3" *ngIf="isRent && selectRole == 'business'">
+                                        <div class="col-lg-3">
+                                            <div class="mb-3">
+                                                <label class="form-label">Select Approval Level</label>
+                                                <ng-select [(ngModel)]="rentSlab" [ngModelOptions]="{standalone: true}"
+                                                    [closeOnSelect]="true">
+                                                    <ng-option *ngFor="let item of levels" value="{{item._id}}">
+                                                        ₹{{item.min}} - ₹{{item.max}}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-12">
+                                        <div class="hstack gap-2 justify-content-start">
+                                            <button type="submit" class="btn btn-primary"
+                                                (click)="allocatePermissions()"><span>Submit</span></button>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+
+                                </div>
+                                <!--end row-->
+                            </form>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3" class="nav-item">
+                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                            <i class="far fa-user"></i>
+                            Approval Levels
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive">
+                                <table class="invoice-table table table-borderless table-nowrap mb-0">
+                                    <thead class="align-middle">
+                                        <tr class="table-active">
+                                            <th scope="col" style="width: 50px;">#</th>
+                                            <th scope="col">
+                                                Min
+                                            </th>
+                                            <th scope="col">
+                                                Max
+                                            </th>
+                                            <th scope="col" class="text-end"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="newlink">
+                                        <tr *ngFor="let item of levels;let i=index" id="{{i+1}}" class="product">
+                                            <th scope="row" class="product-id">{{i+1}}</th>
+                                            <td>
+                                                <input type="number"
+                                                    class="form-control product-price bg-light border-0" placeholder="0"
+                                                    required [(ngModel)]="item.min"
+                                                    [ngModelOptions]="{standalone: true}" />
+                                            </td>
+                                            <td>
+                                                <input type="number" min="{{item.min}}"
+                                                    class="form-control product-price bg-light border-0 max{{i}}"
+                                                    placeholder="0" required [(ngModel)]="item.max"
+                                                    [ngModelOptions]="{standalone: true}" />
+                                            </td>
+
+                                            <td class="product-removal">
+                                                <!-- <a class="btn btn-success btn-sm" style="margin-right: 10px;"
+                                                    (click)="save(i)"><i class="ri-check-fill"></i></a>
+                                                <a class="btn btn-danger btn-sm" (click)="delete(i)"><i
+                                                        class="ri-delete-bin-fill"></i></a> -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tr id="newForm" style="display: none;"></tr>
+                                    <!-- <tr>
+                                        <td colspan="9">
+                                            <a class="btn btn-soft-secondary fw-medium" (click)="add()"><i
+                                                    class="ri-add-fill me-1 align-bottom"></i> Add Item</a>
+                                        </td>
+                                    </tr> -->
+                                </table>
+                                <!--end table-->
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body p-4">
+                <div class="tab-content">
+                    <div [ngbNavOutlet]="customNav"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end col-->
+</div>
+<!--end row-->
+
+<ng-template #fullDataModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalFullscreenLabel">Permissions</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="modal.dismiss('Close click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <tbody>
+                        <tr>
+                            <th><span class="fw-medium">User Name</span>
+                            </th>
+                            <td>{{item.name}}</td>
+                        </tr>
+                        <tr>
+                            <th><span class="fw-medium">Email</span></th>
+                            <td>{{item.email}}</td>
+                        </tr>
+                        <tr>
+                            <th><span class="fw-medium">Mobile</span></th>
+                            <td>{{item.mobile}}</td>
+                        </tr>
+                        <tr>
+                            <th><span class="fw-medium">Designation</span>
+                            </th>
+                            <td>{{item.designation?.name}} - {{item.designation?.role}}</td>
+                        </tr>
+                        <tr *ngIf="item.permissions.isUtility">
+                            <th><span class="fw-medium">Utility Activity Level</span></th>
+                            <td>₹{{item.permissions?.utilitySlab?.min}} - ₹{{item.permissions.utilitySlab?.max}}</td>
+                        </tr>
+                        <tr *ngIf="item.permissions.isRent">
+                            <th><span class="fw-medium">Rent Activity Level</span>
+                            </th>
+                            <td>₹{{item.permissions?.rentSlab?.min}} - ₹{{item.permissions?.rentSlab?.max}}</td>
+                        </tr>
+                        <tr>
+                            <th><span class="fw-medium">Branches</span>
+                            </th>
+                            <td><div style="height:400px; overflow:auto"><span *ngFor="let data of item.permissions?.branch;">{{data.code}} - {{data.name}}<br></span></div></td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</ng-template><!-- /.modal-dialog -->

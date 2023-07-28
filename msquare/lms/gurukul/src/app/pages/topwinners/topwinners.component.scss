@@ -1,0 +1,119 @@
+@media only screen and (max-width: 600px) {
+
+    
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+
+    
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr 1fr 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+}
+
+#ngb-nav-0:first-child{
+    &::after {
+        transform: unset !important;
+    }
+}
+
+.certified{
+    background-color: #cd5e29;
+    padding: 10px;
+    position: absolute;
+    left: 75px;
+    top: 20px;
+    margin-bottom: unset;
+}
+
+.totalP{
+    background-color: #cd5e29;
+    padding: 10px;
+    position: absolute;
+    right: 75px;
+    top: 20px;
+    margin-bottom: unset;
+}
+
+.profile-user .profile-photo-edit {
+    position: absolute;
+    right: auto;
+    left: -8px;
+    top: -7px;
+    cursor: pointer;
+}
+
+.input-option{
+    display: block;
+    float: left;
+    background-color: white;
+    border-radius: 50%;
+    padding: 4px 6px;
+    width: 28px;
+    height: 28px;
+    color: black;
+    margin-right: 4px;
+}
+
+.input-btn{
+    display: block;
+    text-align: justify;
+}
+
+.avatar-sm {
+    height: 3rem;
+    width: 3rem;
+}

@@ -1,0 +1,356 @@
+
+
+<div class="row">
+    <div class="card"  id="tasksList">
+        <div class="card-header">
+            <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+            <span class="card-title mb-0 text-primary">{{label}}</span>
+        </div><!-- end card header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6 border-right">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Branch Code</label>
+                                <input type="text" class="form-control" readonly value="{{item.branch?.code}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Branch Name</label>
+                                <input type="text" class="form-control" readonly value="{{item.branch?.name}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Permises Type</label>
+                                <input type="text" class="form-control" readonly value="{{item.utility?.premisesType}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Property Type</label>
+                                <input type="text" class="form-control" readonly value="{{item.utility?.propertyType}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <textarea value="{{item.branch?.address}}" type="text" class="form-control" readonly rows="3"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Cluster</label>
+                                <input readonly value="{{item.branch?.cluster}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Division</label>
+                                <input readonly value="{{item.branch?.division}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">State</label>
+                                <input readonly value="{{item.branch?.state}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+            
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Zone</label>
+                                <input readonly value="{{item.branch?.zone}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Utility</label>
+                                <input readonly value="{{item.utility?.utility?.name}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+
+                            <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Customer Id</label>
+                                <input readonly value="{{item.meter?.meterId}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Meter Name</label>
+                                <input readonly value="{{item.meter?.name}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Initial Reading</label>
+                                <input readonly value="{{item.meter?.initialReading}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Allowed Consumption</label>
+                                <input readonly value="{{item.meter?.allowedConsumption}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Maximum Consumption</label>
+                                <input readonly value="{{item.meter?.maximumConsumption}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                         <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Utility Start Date</label>
+                                <input readonly value="{{item.meter?.utilityStartDate | date:'dd MMM, yyyy'}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Utility Cycle</label>
+                                <input readonly value="{{item.meter?.utilityCycle}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">TDS Amount</label>
+                                <input readonly value="{{item.meter?.tdsAmount}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">TDS Certificate</label>
+                                <!-- <input [disabled]="action == 0" type="file" class="form-control" (change)="uploadTdsCertificate($event)" placeholder="Select"> -->
+                                <div class="mt-1" *ngIf="item.meter?.tdsCertificate != ''">
+                                    <a href="{{baseURL}}retrieve/{{item.meter?.tdsCertificate}}" target="_blank">View Document</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Bill No.</label>
+                                <input disabled="" type="text" class="form-control"
+                                                placeholder="Enter Bill No. / A/c No." [(ngModel)]="billNo" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Bill Type</label>
+                                <input disabled="" type="text" class="form-control"
+                                placeholder="Enter Bill Type" value="{{item.meter?.billType}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Invoice Date</label>
+                                <input [disabled]="action == 'view'" type="date" class="form-control"
+                                placeholder="Enter Vendor Name" [(ngModel)]="invoiceDate" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">From Bill Date</label>
+                                <input [disabled]="action == 'view'" type="date" class="form-control"
+                                placeholder="Enter Vendor Name" [(ngModel)]="fromBillDate" [ngModelOptions]="{standalone: true}" (change)="getDate()">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">To Bill Date</label>
+                                <input [disabled]="action == 'view'" type="date" class="form-control"
+                                placeholder="Enter Vendor Name" [(ngModel)]="toBillDate" [ngModelOptions]="{standalone: true}" (change)="getDate()">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">No. of Days</label>
+                                <input disabled="" type="number" class="form-control"
+                                placeholder="Enter No. of Days" [(ngModel)]="noOfDays" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.meter?.billType == 'Sub Meter'">
+                            <div class="mb-3">
+                                <label class="form-label required">Inital Reading</label>
+                                <input [disabled]="action == 'view'" type="number" class="form-control" (keyup)="getConsumptionInitial($event)"
+                                                placeholder="Enter Initial Reading" [(ngModel)]="initReading" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.meter?.billType == 'Sub Meter'">
+                            <div class="mb-3">
+                                <label class="form-label required">Final Reading</label>
+                                <input [disabled]="action == 'view'" type="number" class="form-control" (keyup)="getConsumptionFinal($event)"
+                                                placeholder="Enter Final Reading" [(ngModel)]="finalReading" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Consumption</label>
+                                <input [disabled]="action == 'view'" type="number" class="form-control"
+                                                placeholder="Enter Consumption (Units)" [(ngModel)]="consumption" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.meter?.billType == 'Sub Meter'">
+                            <div class="mb-3">
+                                <label class="form-label required">Charges Per Unit</label> 
+                                <input [disabled]="action == 'view'" type="number" class="form-control" (keyup)="getBillAmt($event)"
+                                                placeholder="Enter Charges Per Unit" [(ngModel)]="chargesPerUnit" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.meter?.billType == 'Shared'">
+                            <div class="mb-3">
+                                <label class="form-label required">Total Bill</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input [disabled]="action == 'view'" type="number" class="form-control"  (keyup)="getTotalBill($event)"
+                                                placeholder="Enter Total Bill" [(ngModel)]="totalBill" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.meter?.billType == 'Shared'">
+                            <div class="mb-3">
+                                <label class="form-label required">% of Total Bill</label>
+                                <div class="input-group">
+                                    <input [disabled]="action == 'view'" type="number" class="form-control"  (keyup)="getPerTotalBill($event)"
+                                                placeholder="Enter % of Total Bill" [(ngModel)]="perTotalBill" [ngModelOptions]="{standalone: true}">
+                                    <span class="input-group-text">%</span>
+                                </div> 
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Bill Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input [disabled]="action == 'view'" type="number" class="form-control"
+                                                placeholder="Enter Bill Amount" [(ngModel)]="billAmount" [ngModelOptions]="{standalone: true}" (keyup)="getGrossBill($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Late Fee</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input [disabled]="action == 'view'" type="number" class="form-control"
+                                    placeholder="Enter Late Fee" [(ngModel)]="lateFee" [ngModelOptions]="{standalone: true}" (keyup)="getGrossLate($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Arrear</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input [disabled]="action == 'view'" type="number" class="form-control"
+                                    placeholder="Enter Arrear" [(ngModel)]="arrear" [ngModelOptions]="{standalone: true}" (keyup)="getGrossArrear($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Gross Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="text" class="form-control" readonly value="{{grossAmount}}">
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Due Date</label>
+                                <input type="date" class="form-control" [disabled]="action == 'view'" [(ngModel)]="dueDate" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Bill Document</label>
+                                <input [disabled]="action == 'view'" type="file" accept="image/*,application/pdf" 
+                                #billChild (change)="uploadBillDocument($event)" class="form-control mb-1"
+                                                placeholder="Enter Remarks" >
+                                <ng-container *ngIf="billDocument.length > 0">
+                                    <div class="mb-1" *ngFor="let item of billDocument;let i=index">
+                                        <a href="{{baseURL}}retrieve/{{item}}" target="_blank">View Document</a>
+                                        <i class="ri-delete-bin-line ms-2 text-danger" style="vertical-align: bottom;cursor: pointer;" (click)="deleteBillDoc(i)"></i>
+                                    </div>
+                                </ng-container>
+                                   
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Admin Status</label>
+                                <br>
+                                <span *ngIf="item.billStatus == 'Draft'" class="badge rounded-pill bg-warning">Bill Not Yet Submitted</span>
+                                <span *ngIf="item.adminStatus == 'Pending' && item.billStatus == 'Submitted'" class="badge rounded-pill bg-warning">Pending</span>
+                                <span ngbTooltip="Approve By {{item.adminApproved?.name}} On {{item.adminStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.adminStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                <span ngbTooltip="Reject By {{item.rejectedBy?.name}} On {{item.adminStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.adminStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Finance Status</label>
+                                <br>
+                                <span *ngIf="item.billStatus == 'Draft'" class="badge rounded-pill bg-warning">Bill Not Yet Submitted</span>
+                                <span *ngIf="item.financeStatus == 'Pending'  && item.billStatus == 'Submitted'" class="badge rounded-pill bg-warning">Pending</span>
+                                <span ngbTooltip="Approve By {{item.financeApproved?.name}} On {{item.financeStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.financeStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                <span ngbTooltip="Reject By {{item.rejectedBy?.name}} On {{item.financeStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.financeStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6" *ngIf="item.adminStatus == 'Approved' && item.adminStatusRemark != undefined && item.adminStatusRemark != '' && item.adminStatusRemark != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Admin Remark</label>
+                                <input type="text" class="form-control" readonly value="{{item.adminStatusRemark}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" *ngIf="item.financeStatus == 'Approved' && item.financeStatusRemark != undefined && item.financeStatusRemark != '' && item.financeStatusRemark != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Finance Remark</label>
+                                <input type="text" class="form-control" readonly value="{{item.financeStatusRemark}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" *ngIf="item.adminStatus == 'Approved' && item.adminRejectRemark != undefined && item.adminRejectRemark != '' && item.adminRejectRemark != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Admin Remark</label>
+                                <input type="text" class="form-control" readonly value="{{item.adminRejectRemark}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" *ngIf="item.financeStatus == 'Approved' && item.financeRejectRemark != undefined && item.financeRejectRemark != '' && item.financeRejectRemark != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Finance Remark</label>
+                                <input type="text" class="form-control" readonly value="{{item.financeRejectRemark}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+                <button type="button" *ngIf="action !== 'view'" style="float: right;" class="btn btn-outline-primary waves-effect waves-light me-2" (click)="save('')"
+                    [disabled]="loader">{{label}}<i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                        style="margin-left: 10px;"></i></button>
+                
+                <button type="button" *ngIf="action !== 'view'" style="float: right;" class="btn btn-primary waves-effect waves-light me-2" (click)="save('Rejected')"
+                        [disabled]="loader">{{label}} & Submit<i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                            style="margin-left: 10px;"></i></button>
+
+                   
+        </div>
+    </div>
+    
+</div>

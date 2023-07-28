@@ -1,0 +1,12 @@
+{
+  "defaultProject": "fusion-gurukul",
+  "projects": {
+    "fusion-gurukul": {
+      "name": "fusion-gurukul",
+      "integrations": {
+        "capacitor": {}
+      },
+      "type": "angular"
+    }
+  }
+}

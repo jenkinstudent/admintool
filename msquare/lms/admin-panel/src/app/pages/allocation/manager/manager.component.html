@@ -1,0 +1,731 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Manager" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form class="vertical-navs-step">
+                    <div class="row gy-5">
+                        <div class="col-lg-3" style="border-right: 1px solid #eeeeee;">
+                            <div role="tablist" aria-orientation="vertical">
+                                <ul ngbNav #customNav="ngbNav" [activeId]="activeId"
+                                    class="nav flex-column custom-nav nav-pills" role="tablist">
+                                    <li [ngbNavItem]="1" class="nav-item">
+                                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"
+                                            (click)="activeId = 1">
+                                            Step 1
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ul ngbNav #Type="ngbNav" [activeId]="1"
+                                                class="nav nav-pills nav-customs nav-danger">
+                                                <li [ngbNavItem]="1">
+                                                    <a ngbNavLink class="nav-link" (click)="clear();type = 'employee'">
+                                                        Employee
+                                                    </a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xxl-5 col-sm-12">
+                                                                <div class="search-box">
+                                                                    <input type="text" name="searchTerm"
+                                                                        class="form-control" placeholder="Search"
+                                                                        (keyup)="searchEmployee($event)">
+                                                                    <i class="ri-search-line search-icon"></i>
+                                                                </div>
+                                                            </div>
+                                                            <!--end col-->
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xxl-12 col-sm-12 mt-2">
+                                                                <div class="table-responsive mb-2"
+                                                                    style="height: 400px; overflow: auto;">
+                                                                    <table class="table table-nowrap table-striped">
+                                                                        <thead>
+                                                                            <tr class="bg-light text-muted">
+                                                                                <th>
+                                                                                    <div class="form-check">
+                                                                                        <input type="checkbox"
+                                                                                            (change)="allEmployeeSelection($event)"
+                                                                                            class="form-check-input">
+                                                                                    </div>
+                                                                                </th>
+                                                                                <th>{{'Employee Code' | translate}}</th>
+                                                                                <th>{{'Name' | translate}}</th>
+                                                                                <th>{{'Department' | translate}}</th>
+                                                                                <th>{{'Group' | translate}}</th>
+                                                                                <th>{{'Action' | translate}}</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr
+                                                                                *ngFor="let item of employeesData;let i = index">
+                                                                                <td>
+                                                                                    <div class="form-check">
+                                                                                        <input type="checkbox"
+                                                                                            [checked]="checkEmpCheck(item._id)"
+                                                                                            id="emp{{i}}"
+                                                                                            (change)="checkEmployee($event,i)"
+                                                                                            class="form-check-input">
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>{{item.employeeCode}}</td>
+                                                                                <td>{{item.salutation}}
+                                                                                    {{item.firstName}} {{item.lastName}}
+                                                                                </td>
+                                                                                <td>{{item.department}}</td>
+                                                                                <td>{{(item.groupDetails == undefined || item.groupDetails == '')?'':item.groupDetails[0].name}}
+                                                                                </td>
+                                                                                <td class="text-center">
+                                                                                    <!-- <ul
+                                                                                        class="list-inline hstack gap-2 mb-0">
+                                                                                        <li class="list-inline-item edit"
+                                                                                            data-bs-toggle="tooltip"
+                                                                                            data-bs-trigger="hover"
+                                                                                            ngbTooltip="Edit"
+                                                                                            placement="top">
+                                                                                            <a (click)="openEmpViewModal(fullScreenModal,item._id)"
+                                                                                                class="text-primary d-inline-block edit-item-btn">
+                                                                                                <i
+                                                                                                    class="ri-eye-fill fs-16"></i>
+                                                                                            </a>
+                                                                                        </li>
+                                                                                    </ul> -->
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12 col-md-6"></div>
+                                                                    <div class="col-sm-12 col-md-6">
+                                                                        <div class="text-md-right float-md-end ">
+                                                                            <ul class="pagination mb-0">
+                                                                                <li class="page-item me-2">
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-soft-primary"
+                                                                                        [disabled]="page==1"
+                                                                                        (click)="previous()">
+                                                                                        <span aria-hidden="true"><i
+                                                                                                class="ri-arrow-left-s-line fs-18"></i></span>
+                                                                                    </button>
+                                                                                </li>
+                                                                                <li class="page-item me-2">
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-soft-primary"
+                                                                                        [disabled]="!hasMore"
+                                                                                        (click)="next()">
+                                                                                        <span aria-hidden="true"><i
+                                                                                                class="ri-arrow-right-s-line fs-18"></i></span>
+                                                                                    </button>
+                                                                                </li>
+                                                                                <li class="page-item" *ngIf="loading">
+                                                                                    <span
+                                                                                        class="spinner-border flex-shrink-0 text-primary"
+                                                                                        role="status"><span
+                                                                                            class="visually-hidden">Loading...</span></span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                                <li [ngbNavItem]="2">
+                                                    <a ngbNavLink class="nav-link" (click)="clear();type = 'dept'">
+                                                        Department
+                                                    </a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xxl-5 col-sm-12">
+                                                                <div class="search-box">
+                                                                    <input type="text" name="searchTerm"
+                                                                        class="form-control" placeholder="Search"
+                                                                        [(ngModel)]="searchDept"
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                    <i class="ri-search-line search-icon"></i>
+                                                                </div>
+                                                            </div>
+                                                            <!--end col-->
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xxl-12 col-sm-12 mt-2">
+                                                                <div class="table-responsive mb-2"
+                                                                    style="height: 400px; overflow: auto;">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr class="bg-light text-muted">
+                                                                                <th>
+                                                                                    <div class="form-check">
+                                                                                        <input type="checkbox"
+                                                                                            (change)="allDeptSelection($event)"
+                                                                                            class="form-check-input">
+                                                                                    </div>
+                                                                                </th>
+                                                                                <th>
+                                                                                    {{'Department' | translate}}</th>
+                                                                                <th>
+                                                                                    {{'Employees Count' | translate}}
+                                                                                </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr
+                                                                                *ngFor="let item of departments | search:searchDept;let i = index">
+                                                                                <td>
+                                                                                    <div class="form-check">
+                                                                                        <input type="checkbox"
+                                                                                            [(ngModel)]="item.checked"
+                                                                                            [ngModelOptions]="{standalone: true}"
+                                                                                            (change)="checkDept($event,i)"
+                                                                                            class="form-check-input">
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>{{item._id}}
+                                                                                </td>
+                                                                                <td>{{item.count}}
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                                <li [ngbNavItem]="3">
+                                                    <a ngbNavLink class="nav-link" (click)="clear();type = 'group'">
+                                                        Group
+                                                    </a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xxl-5 col-sm-12">
+                                                                <div class="search-box">
+                                                                    <input type="text" name="searchTerm"
+                                                                        class="form-control" placeholder="Search"
+                                                                        [(ngModel)]="searchGroup"
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                    <i class="ri-search-line search-icon"></i>
+                                                                </div>
+                                                            </div>
+                                                            <!--end col-->
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xxl-12 col-sm-12 mt-2">
+                                                                <div class="table-responsive mb-2"
+                                                                    style="height: 400px; overflow: auto;">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr class="bg-light text-muted">
+                                                                                <th>
+                                                                                    <div class="form-check">
+                                                                                        <input type="checkbox"
+                                                                                            (change)="allGroupSelection($event)"
+                                                                                            class="form-check-input">
+                                                                                    </div>
+                                                                                </th>
+                                                                                <th>
+                                                                                    {{'Group' | translate}}</th>
+                                                                                <th>
+                                                                                    {{'Employees Count' | translate}}
+                                                                                </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr
+                                                                                *ngFor="let item of groups | search:searchGroup;let i = index">
+                                                                                <td>
+                                                                                    <div class="form-check">
+                                                                                        <input type="checkbox"
+                                                                                            [(ngModel)]="item.checked"
+                                                                                            [ngModelOptions]="{standalone: true}"
+                                                                                            (change)="checkGroup($event,i)"
+                                                                                            class="form-check-input">
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>{{item.group?.name}}
+                                                                                </td>
+                                                                                <td>{{item.count}}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div [ngbNavOutlet]="Type"></div>
+                                            </div>
+                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                <button type="button" class="btn btn-primary btn-label right ms-auto nexttab
+                                            nexttab" (click)="nextTab(2);"><i
+                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
+                                            </div>
+                                        </ng-template>
+                                    </li>
+                                    <li [ngbNavItem]="2" class="nav-item">
+                                        <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab"
+                                            (click)="activeId = 2">
+                                            Step 2
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <ul ngbNav #Allocation="ngbNav" [activeId]="1"
+                                                class="nav nav-pills nav-customs nav-danger">
+                                                <li [ngbNavItem]="1">
+                                                    <a ngbNavLink class="nav-link">
+                                                        Program Allocation
+                                                    </a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xxl-5 col-sm-12 mb-2">
+                                                                <div class="search-box">
+                                                                    <input type="text" name="searchTerm"
+                                                                        class="form-control" placeholder="Search"
+                                                                        [(ngModel)]="searchProgram"
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                    <i class="ri-search-line search-icon"></i>
+                                                                </div>
+                                                            </div>
+                                                            <!--end col-->
+                                                        </div>
+                                                        <div class="row" cdkDropListGroup>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group" style="padding: 10px;">
+                                                                    <label>{{'Available Programs' | translate}}</label>
+                                                                    <div style="height: 400px; overflow: auto;"
+                                                                        class="example-list">
+                                                                        <div class="align-items-center d-flex example-box"
+                                                                            *ngFor="let item of programsData | filter: searchProgram;let i=index">
+                                                                            <label class="mb-0 flex-grow-1">
+                                                                                P{{item.code}} - {{item.title}}</label>
+                                                                            <div class="flex-shrink-0">
+                                                                                <button
+                                                                                    class="btn btn-sm btn-outline-primary"
+                                                                                    (click)="checkProgram(item)">
+                                                                                    <i class="ri-add-line"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group" style="padding: 10px">
+                                                                    <label
+                                                                        style="font-weight: bold;">{{'Selected Programs' | translate}}</label>
+                                                                    <div style="height: 400px; overflow: auto;"
+                                                                        cdkDropList
+                                                                        [cdkDropListData]="programsCheckData"
+                                                                        class="example-list"
+                                                                        (cdkDropListDropped)="dropProgram($event)">
+                                                                        <div class="example-box ribbon-box ribbon-fill right"
+                                                                            *ngFor="let item of programsCheckData;let i=index"
+                                                                            cdkDrag>
+                                                                            <div class="ribbon ribbon-success">
+                                                                                {{i+1}}
+                                                                            </div>
+                                                                            <div class="align-items-center d-flex">
+                                                                                <label class="mb-0 flex-grow-1">
+                                                                                    P{{item.code}} -
+                                                                                    {{item.title}}</label>
+                                                                                <div class="flex-shrink-0">
+                                                                                    <label
+                                                                                        style="margin-right: 10px;"></label>
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-outline-danger"
+                                                                                        style="margin-right:40px"
+                                                                                        (click)="deleteProgram(i)">
+                                                                                        <i
+                                                                                            class="ri-delete-bin-line"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                                <button type="button"
+                                                                    class="btn btn-light btn-label previestab"
+                                                                    (click)="activeId = 1;"><i
+                                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                                                    Previous</button>
+                                                                <button type="button" [disabled]="loader" class="btn btn-success btn-label right ms-auto nexttab
+                                                                " (click)="assignProgram()"><i
+                                                                        class="ri-check-line label-icon align-middle fs-16 ms-2"></i>Assign</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </ng-template>
+                                                </li>
+                                                <li [ngbNavItem]="2">
+                                                    <a ngbNavLink class="nav-link">
+                                                        Learning Activity Allocation
+                                                    </a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xxl-5 col-sm-12 mb-2">
+                                                                <div class="search-box">
+                                                                    <input type="text" name="searchTerm"
+                                                                        class="form-control" placeholder="Search"
+                                                                        [(ngModel)]="searchLearningActivity"
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                    <i class="ri-search-line search-icon"></i>
+                                                                </div>
+                                                            </div>
+                                                            <!--end col-->
+                                                        </div>
+                                                        <div class="row" cdkDropListGroup>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group" style="padding: 10px;">
+                                                                    <label>{{'Available Learning Activities' | translate}}</label>
+                                                                    <div style="height: 400px; overflow: auto;"
+                                                                        class="example-list">
+                                                                        <div class="align-items-center d-flex example-box"
+                                                                            *ngFor="let item of learningActivitiesData | filter: searchLearningActivity;let i=index">
+                                                                            <label class="mb-0 flex-grow-1">
+                                                                                P{{item.code}} - {{item.title}}</label>
+                                                                            <div class="flex-shrink-0">
+                                                                                <button
+                                                                                    class="btn btn-sm btn-outline-primary"
+                                                                                    (click)="checkLearningActivity(item)">
+                                                                                    <i class="ri-add-line"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group" style="padding: 10px">
+                                                                    <label
+                                                                        style="font-weight: bold;">{{'Selected Learning Activities' | translate}}</label>
+                                                                    <div style="height: 400px; overflow: auto;"
+                                                                        cdkDropList
+                                                                        [cdkDropListData]="learningActivitiesCheckData"
+                                                                        class="example-list"
+                                                                        (cdkDropListDropped)="dropLearningActivity($event)">
+                                                                        <div class="example-box ribbon-box ribbon-fill right"
+                                                                            *ngFor="let item of learningActivitiesCheckData;let i=index"
+                                                                            cdkDrag>
+                                                                            <div class="align-items-center d-flex">
+                                                                                <label class="mb-0 flex-grow-1">
+                                                                                    P{{item.code}} -
+                                                                                    {{item.title}}</label>
+                                                                                <div class="flex-shrink-0">
+                                                                                    <label
+                                                                                        style="margin-right: 10px;"></label>
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-outline-danger"
+                                                                                        (click)="deleteLearningActivity(i)">
+                                                                                        <i
+                                                                                            class="ri-delete-bin-line"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                                <button type="button"
+                                                                    class="btn btn-light btn-label previestab"
+                                                                    (click)="activeId = 1;"><i
+                                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                                                    Previous</button>
+                                                                <button type="button" [disabled]="loader"
+                                                                    class="btn btn-success btn-label right ms-auto nexttab"
+                                                                    (click)="assignLearningActivity()"><i
+                                                                        class="ri-check-line label-icon align-middle fs-16 ms-2"></i>Assign</button>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                                <li [ngbNavItem]="3">
+                                                    <a ngbNavLink class="nav-link">
+                                                        Course Allocation
+                                                    </a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xxl-5 col-sm-12 mb-2">
+                                                                <div class="search-box">
+                                                                    <input type="text" name="searchTerm"
+                                                                        class="form-control" placeholder="Search"
+                                                                        [(ngModel)]="searchCourse"
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                    <i class="ri-search-line search-icon"></i>
+                                                                </div>
+                                                            </div>
+                                                            <!--end col-->
+                                                        </div>
+                                                        <div class="row" cdkDropListGroup>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group" style="padding: 10px;">
+                                                                    <label>{{'Available Courses' | translate}}</label>
+                                                                    <div style="height: 400px; overflow: auto;"
+                                                                        class="example-list">
+                                                                        <div class="align-items-center d-flex example-box"
+                                                                            *ngFor="let item of coursesData | filter: searchCourse;let i=index">
+                                                                            <label class="mb-0 flex-grow-1">
+                                                                                C{{item.code}} - {{item.title}}</label>
+                                                                            <div class="flex-shrink-0">
+                                                                                <button
+                                                                                    class="btn btn-sm btn-outline-primary"
+                                                                                    (click)="checkCourse(item)">
+                                                                                    <i class="ri-add-line"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group" style="padding: 10px">
+                                                                    <label
+                                                                        style="font-weight: bold;">{{'Selected Courses' | translate}}</label>
+                                                                    <div style="height: 400px; overflow: auto;"
+                                                                        cdkDropList [cdkDropListData]="coursesCheckData"
+                                                                        class="example-list"
+                                                                        (cdkDropListDropped)="dropCourse($event)">
+                                                                        <div class="example-box ribbon-box ribbon-fill right"
+                                                                            *ngFor="let item of coursesCheckData;let i=index"
+                                                                            cdkDrag>
+                                                                            <div class="ribbon ribbon-success">
+                                                                                {{i+1}}
+                                                                            </div>
+                                                                            <div class="align-items-center d-flex">
+                                                                                <label class="mb-0 flex-grow-1">
+                                                                                    C{{item.code}} -
+                                                                                    {{item.title}}</label>
+                                                                                <div class="flex-shrink-0">
+                                                                                    <label
+                                                                                        style="margin-right: 10px;"></label>
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-outline-danger"
+                                                                                        style="margin-right:40px"
+                                                                                        (click)="deleteCourse(i)">
+                                                                                        <i
+                                                                                            class="ri-delete-bin-line"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                                <button type="button" class="btn btn-light btn-label"
+                                                                    (click)="activeId = 1;"><i
+                                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                                                    Previous</button>
+                                                                <button type="button" [disabled]="loader" class="btn btn-success btn-label right ms-auto
+                                                  nexttab" (click)="assignCourse()"><i
+                                                                        class="ri-check-line label-icon align-middle fs-16 ms-2"></i>Assign</button>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                                <li [ngbNavItem]="4">
+                                                    <a ngbNavLink class="nav-link">
+                                                        Module Allocation
+                                                    </a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="row mt-2">
+                                                            <div class="col-xxl-5 col-sm-12 mb-2">
+                                                                <div class="search-box">
+                                                                    <input type="text" name="searchTerm"
+                                                                        class="form-control" placeholder="Search"
+                                                                        [(ngModel)]="searchModule"
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                    <i class="ri-search-line search-icon"></i>
+                                                                </div>
+                                                            </div>
+                                                            <!--end col-->
+                                                        </div>
+                                                        <div class="row" cdkDropListGroup>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group" style="padding: 10px;">
+                                                                    <label>{{'Available Modules' | translate}}</label>
+                                                                    <div style="height: 400px; overflow: auto;"
+                                                                        class="example-list">
+                                                                        <div class="align-items-center d-flex example-box"
+                                                                            *ngFor="let item of modulesData | filter: searchModule;let i=index">
+                                                                            <label class="mb-0 flex-grow-1">
+                                                                                M{{item.code}} - {{item.title}}</label>
+                                                                            <div class="flex-shrink-0">
+                                                                                <button
+                                                                                    class="btn btn-sm btn-outline-primary"
+                                                                                    (click)="checkModule(item)">
+                                                                                    <i class="ri-add-line"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group" style="padding: 10px">
+                                                                    <label
+                                                                        style="font-weight: bold;">{{'Selected Modules' | translate}}</label>
+                                                                    <div style="height: 400px; overflow: auto;"
+                                                                        cdkDropList [cdkDropListData]="modulesCheckData"
+                                                                        class="example-list"
+                                                                        (cdkDropListDropped)="dropModule($event)">
+                                                                        <div class="example-box ribbon-box ribbon-fill right"
+                                                                            *ngFor="let item of modulesCheckData;let i=index"
+                                                                            cdkDrag>
+                                                                            <div class="ribbon ribbon-success">
+                                                                                {{i+1}}
+                                                                            </div>
+                                                                            <div class="align-items-center d-flex">
+                                                                                <label class="mb-0 flex-grow-1">
+                                                                                    M{{item.code}} -
+                                                                                    {{item.title}}</label>
+                                                                                <div class="flex-shrink-0">
+                                                                                    <label
+                                                                                        style="margin-right: 10px;"></label>
+                                                                                    <button
+                                                                                        class="btn btn-sm btn-outline-danger"
+                                                                                        style="margin-right:40px"
+                                                                                        (click)="deleteModule(i)">
+                                                                                        <i
+                                                                                            class="ri-delete-bin-line"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex align-items-start gap-3 mt-4">
+                                                                <button type="button"
+                                                                    class="btn btn-light btn-label previestab"
+                                                                    (click)="activeId = 1;"><i
+                                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                                                    Previous</button>
+                                                                <button type="button" [disabled]="loader" class="btn btn-success btn-label right ms-auto
+                                                                    nexttab" (click)="assignModule()"><i
+                                                                        class="ri-check-line label-icon align-middle fs-16 ms-2"></i>Assign</button>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div [ngbNavOutlet]="Allocation"></div>
+                                            </div>
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- end nav -->
+                            <!-- <div class="mt-2">
+                                <span *ngFor="let "><b>1.</b></span>
+                            </div> -->
+                        </div> <!-- end col-->
+                        <div class="col-lg-9">
+                            <div class="px-lg-4">
+                                <div class="tab-content">
+                                    <div [ngbNavOutlet]="customNav"></div>
+                                </div>
+                                <!-- end tab content -->
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #fullScreenModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="varyingcontentModalLabel">New message</h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <ul ngbNav #allocation="ngbNav" [activeId]="activeId" class="nav flex-column custom-nav nav-pills"
+            role="tablist">
+            <li [ngbNavItem]="1" class="nav-item">
+                <a ngbNavLink class="nav-link">
+                    Program
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="table-responsive mb-2" style="height: 400px; overflow: auto;">
+                        <table class="table table-nowrap table-striped">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th>{{'Program Name' | translate}}</th>
+                                    <th>{{'Date' | translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of employeesData;let i = index">
+                                    <td>
+                                        <div class="form-check">
+                                            <input type="checkbox" [checked]="checkEmpCheck(item._id)" id="emp{{i}}"
+                                                (change)="checkEmployee($event,i)" class="form-check-input">
+                                        </div>
+                                    </td>
+                                    <td>{{item.employeeCode}}</td>
+                                    <td>{{item.salutation}}
+                                        {{item.firstName}} {{item.lastName}}
+                                    </td>
+                                    <td>{{item.department}}</td>
+                                    <td>{{(item.groupDetails == undefined || item.groupDetails == '')?'':item.groupDetails[0].name}}
+                                    </td>
+                                    <td class="text-center">
+                                        <ul class="list-inline hstack gap-2 mb-0">
+                                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                <a (click)="openEmpViewModal(fullScreenModal,item._id)"
+                                                    class="text-primary d-inline-block edit-item-btn">
+                                                    <i class="ri-eye-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2" class="nav-item">
+                <a ngbNavLink class="nav-link">
+                    Course
+                </a>
+                <ng-template ngbNavContent>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="3" class="nav-item">
+                <a ngbNavLink class="nav-link">
+                    Module
+                </a>
+                <ng-template ngbNavContent>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="4" class="nav-item">
+                <a ngbNavLink class="nav-link">
+                    Learning Activity
+                </a>
+                <ng-template ngbNavContent>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div [ngbNavOutlet]="allocation"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Back</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+    </div>
+</ng-template>

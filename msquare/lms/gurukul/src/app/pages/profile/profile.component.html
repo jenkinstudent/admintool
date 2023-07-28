@@ -1,0 +1,504 @@
+<app-breadcrumbs title="{{'Profile' | translate}}"></app-breadcrumbs>
+
+<div class="row project-wrapper">
+
+    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 h-100">
+        <div class="p-2">
+            <div class="card m-4" style="background-color: #fff;box-shadow:unset;margin-top: 5px;margin-bottom: unset;">
+                <div class="card-body p-4">
+                    <img src="assets/images/Profile.jpg" width="100%"><br><br>
+                    <div class="card mb-0" style="box-shadow: unset;border:1px solid #e0e0e0;">
+                        <div class="row" style="margin-left: unset; margin-right:unset;">
+                            <div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-xs-12">
+                                <div class="card team-box" style="padding:unset; box-shadow: unset;">
+                                    <div class=" profile-user avatar-lg img-thumbnail rounded-circle">
+                                        <img src="{{user.profilephoto}}"
+                                            onerror="this.src='assets/images/users/user.png';"
+                                            class="rounded-circle img-fluid userprofile" alt="" style="width: 5.5rem;
+                                            height: 5.5rem;">
+                                        <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                            <!-- <input  id="profile-img-file-input" type="file"
+                                                class="profile-img-file-input"> -->
+                                            <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                                <span class="avatar-title rounded-circle bg-light text-body" (click)="openModal(dataModal)"><i
+                                                        class="ri-camera-fill"></i></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-4"
+                                        style="border: 1px solid #e0e0e0; margin-top: 100px !important;">
+                                        <h5 class="fs-16 mb-1 mt-4 text-center fw-bold"
+                                            style="text-transform:capitalize;">
+                                            {{(authS.currentUserValue.salutation).toLowerCase()}} {{(authS.currentUserValue.firstName).toLowerCase()}}
+                                            {{(authS.currentUserValue.lastName).toLowerCase()}}
+                                        </h5>
+                                        <p class="text-muted mb-1 text-center">
+                                            {{(user.designation == undefined || user.designation == '')?'-':user.designation}}
+                                        </p>
+                                        <div class="row mb-2">
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0"
+                                                    style="font-size: 12px;">{{'Mobile No.' | translate}} -</label>
+                                            </div>
+                                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;padding-right: unset;">
+                                                <input type="number" readonly value="{{authS.currentUserValue.mobile}}"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0"
+                                                    style="font-size: 12px;">{{'Whatsapp No.' | translate}} -</label>
+                                            </div>
+                                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;padding-right: unset;">
+                                                <input type="number" readonly
+                                                    value="{{authS.currentUserValue.whatsappNo}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0" style="font-size: 12px;">{{'Email ID' | translate}}
+                                                    -</label>
+                                            </div>
+                                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;padding-right: unset;">
+                                                <input readonly value="{{authS.currentUserValue.email}}"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0"
+                                                    style="font-size: 12px;">{{'Department' | translate}} -</label>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;">
+                                                <input readonly value="{{user.department}}" class="form-control">
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0"
+                                                    style="font-size: 12px;">{{'Designation' | translate}} -</label>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;padding-right: unset;">
+                                                <input readonly value="{{user.designation}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0" style="font-size: 12px;">{{'Branch' | translate}}
+                                                    -</label>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;">
+                                                <input readonly value="{{user.branch}}" class="form-control">
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0" style="font-size: 12px;">{{'State' | translate}}
+                                                    -</label>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;padding-right: unset;">
+                                                <input readonly value="{{user.stateEmp}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0" style="font-size: 12px;">{{'DOB' | translate}}
+                                                    -</label>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;">
+                                                <input readonly value="{{user.dob | date:'dd-MM-yyyy'}}"
+                                                    class="form-control">
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-left: unset; display: flex;
+                                                align-items: center;">
+                                                <label class="mb-0" style="font-size: 12px;">{{'DOJ' | translate}}
+                                                    -</label>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                                                style="padding-left: unset;padding-right: unset;">
+                                                <input readonly value="{{user.createdAt | date:'dd-MM-yyyy'}}"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end card-->
+                            </div>
+                            <div class="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-xs-12">
+                                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-tabs mt-3 mb-1">
+                                    <li [ngbNavItem]="1">
+                                        <a ngbNavLink>
+                                            {{'Update Contact Details' | translate}}
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <div class="m-2">
+                                                <div class="row">
+                                                    <div class="col-lg-8 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <div class="form-icon">
+                                                            <input type="email" class="form-control"
+                                                            placeholder="{{'Email' | translate}}" [(ngModel)]="email"
+                                                            style="padding:0.3rem 0.9rem 0.3rem 2.5rem;">
+                                                            <i class="ri-mail-line align-middle" style="font-size:medium;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+
+                                                    </div>
+                                                    <div class="col-lg-8 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <div class="form-icon">
+                                                            <input type="text" class="form-control"
+                                                            placeholder="{{'Mobile No.' | translate}}"
+                                                            mask="000-000-0000" [(ngModel)]="mobile"
+                                                            style="padding:0.3rem 0.9rem 0.3rem 2.5rem;">
+                                                            <i class="ri-phone-line align-middle" style="font-size:medium;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+
+                                                    </div>
+                                                    <div class="col-lg-8 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <div class="form-icon">
+                                                            <input type="text" class="form-control"
+                                                            placeholder="{{'Whatsapp No.' | translate}}"
+                                                            mask="000-000-0000" [(ngModel)]="whatsapp"
+                                                            style="padding:0.3rem 0.9rem 0.3rem 2.5rem;">
+                                                            <i class="ri-whatsapp-line align-middle" style="font-size:medium;"></i>
+                                                        </div>
+                                                       
+                                                    </div>
+                                                    <div class="col-lg-4 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+
+                                                    </div>
+                                                    <div class="col-lg-8 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2"
+                                                        *ngIf="departmentCount < 1">
+                                                        <ng-select [(ngModel)]="department"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                            <ng-option value="" disabled="">{{'Department' | translate}}
+                                                            </ng-option>
+                                                            <ng-option value="Management">Management</ng-option>
+                                                            <ng-option value="Recovery And Collection">Recovery And
+                                                                Collection</ng-option>
+                                                            <ng-option value="Business Operations">Business Operations
+                                                            </ng-option>
+                                                            <ng-option value="Credit And Operations">Credit And
+                                                                Operations</ng-option>
+                                                            <ng-option value="Credit">Credit</ng-option>
+                                                            <ng-option value="Finance & Accounts">Finance & Accounts
+                                                            </ng-option>
+                                                            <ng-option value="Internal Audit">Internal Audit</ng-option>
+                                                            <ng-option value="Finance & Treasury">Finance & Treasury
+                                                            </ng-option>
+                                                            <ng-option value="Operations">Operations</ng-option>
+                                                            <ng-option value="Company Secretary">Company Secretary
+                                                            </ng-option>
+                                                            <ng-option value="Back Office Operations">Back Office
+                                                                Operations</ng-option>
+                                                            <ng-option value="Information Technology">Information
+                                                                Technology</ng-option>
+                                                            <ng-option value="Administration">Administration</ng-option>
+                                                            <ng-option value="SPM & CSR">SPM & CSR</ng-option>
+                                                            <ng-option value="Learning and Development">Learning and
+                                                                Development</ng-option>
+                                                            <ng-option value="Human Resources">Human Resources
+                                                            </ng-option>
+                                                            <ng-option value="Fraud Control Unit">Fraud Control Unit
+                                                            </ng-option>
+                                                            <ng-option value="Product And Strategy">Product And Strategy
+                                                            </ng-option>
+                                                            <ng-option value="Sales And Distribution">Sales And
+                                                                Distribution</ng-option>
+                                                            <ng-option value="Collection And Legal Recovery">Collection
+                                                                And Legal Recovery</ng-option>
+                                                            <ng-option value="Policy And Hindsighting">Policy And
+                                                                Hindsighting</ng-option>
+                                                            <ng-option value="Fraud Prevention Unit">Fraud Prevention
+                                                                Unit</ng-option>
+                                                            <ng-option value="Risk Management">Risk Management
+                                                            </ng-option>
+                                                            <ng-option value="Corporate Communication">Corporate
+                                                                Communication</ng-option>
+                                                            <ng-option value="Business excellence">Business excellence
+                                                            </ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="col-lg-4 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2"
+                                                        *ngIf="departmentCount < 1">
+
+                                                    </div>
+                                                    <div class="col-lg-8 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2"
+                                                        *ngIf="designationCount < 1">
+                                                        <ng-select [(ngModel)]="designation"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                            <ng-option value="" disabled="">
+                                                                {{'Designation' | translate}}</ng-option>
+                                                            <ng-option value="Chief Executive Officer">Chief Executive
+                                                                Officer</ng-option>
+                                                            <ng-option value="Sr Assistant Vice President">Sr Assistant
+                                                                Vice President</ng-option>
+                                                            <ng-option value="Senior Branch Manager">Senior Branch
+                                                                Manager</ng-option>
+                                                            <ng-option value="Sr Relationship Officer">Sr Relationship
+                                                                Officer</ng-option>
+                                                            <ng-option value="Senior Divisional Manager">Senior
+                                                                Divisional Manager</ng-option>
+                                                            <ng-option value="Divisional Manager">Divisional Manager
+                                                            </ng-option>
+                                                            <ng-option value="Deputy Vice President">Deputy Vice
+                                                                President</ng-option>
+                                                            <ng-option value="Senior Manager">Senior Manager</ng-option>
+                                                            <ng-option value="Deputy Manager">Deputy Manager</ng-option>
+                                                            <ng-option value="Senior Area Manager">Senior Area Manager
+                                                            </ng-option>
+                                                            <ng-option value="Regional Manager">Regional Manager
+                                                            </ng-option>
+                                                            <ng-option value="Assistant Vice President">Assistant Vice
+                                                                President</ng-option>
+                                                            <ng-option value="Area Manager">Area Manager</ng-option>
+                                                            <ng-option value="Sr Divisional Collection Manager">Sr
+                                                                Divisional Collection Manager</ng-option>
+                                                            <ng-option value="Manager">Manager</ng-option>
+                                                            <ng-option value="Assistant Manager">Assistant Manager
+                                                            </ng-option>
+                                                            <ng-option value="Senior Executive">Senior Executive
+                                                            </ng-option>
+                                                            <ng-option value="Vice President">Vice President</ng-option>
+                                                            <ng-option value="Branch Manager">Branch Manager</ng-option>
+                                                            <ng-option value="Sr Collection Officer">Sr Collection
+                                                                Officer</ng-option>
+                                                            <ng-option value="Assistant Branch Manager">Assistant Branch
+                                                                Manager</ng-option>
+                                                            <ng-option value="Divisional Collection Manager">Divisional
+                                                                Collection Manager</ng-option>
+                                                            <ng-option value="Executive">Executive</ng-option>
+                                                            <ng-option value="Senior Vice President">Senior Vice
+                                                                President</ng-option>
+                                                            <ng-option value="Senior Credit Officer">Senior Credit
+                                                                Officer</ng-option>
+                                                            <ng-option value="Data Entry Operator">Data Entry Operator
+                                                            </ng-option>
+                                                            <ng-option value="Senior Audit Officer">Senior Audit Officer
+                                                            </ng-option>
+                                                            <ng-option value="Assistant Collection Manager">Assistant
+                                                                Collection Manager</ng-option>
+                                                            <ng-option value="Collection Manager">Collection Manager
+                                                            </ng-option>
+                                                            <ng-option value="Chief Financial Officer">Chief Financial
+                                                                Officer</ng-option>
+                                                            <ng-option value="Sr Collection Manager">Sr Collection
+                                                                Manager</ng-option>
+                                                            <ng-option value="Cashier">Cashier</ng-option>
+                                                            <ng-option value="Credit Officer">Credit Officer</ng-option>
+                                                            <ng-option value="Relationship Officer">Relationship Officer
+                                                            </ng-option>
+                                                            <ng-option value="Collection Officer">Collection Officer
+                                                            </ng-option>
+                                                            <ng-option value="Business Development Officer">Business
+                                                                Development Officer</ng-option>
+                                                            <ng-option value="Business Development Manager">Business
+                                                                Development Manager</ng-option>
+                                                            <ng-option value="Sr Business Development Officer">Sr
+                                                                Business Development Officer</ng-option>
+                                                            <ng-option value="Audit Officer">Audit Officer</ng-option>
+                                                            <ng-option value="Central Credit Manager">Central Credit
+                                                                Manager</ng-option>
+                                                            <ng-option value="Chief Risk Officer">Chief Risk Officer
+                                                            </ng-option>
+                                                            <ng-option value="Officer - Collection and Recovery">Officer
+                                                                - Collection and Recovery</ng-option>
+                                                            <ng-option value="Management Trainee">Management Trainee
+                                                            </ng-option>
+                                                            <ng-option value="Chief Human Resource Officer">Chief Human
+                                                                Resource Officer</ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="col-lg-4 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2"
+                                                        *ngIf="designationCount < 1">
+
+                                                    </div>
+                                                    <div class="col-lg-8 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <button class="btn btn-primary btn-sm"
+                                                            (click)="saveChanges()">{{'Save Changes' | translate}}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </li>
+                                    <li [ngbNavItem]="2">
+                                        <a ngbNavLink class="change-pass">
+                                            {{'Change Password' | translate}}
+                                        </a>
+                                        <ng-template ngbNavContent>
+                                            <div class="m-2">
+                                                <div class="row">
+                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2"
+                                                        style="display: flex;
+                                                    align-items: center;">
+                                                        <label class="mb-0"
+                                                            style="font-size: 12px;">{{'Current Password' | translate}}</label>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <input type="password" class="form-control"
+                                                            [(ngModel)]="currentPassword"
+                                                            style="padding:0.3rem 0.9rem;">
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2"
+                                                        style="display: flex;
+                                                    align-items: center;">
+                                                        <label class="mb-0"
+                                                            style="font-size: 12px;">{{'New Password' | translate}}</label>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <input type="password" class="form-control"
+                                                            [(ngModel)]="newPassword" style="padding:0.3rem 0.9rem;">
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2"
+                                                        style="display: flex;
+                                                    align-items: center;">
+                                                        <label class="mb-0"
+                                                            style="font-size: 12px;">{{'Confirm Password' | translate}}</label>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <input type="password" class="form-control"
+                                                            [(ngModel)]="confirmPassword"
+                                                            style="padding:0.3rem 0.9rem;">
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+
+                                                    </div>
+                                                    <div class="col-lg-8 col-xl-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                                        <button class="btn btn-primary btn-sm"
+                                                            (click)="changePassword()">{{'Save Changes' | translate}}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                                <div class="tab-content  text-muted">
+                                    <div [ngbNavOutlet]="nav"></div>
+                                </div>
+                                <div class="card mt-3" *ngIf="user.photoStatus == 'Pending'" style="background-color: #fff;box-shadow:unset;margin-top: 5px;margin-bottom: unset;border:1px solid #e0e0e0;">
+                                    <div class="card-header">
+                                        <span class="card-title">Profile Photo Status</span>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Photo</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="border-bottom-width: unset;">
+                                                        <div class=" avatar-lg img-thumbnail rounded-circle" style="position: unset;transform: unset;margin: unset;">
+                                                            <img src="{{user.dummyphoto}}"
+                                                                class="rounded-circle" alt="" style="width: 5.5rem;
+                                                                height: 5.5rem;">
+                                                        </div>
+                                                    </td>
+                                                    <td><span class="badge badge-outline-warning">Pending</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<ng-template #dataModal let-modal>
+    <div class="d-flex align-items-center bg-primary bg-gradient p-3 offcanvas-header">
+        <h5 class="m-0 me-2 text-white">Mark Resolved</h5>
+        <button type="button" class="btn-close btn-close-white ms-auto " data-bs-dismiss="offcanvas" aria-label="Close"
+        (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body p-5 py-2">
+        <div class="d-flex" sty>
+            <div class="flex-grow-1 text-center" [style]="(getPlatform() == 'android')?'border-right: 1px dashed lightgray;':''">
+                <label for="choosefile" class="profile-photo-edit" (click)="inputFileClick()">
+                    <button class="btn btn-outline-primary">Choose File</button>
+                </label>
+                <input type="file" id="choosefile" style="display: none;" (change)="fileChangeEvent($event)" #profilePhotoFile />
+            </div>
+            <div class="flex-grow-1 text-center" *ngIf="getPlatform() == 'android'">
+                <button (click)="capturePhoto()" class="btn btn-outline-primary">Capture Photo</button>
+            </div>
+        </div>
+    
+        
+        <image-cropper *ngIf="!capturePhotoS"
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [containWithinAspectRatio]="containWithinAspectRatio"
+            [aspectRatio]="1 / 1"
+            [resizeToWidth]="256"
+            [cropperMinWidth]="128"
+            [onlyScaleDown]="true"
+            [roundCropper]="true"
+            [canvasRotation]="canvasRotation"
+            [transform]="transform"
+            [alignImage]="'left'"
+            [style.display]="showCropper ? null : 'none'"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded()"
+            (cropperReady)="cropperReady($event)"
+            (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+        <image-cropper *ngIf="capturePhotoS"
+        [imageBase64]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [containWithinAspectRatio]="containWithinAspectRatio"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="256"
+        [cropperMinWidth]="128"
+        [onlyScaleDown]="true"
+        [roundCropper]="true"
+        [canvasRotation]="canvasRotation"
+        [transform]="transform"
+        [alignImage]="'left'"
+        [style.display]="showCropper ? null : 'none'"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady($event)"
+        (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" (click)="closeModal()" data-dismiss="modal" >{{'Close' | translate}}</button>
+        <button type="button" class="btn btn-success" (click)="uploadDoc()" data-dismiss="modal">{{'Update' | translate}}</button>
+    </div>
+</ng-template>

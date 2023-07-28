@@ -1,0 +1,211 @@
+<app-breadcrumbs isBack="Yes" title="{{'Top 100 Winners'| translate}}" name="{{questionBankTitle}}"></app-breadcrumbs>
+
+
+<div class="row project-wrapper">
+    <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 h-100" style="padding: unset;">
+        <app-topsidebar></app-topsidebar>
+    </div>
+    <div class="col-xxl-10 col-xl-10 col-lg-9 col-md-9 col-sm-12 col-xs-12 h-100" >
+        <ul ngbNav #ModifierCustom="ngbNav" [activeId]="5" class="nav nav-pills nav-customs nav-danger mt-2">
+            <li [ngbNavItem]="1" style="margin-right: 10px">
+                <a ngbNavLink class="nav-link disabled" >
+                    {{'Training Module' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2" style="margin-right: 10px">
+                
+                <a ngbNavLink class="nav-link disabled">
+                    {{'Video' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="3" style="margin-right: 10px">
+                <a ngbNavLink class="nav-link disabled">
+                    {{'One Pager' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="4" style="margin-right: 10px">
+                <a ngbNavLink class="nav-link disabled">
+                    {{'Quiz' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="5" style="margin-right: 10px">
+                <a ngbNavLink class="nav-link">
+                    {{'Winners' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card mt-3" style="box-shadow: unset; background-color: #c7a95c;" *ngIf="!winners && !analytics">
+                        <div class="card-body">
+                            <div class="card mb-2" style="background:url('assets/images/winners-back.png');background-repeat: no-repeat;
+                            background-size: cover;">
+                                <div class="card-body mb-4">
+                                    <h4 class="text-white fw-semibold text-center" style="letter-spacing:1px;">{{questionBankTitle}}</h4>
+                                    <h6 class="text-white fw-semibold text-center" style="letter-spacing:1px;">{{openingDate | date:'LLLL, W'}} {{'Week' | translate}}</h6>
+                                </div>
+                    
+                                <div class="grid-container1">
+                                    <ng-container *ngFor="let item of certified;let i=index">
+                                        <div class="grid-item1" *ngIf="i < 10 && item.top10">
+                                            <div class="text-center">
+                                                <div class="profile-user position-relative d-inline-block mx-auto mb-2">
+                                                    <img onerror="this.src='assets/images/users/user.png';" src="{{item.employeeId?.profilephoto}}" alt="user-profile-image" class="rounded-circle avatar-lg img-thumbnail user-profile-image">
+                                                    <div class="avatar-sm p-0 rounded-circle profile-photo-edit">
+                                                        <label class="profile-photo-edit avatar-sm">
+                                                           <img src="assets/images/1.png" style="width: 100%;" *ngIf="i == 0">
+                                                           <img src="assets/images/2.png" style="width: 100%;" *ngIf="i == 1">
+                                                           <img src="assets/images/3.png" style="width: 100%;" *ngIf="i == 2">
+                                                           <img src="assets/images/4.png" style="width: 100%;" *ngIf="i == 3">
+                                                           <img src="assets/images/5.png" style="width: 100%;" *ngIf="i == 4">
+                                                           <img src="assets/images/6.png" style="width: 100%;" *ngIf="i == 5">
+                                                           <img src="assets/images/7.png" style="width: 100%;" *ngIf="i == 6">
+                                                           <img src="assets/images/8.png" style="width: 100%;" *ngIf="i == 7">
+                                                           <img src="assets/images/9.png" style="width: 100%;" *ngIf="i == 8">
+                                                           <img src="assets/images/10.png" style="width: 100%;" *ngIf="i == 9">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <h5 class="text-white fs-12 fw-semibold mb-1" style="letter-spacing: 1px;">{{item.employeeId.firstName}} {{item.employeeId.lastName}} <br>{{item.employeeId.designation}} - {{item.employeeId.department}}</h5>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                            <button class="btn btn-sm" style="background-color: #9d2d29; color:white;" (click)="winners = true;">{{'Click here for TOP 100 Winners' | translate}}</button>
+                        </div>
+                        </div> 
+                    </div>
+                    <div class="card mt-3 pb-2" style="box-shadow: unset;" *ngIf="winners && !analytics">
+                        <div class="card-body mb-0" *ngIf="!resultAnnouncing">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <div class="card certified" style="background-color:#cd5e29;padding: 10px;">
+                                        <h5 style="margin: 2px 10px;" class="fs-12 fw-bold text-white">{{'Top 100 Winners'|translate}} of <br>{{questionBankTitle}}</h5>
+                                    </div>
+                                    <img src="assets/images/new/leftEmp.png" style="width: 70px; ">
+                                   
+                                </div>
+                                <div class="flex-grow-1" style="text-align: right;">
+                                    <div class="card totalP" style="background-color:#cd5e29;padding: 10px;">
+                                        <h5 style="margin: 5px 10px;" class="fs-12 fw-bold text-white">{{'Total Participants' | translate}} - <span class="fs-18">{{certified.length}}</span></h5>
+                                    </div>
+                                    <img src="assets/images/new/rightEmp.png" style="width: 70px; ">
+                                </div>
+                            </div>
+                    
+                            <div class="row mt-3">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered table-striped">
+                                            <thead class="bg-dark text-light ">
+                                                <tr>
+                                                    <th class="text-center">{{'Rank' | translate}}</th>
+                                                    <th class="text-center">{{'Employee Name' | translate}}</th>
+                                                    <th class="text-center">{{'Designation' | translate}}</th>
+                                                    <th class="text-center">{{'Department' | translate}}</th>
+                                                    <th class="text-center">{{'Branch' | translate}}</th>
+                                                    <th class="text-center">{{'State' | translate}}</th>
+                                                    <th class="text-center">{{'Exam Start Time' | translate}}</th>
+                                                    <th class="text-center">{{'Time Taken' | translate}}</th>
+                                                    <th class="text-center">{{'Exam End Time' | translate}}</th>
+                                                    <th class="text-center">{{'%Score' | translate}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ng-container *ngFor="let item of certified;let i = index;">
+                                                    <tr class="bg-light" *ngIf="i <100">
+                                                        <td class="text-center">{{i+1}}</td>
+                                                        <td class="text-center">{{item.employeeId?.firstName}} {{item.employeeId?.lastName}}</td>
+                                                        <td class="text-center">{{item.employeeId?.designation}}</td>
+                                                        <td class="text-center">{{item.employeeId?.department}}</td>
+                                                        <td class="text-center">{{item.employeeId?.branch}}</td>
+                                                        <td class="text-center">{{item.employeeId?.stateEmp}}</td>
+                                                        <td class="text-center">{{item.examStartTime | date:'dd MMM,yyyy hh:mm:ss'}}</td>
+                                                        <td class="text-center">{{item.examTime}}</td>
+                                                        <td class="text-center">{{item.quizScoreId?.createdAt | date:'dd MMM,yyyy hh:mm:ss'}}</td>
+                                                        <td class="text-center">{{item.quizScore}}%</td>
+                                                    </tr>
+                                                </ng-container>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body mb-0" *ngIf="resultAnnouncing">
+                            <div>
+                                <img src="assets/images/waitingforresult.png" style="width:200px; height:auto;display:block;margin: 0 auto;">
+                                <h6 class="text-center">Top 100 result of <b>{{resultAnnouceQuiz.title}}</b> will be declared on <b>{{resultAnnouceTime | date:'hh:mm:ss'}}</b></h6>
+                            </div>
+                        </div>
+                        <!-- <div class="text-center">
+                            <button class="btn btn-primary btn-sm" (click)="analytics = true;">{{'Know The Analytics' | translate}}</button>
+                        </div> -->
+                    </div>
+                    <!-- <div class="card mt-3 pb-2" style="box-shadow: unset;" *ngIf="winners && analytics">
+                        <div class="card-body mb-0">
+                    
+                            <div class="row mt-3">
+                                <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card" style="box-shadow: unset;
+                                    border: 1px solid #e9ebec;">
+                                        <div class="card-body">
+                                            <apx-chart *ngIf="statePieChart != undefined" [series]="statePieChart.series" [chart]="statePieChart.chart"
+                                            [labels]="statePieChart.labels" [legend]="statePieChart.legend"
+                                            [dataLabels]="statePieChart.dataLabels" [responsive]="statePieChart.responsive"
+                                            [colors]="statePieChart.colors"></apx-chart>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <h2 class="fw-bold text-dark">{{'State' | translate}}</h2>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card" style="box-shadow: unset;
+                                    border: 1px solid #e9ebec;">
+                                        <div class="card-body">
+                                            <apx-chart *ngIf="departmentPieChart != undefined" [series]="departmentPieChart.series" [chart]="departmentPieChart.chart"
+                                            [labels]="departmentPieChart.labels" [legend]="departmentPieChart.legend"
+                                            [dataLabels]="departmentPieChart.dataLabels" [responsive]="departmentPieChart.responsive"
+                                            [colors]="departmentPieChart.colors"></apx-chart>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <h2 class="fw-bold text-dark">{{'Departments' | translate}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card" style="box-shadow: unset;
+                                    border: 1px solid #e9ebec;">
+                                        <div class="card-body">
+                                            <apx-chart *ngIf="scorePieChart != undefined" [series]="scorePieChart.series" [chart]="scorePieChart.chart"
+                                            [labels]="scorePieChart.labels" [legend]="scorePieChart.legend"
+                                            [dataLabels]="scorePieChart.dataLabels" [responsive]="scorePieChart.responsive"
+                                            [colors]="scorePieChart.colors"></apx-chart>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <h2 class="fw-bold text-dark">{{'%Score' | translate}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div> -->
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content text-muted">
+            <div [ngbNavOutlet]="ModifierCustom"></div>
+        </div>
+    </div>
+ 
+</div>

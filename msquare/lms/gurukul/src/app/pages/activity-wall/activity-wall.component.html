@@ -1,0 +1,132 @@
+<app-breadcrumbs title="{{'Active Wall' | translate}}"></app-breadcrumbs>
+
+<div class="container">
+    <div class="row g-4 mb-3">
+        <div class="col-auto text-center d-none d-sm-none d-md-block" style="padding-left: unset;">
+            <div class="avatar-xl mx-auto">
+                <img src="{{profilephoto}}" style="width: 120px !important; height: 120px !important;"
+                    onerror="this.src='assets/images/users/user.png';" alt="user-img"
+                    class="img-thumbnail rounded-circle" />
+            </div>
+            <h4 class=" mb-0 fw-bold" style="text-transform:capitalize;">{{(authS.currentUserValue.salutation).toLowerCase()}} {{(authS.currentUserValue.firstName).toLowerCase()}}
+                {{(authS.currentUserValue.lastName).toLowerCase()}}</h4>
+            <p class="text-muted mb-0">{{(designation == undefined || designation == '')?'-':designation}}</p>
+        </div>
+        <div class="col" style="padding-right: unset;padding-left: unset;">
+            <div class="p-2" style="padding-right: unset !important;">
+                <ckeditor [editor]="Editor" #activeWallEditor [config]="config" [(ngModel)]="message">
+                </ckeditor>
+                <div class="row" *ngIf="images.length>0">
+                    <div class="col-md-12 mb-1">
+                        <div scrollX="true" class="wide-as-needed" scrollbar="false">
+                            <div class="category-item" *ngFor="let i of images;let index=index">
+                                <div class="category-card card">
+                                    <img src="{{i.path}}"
+                                        style="border-radius: 10px;width:100%;height: 100px;">
+
+                                    <div class="top-right"><i class="ri-close-circle-line" (click)="delete(index)"
+                                            style="color: red;font-size:20px;font-weight: 500;"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-2">
+                    <div class="flex-grow-1">
+                        <input id="file" style="display:none" (change)="uploadFile($event)" type="file" multiple
+                            accept="image/*">
+                        <label for="file"> <a class="btn btn-link me-1 fs-14 pt-0 text-dark" for="typefile"> <i
+                                    class="bx bx-images text-success me-1 "
+                                    style="font-size:18px !important; vertical-align: middle;"></i>
+                                {{'Upload Photo'  | translate}}
+                            </a></label>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <button [disabled]="loading" class="btn btn-primary btn-sm" style="padding: 0.25rem 20px !important;"
+                            (click)="createPost()">{{'Post' | translate}} </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--end col-->
+    </div>
+
+    <div class="row mb-3 pb-1">
+        <div class="col-12">
+            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1" style="text-transform:capitalize;">{{greet}}, {{(authS.currentUserValue.salutation).toLowerCase()}}
+                        {{(authS.currentUserValue.firstName).toLowerCase()}} {{(authS.currentUserValue.lastName).toLowerCase()}}!</h4>
+                    <p class="text-muted mb-0">Here's what's happening in your feed today.</p>
+                </div>
+                <div class="mt-3 mt-lg-0">
+                    <div class="form-check-inline mb-2">
+                        <input type="checkbox" id="formCheck1" [(ngModel)]="check" (change)="getMyPost($event)" class="form-check-input">
+                        <label for="formCheck1" class="form-check-label ms-2"> My Posts </label>
+                    </div>
+                    <button type="button" (click)="_fetchData()" class="btn btn-primary btn-icon "><i
+                            class="ri-refresh-line"></i></button>
+
+                </div>
+            </div><!-- end card header -->
+        </div>
+        <!--end col-->
+    </div>
+    <div class="row" *ngFor="let item of allPosts;let i=index">
+        <div class="card" style="box-shadow: unset;border: 1px solid #e0e0e0;padding: unset;margin-bottom: 0.5rem;border-radius: unset;">
+            <div class="card-body post-card">
+                <div class="d-flex align-items-center post-user">
+                    <div class="flex-shrink-0 align-self-center me-3 ms-0">
+                        <img src="{{item.userData[0].profilephoto}}"
+                            onerror="this.src='assets/images/users/user.png';" class="rounded-circle"
+                            style="height: 48px; width: 48px;" alt="">
+                    </div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <span style="float: right" *ngIf="item.userData[0]._id == authS.currentUserValue.id && item.status == 0" class="badge badge-soft-warning">Approval Pending</span>
+                        <h5 class="text-truncate mb-0 fs-14"><a
+                                class="text-reset username" style="text-transform:capitalize;"><b>{{(item.userData[0].salutation).toLowerCase()}}
+                                    {{(item.userData[0].firstName).toLowerCase()}} {{(item.userData[0].lastName).toLowerCase()}}</b>,<br>
+                                {{item.userData[0].designation}} - {{item.userData[0].department}} </a></h5>
+                        <p class="text-truncate  fs-14 mb-0 userStatus">
+                            <small>{{item.createdAt | date:'hh:mm a dd MMMM, y'}}</small></p>
+                            
+                    </div>
+                </div>
+                <p class="mt-2 mb-2 message post-message" [innerHTML]="item.message"></p>
+                <div class="row" *ngIf="item.images.length > 0">
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 " *ngFor="let i of item.images">
+                        <img class="attachment-img" (click)="openModal(dataModal,i.path)"
+                            style="width:100% !important;margin-right: 20px;margin-bottom:10px;max-width: unset;max-height: unset;"
+                            src="{{i.path}}"
+                            alt="Attachment Image">
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer p-1">
+                <button type="button" class="btn btn-light rounded-pill " style="padding:5px 30px;font-size: 16px;" (click)="createPostLikes(item._id,i)" *ngIf="!item.isLike" [disabled]="item.disabled" [ngClass]="{'disabled-button': item.disabled}">
+                    <i class="ri-heart-line align-bottom"></i> 
+                    {{(item.likes == undefined)? "":item.likes.length}}
+                </button>
+                <button type="button" class="btn btn-light rounded-pill " style="padding:5px 30px;font-size: 16px;" (click)="deletePostLikes(item._id,i)" *ngIf="item.isLike" [disabled]="item.disabled" [ngClass]="{'disabled-button': item.disabled}">
+                    <i class="ri-heart-fill align-bottom" style="color: red;"></i> 
+                    {{(item.likes == undefined)? "":item.likes.length}}
+                </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Center Modal -->
+<ng-template #dataModal let-modal>
+    <div class="modal-body" style="padding: unset;background-color: black;">
+        
+        <img src="{{imageModal}}" style="width: 100%; height: auto;display: block;" />
+        
+    </div>
+    <div class="modal-footer" style="background-color: black;">
+        <!-- Buttons Group -->
+        
+        <button type="button" class="btn btn-primary waves-effect waves-light" (click)="modalService.dismissAll()"><i class=" ri-close-circle-line fs-16"></i></button>
+    </div>
+</ng-template>

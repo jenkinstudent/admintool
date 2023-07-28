@@ -1,0 +1,836 @@
+<div class="row project-wrapper">
+    <div class="col-xxl-8">
+        <div class="grid-container">
+            <div class="grid-item">
+                <div class="card rounded rounded-2"  (click)="fullModal(fullDataModal)">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Total Zones</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{zonesL}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="card rounded rounded-2"  (click)="fullModal(fullDataModal)">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Total States</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{statesL}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="card rounded rounded-2"  (click)="fullModal(fullDataModal)">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Total Divisions</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{divisionsL}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="card rounded rounded-2"  (click)="fullModal(fullDataModal)">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Total Clusters</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{clustersL}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="card rounded rounded-2"  (click)="fullModal(fullDataModal)">
+                    <div class="card-body rounded rounded-2" style="background: #EBD5AF;">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 ms-3">
+                                <p class="text-uppercase fw-semibold fs-12 text-primary mb-1">
+                                    Total Branches</p>
+                                <h4 class="mb-0"><span class="counter-value text-dark">{{branchesL}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+            <!---->
+        <div class="row" *ngIf="authService.currentUserValue.designation.id != 'Business'">
+            <div class="col-lg-3 col-md-3">
+                <div class="d-flex align-items-lg-center flex-lg-row flex-column " >
+                    <div class="flex-grow-1">
+                        <div class="exceed position-absolute top-50 start-0 translate-middle-y ps-4">
+                            <p class="text-muted mb-0">Exceeded <span class="text-primary">(Units)</span></p>
+                            <h4 class="fs-16 mb-1">Consumptions</h4>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <ul ngbNav #ModifierCustom="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink class="nav-link">
+                            Commercial
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="card crm-widget">
+                                <div class="card-body p-0">
+                                    <div class="row row-cols-md-4 row-cols-2">
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    North Zone
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span
+                                                            >{{commercialNorth}}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    South Zone
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0">
+                                                            <span>{{commercialSouth}}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    East Zone
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{commercialEast}}</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    Central Zone
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{commercialWest}}</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!---->
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink class="nav-link">
+                            Domestic
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="card crm-widget">
+                                <div class="card-body p-0">
+                                    <div class="row row-cols-md-3 row-cols-1">
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    North Zone
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{domesticNorth}}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    South Zone
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0">
+                                                            <span>{{domesticSouth}}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg border-end">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    East Zone
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{domesticEast}}</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-lg">
+                                            <div class="py-4 px-3">
+                                                <h5 class="text-muted text-uppercase fs-13">
+                                                    Central Zone
+                                                </h5>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h2 class="mb-0"><span>{{domesticWest}}</span></h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!---->
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+                <div class="tab-content text-muted">
+                    <div [ngbNavOutlet]="ModifierCustom"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card rounded rounded-3">
+                    <div class="card-header border-bottom-0 rounded-top align-items-center d-flex rounded-3">
+                        <h4 class="card-title mb-0 flex-grow-1 text-primary">Transactions Overview</h4>
+                        <div class="flex-shrink-0">
+                            <div class="dropdown card-header-dropdown" ngbDropdown>
+                                <a class="text-reset dropdown-btn arrow-none" style="cursor: pointer;"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    ngbDropdownToggle>
+                                    <span class="text-muted">Year: {{salesSelectedName}}
+                                        <!-- <i class="mdi mdi-chevron-down ms-1"></i> -->
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                        (click)="changeYearSelection('2021')">2021</a>
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                        (click)="changeYearSelection('2020')">2020</a>
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                        (click)="changeYearSelection('2019')">2019</a>
+                                    <a class="dropdown-item" style="cursor: pointer;"
+                                        (click)="changeYearSelection('2018')">2018</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end card header -->
+
+                    <div class="card-header p-0 border-0 bg-soft-light">
+                        <div class="row g-0 text-center">
+                            <div class="col-6 col-sm-3">
+                                <div class="p-3 border border-dashed border-start-0">
+                                    <h5 class="mb-1"><span class="counter-value">{{kpi.noOfTotalTransaction}}</span></h5>
+                                    <p class="text-muted mb-0">Total Transactions</p>
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-6 col-sm-3">
+                                <div class="p-3 border border-dashed border-start-0">
+                                    <h5 class="mb-1"><span class="counter-value">{{kpi.noOfExceededTransaction}}</span></h5>
+                                    <p class="text-muted mb-0">Escalated Transactions</p>
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-6 col-sm-3">
+                                <div class="p-3 border border-dashed border-start-0">
+                                    <h5 class="mb-1">₹<span class="counter-value">{{kpi.totalTransactionAmt}}</span></h5>
+                                    <p class="text-muted mb-0">Amount Approval</p>
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-6 col-sm-3">
+                                <div class="p-3 border border-dashed border-start-0 border-end-0">
+                                    <h5 class="mb-1">₹<span class="counter-value">{{kpi.totalExceededAmt}}</span></h5>
+                                    <p class="text-muted mb-0">Exceeded Amount</p>
+                                </div>
+                            </div>
+                            <!--end col-->
+                        </div>
+                    </div><!-- end card header -->
+                    <div class="card-body p-0 pb-2">
+                        <div class="mb-n3">
+                            <apx-chart *ngIf="chart != undefined" [series]="chart.series" [chart]="chart.chart"
+                                [stroke]="chart.stroke" [fill]="chart.fill" [markers]="chart.markers"
+                                [xaxis]="chart.xaxis" [grid]="chart.grid" [legend]="chart.legend"
+                                [plotOptions]="chart.plotOptions" [colors]="chart.colors" [tooltip]="chart.tooltip">
+                            </apx-chart>
+                        </div>
+                    </div><!-- end card body -->
+                </div><!-- end card -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end col -->
+
+    <div class="col-xxl-4">
+        <div class="card card-height-100 rounded rounded-3">
+            <div class="card-header border-bottom-0 rounded-top rounded-3">
+                <h4 class="card-title mb-0 text-primary">Approvals</h4>
+            </div><!-- end cardheader -->
+            <div class="card-body pt-0">
+                <div >
+                    <div type="text" [(ngModel)]="selectedDate" (change)="onSelectedDate($event)"
+                        mwlFlatpickr [altInput]="true" [convertModelValue]="true" [inline]="true" mode="range"></div>
+                </div>
+
+                <h6 class="text-uppercase fw-semibold mt-4 mb-3 text-primary">List:</h6>
+                <!-- <div class="text-center" *ngIf="upcomingSchedulesTasks.length == 0">
+                    <span>No Event Found</span>
+                </div> -->
+                <div class="table-responsive table-card mt-2">
+                    <table class="table table-borderless table-nowrap align-middle mb-0 table-sm">
+                        <thead class="table-light text-muted">
+                            <tr>
+                                <th scope="col">Action</th>
+                                <th scope="col">Branch</th>
+                                <th scope="col">Bill No</th>
+                                <th scope="col">Voucher No</th>
+                                <th scope="col">Bill Date</th>
+                                <th scope="col">Due Date</th>
+                                <th scope="col">From Date</th>
+                                <th scope="col">To Date</th>
+                                <th scope="col">No. of Days</th>
+                                <th scope="col">Amt</th>
+                                <th scope="col">Exceeded</th>
+                                <th scope="col">Admin Approval</th>
+                                <th scope="col">Finance Approval</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr *ngFor="let item of events;let i=index">
+                                <td scope="col">
+                                    <ul class="list-inline hstack gap-0 mb-0" >
+                                        <li *ngIf="item?.adminStatus == 'Approved'"
+                                        ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                        class="list-inline-item edit me-2">
+                                        <button
+                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                            <i class="ri-message-fill fs-18"></i>
+                                        </button>
+                                    </li>
+                                    <li *ngIf="item?.adminStatus == 'Rejected'"
+                                        ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                        class="list-inline-item edit me-2">
+                                        <button
+                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                            <i class="ri-message-line fs-18"></i>
+                                        </button>
+                                    </li>
+                                    <li *ngIf="item?.financeStatus == 'Approved'"
+                                        ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                        class="list-inline-item edit me-2">
+                                        <button
+                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                            <i class="ri-message-fill fs-18"></i>
+                                        </button>
+                                    </li>
+                                    <li *ngIf="item?.financeStatus == 'Rejected'"
+                                        ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                        class="list-inline-item edit me-2">
+                                        <button
+                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                            <i class="ri-message-line fs-18"></i>
+                                        </button>
+                                    </li>
+                                        <li ngbTooltip="Details" placement="top" class="list-inline-item edit me-2" [routerLink]="['/admin/utility-transaction-details',item._id]">
+                                            <button 
+                                                class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                <i class="ri-eye-line fs-18"></i>
+                                            </button>
+                                        </li>
+
+                                        <li ngbTooltip="Activity" *ngIf="item.adminStatus != 'Rejected' " placement="top" class="list-inline-item edit me-0">
+                                            <button (click)="openModal(DataModal,item)"
+                                                class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                <i class="ri-pages-line fs-18"></i>
+                                            </button>
+                                        </li>
+                                      
+                                    </ul>
+                                </td>
+                                <td scope="col">{{item.branchCode}} - {{item.branchName}}</td>
+                                <td scope="col">{{item.billNo}}</td>
+                                <td scope="col">{{item.voucherNo}}</td>
+                                <td scope="col">{{item.date | date:"dd MMM, yyyy"}}</td>
+                                <td scope="col">{{item.dueDate | date:"dd MMM, yyyy"}}</td>
+                                <td scope="col">{{item.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                <td scope="col">{{item.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                <td scope="col">{{item.noOfDays}}</td>
+                                <td scope="col">₹ {{item.grossAmount}}</td>
+                                <td scope="col">₹ {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}</td>
+                                <td scope="col"><span *ngIf="item.adminStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                    <span ngbTooltip="Approve By {{item.adminApproved?.name}} On {{item.adminStatusDate | date:'dd MMM, yyyy'}}" placement="top"  *ngIf="item.adminStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                    <span ngbTooltip="Reject By {{item.rejectedBy?.name}} On {{item.adminStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.adminStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span></td>
+                                    <td scope="col"><span *ngIf="item.financeStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                        <span ngbTooltip="Approve By {{item.financeApproved?.name}} On {{item.financeStatusDate | date:'dd MMM, yyyy'}}" placement="top"  *ngIf="item.financeStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                        <span ngbTooltip="Reject By {{item.rejectedBy?.name}} On {{item.financeStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.financeStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="mini-stats-wid d-flex align-items-center mt-3" style="cursor: pointer;"
+                    *ngFor="let item of upcomingSchedulesTasks" [routerLink]="['/admin/tasks/details',item._id]">
+                    <div class="flex-shrink-0 avatar-sm">
+                        <span class="mini-stat-icon avatar-title rounded-circle text-success bg-soft-success fs-4">
+                            {{item.createdAt | date:'dd'}}
+                        </span>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1">{{item.title}}</h6>
+                        <p class="text-muted mb-0 desc" [innerHTML]="item.description"></p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <p class="text-muted mb-0"> {{item.createdAt | date:'hh:mm a'}} </p>
+                    </div>
+                </div> -->
+                <!-- <div class="mt-3 text-center">
+                    <a href="javascript:void(0);" class="text-muted text-decoration-underline">View all Events</a>
+                </div> -->
+
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-7">
+        <div class="card card-height-100 rounded rounded-3">
+            <div class="card-header align-items-center d-flex border-bottom-0 rounded rounded-3">
+                <h4 class="card-title mb-0 flex-grow-1 text-primary">Active Transactions</h4>
+
+            </div><!-- end card header -->
+
+            <div class="card-body">
+
+                <div class="table-responsive table-card" style="height: 300px;">
+                    <table class="table table-borderless table-nowrap align-middle mb-0 table-sm">
+                        <thead class="table-light text-muted">
+                            <tr>
+                                <th scope="col">Action</th>
+                                <th scope="col">Branch </th>
+                                <th scope="col">Utility Name </th>
+                                <th scope="col">Bill No</th>
+                                <th scope="col">Voucher No</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">From Date</th>
+                                <th scope="col">To Date</th>
+                                <th scope="col">No. of Days</th>
+                                <th scope="col">Consumption</th>
+                                <th scope="col">Bill Amt</th>
+                                <th scope="col">Exceeded</th>
+                                <th scope="col">Admin Approval</th>
+                                <th scope="col">Finance Approval</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of activeTransactions;let i=index">
+                                <tr *ngIf="item.adminStatus == 'Pending'">
+                                    <td scope="col">
+                                        <ul class="list-inline hstack gap-0 mb-0" >
+                                            <li *ngIf="item?.adminStatus == 'Approved'"
+                                                ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                                class="list-inline-item edit me-2">
+                                                <button
+                                                    class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                    <i class="ri-message-fill fs-18"></i>
+                                                </button>
+                                            </li>
+                                            <li *ngIf="item?.adminStatus == 'Rejected'"
+                                                ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                                class="list-inline-item edit me-2">
+                                                <button
+                                                    class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                    <i class="ri-message-fill fs-18"></i>
+                                                </button>
+                                            </li>
+                                            <li *ngIf="item?.financeStatus == 'Approved'"
+                                                ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                                class="list-inline-item edit me-2">
+                                                <button
+                                                    class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                    <i class="ri-message-fill fs-18"></i>
+                                                </button>
+                                            </li>
+                                            <li *ngIf="item?.financeStatus == 'Rejected'"
+                                                ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                                class="list-inline-item edit me-2">
+                                                <button
+                                                    class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                    <i class="ri-message-fill fs-18"></i>
+                                                </button>
+                                            </li>
+                                            <li ngbTooltip="Details" placement="top" class="list-inline-item edit me-2" [routerLink]="['/admin/utility-transaction-details',item._id]">
+                                                <button 
+                                                    class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                    <i class="ri-eye-line fs-18"></i>
+                                                </button>
+                                            </li>
+                                            <li ngbTooltip="Activity" *ngIf="item.adminStatus != 'Rejected' " placement="top" class="list-inline-item edit me-0">
+                                                <button (click)="openModal(DataModal,item)"
+                                                    class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                    <i class="ri-pages-line fs-18"></i>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td scope="col">{{item.branchCode}} - {{item.branchName}}</td>
+                                    <td scope="col">{{item.utility?.utility?.name}} </td>
+                                    <td scope="col">{{item.billNo}}</td>
+                                    <td scope="col">{{item.voucherNo}}</td>
+                                    <td scope="col">{{item.date | date:"dd MMM, yyyy"}}</td>
+                                    <td scope="col">{{item.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                <td scope="col">{{item.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                <td scope="col">{{item.noOfDays}}</td>
+                                    <td scope="col">{{item.consumption}}</td>
+                                    <td scope="col">₹ {{item.grossAmount}}</td>
+                                    <td scope="col">₹ {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}</td>
+                                    <td scope="col"><span *ngIf="item.adminStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                        <span ngbTooltip="Approve By {{item.adminApproved?.name}} On {{item.adminStatusDate | date:'dd MMM, yyyy'}}" placement="top"  *ngIf="item.adminStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                        <span ngbTooltip="Reject By {{item.rejectedBy?.name}} On {{item.adminStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.adminStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span></td>
+                                        <td scope="col"><span *ngIf="item.financeStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                            <span ngbTooltip="Approve By {{item.financeApproved?.name}} On {{item.financeStatusDate | date:'dd MMM, yyyy'}}" placement="top"  *ngIf="item.financeStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                            <span ngbTooltip="Reject By {{item.rejectedBy?.name}} On {{item.financeStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.financeStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span></td>
+                                </tr>
+                            </ng-container>
+                             
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-5" *ngIf="authService.currentUserValue.designation.id != 'Business'">
+        <div class="card rounded rounded-3">
+            <div class="card-header align-items-center d-flex border-bottom-0 rounded rounded-3">
+                <h4 class="card-title mb-0 flex-grow-1 text-primary">Clusters</h4>
+            </div><!-- end card header -->
+            <div class="card-body" style="height: 300px;overflow: auto;">
+                <div class="table-responsive table-card">
+                    <table class="table table-borderless table-nowrap table-centered align-middle mb-0 table-sm">
+                        <table class="table table-borderless table-nowrap align-middle mb-0 table-sm">
+                            <thead class="table-light text-muted">
+                                <tr>
+                                    <th scope="col">Cluster</th>
+                                    <th scope="col">Transaction</th>
+                                    <th scope="col">Pending</th>
+                                    <th scope="col">Completed</th>
+                                    <th scope="col">Escalated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of clusters">
+                                    <td scope="col">{{item.cluster}}</td>
+                                    <td scope="col">{{item.transaction}}</td>
+                                    <td scope="col">{{item.pending}}</td>
+                                    <td scope="col">{{item.completed}}</td>
+                                    <td scope="col">₹{{item.exceeded}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </table><!-- end table -->
+                </div>
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-7" *ngIf="authService.currentUserValue.designation.id != 'Business'">
+        <div class="card card-height-100 rounded rounded-3">
+            <div class="card-header align-items-center d-flex border-bottom-0 rounded rounded-3">
+                <h4 class="card-title mb-0 flex-grow-1 text-primary">Zones</h4>
+
+            </div><!-- end card header -->
+
+            <div class="card-body">
+
+                <div class="table-responsive table-card" style="height: 300px;">
+                    <table class="table table-borderless table-nowrap align-middle mb-0 table-sm">
+                        <thead class="table-light text-muted">
+                            <tr>
+                                <th scope="col">Zone</th>
+                                <th scope="col">Transaction</th>
+                                <th scope="col">Pending</th>
+                                <th scope="col">Completed</th>
+                                <th scope="col">Escalated</th>
+                                <!-- <th scope="col">On Hold</th>
+                                <th scope="col">TTR</th>
+                                <th scope="col">TTB</th>
+                                <th scope="col">Status</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of zones">
+                                <td scope="col">{{item.zone}}</td>
+                                <td scope="col">{{item.transaction}}</td>
+                                <td scope="col">{{item.pending}}</td>
+                                <td scope="col">{{item.completed}}</td>
+                                <td scope="col">₹{{item.exceeded}}</td>
+                                <!-- <td scope="col">05</td>
+                                <td scope="col">90</td>
+                                <td scope="col">70</td>
+                                <td scope="col">
+
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-xl-5">
+        <div class="card rounded rounded-3 card-height-100">
+            <div class="card-header align-items-center d-flex border-bottom-0 rounded rounded-3">
+                <h4 class="card-title mb-0 flex-grow-1 text-primary">Exceeded Status</h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <apx-chart *ngIf="status7 != undefined" class="apex-charts" dir="ltr" [series]="status7.series" [labels]="status7.labels"
+                    [chart]="status7.chart" [plotOptions]="status7.plotOptions" [dataLabels]="status7.dataLabels"
+                    [legend]="status7.legend" [stroke]="status7.stroke" [colors]="status7.colors"></apx-chart>
+                    <div class="mt-3">
+    
+                        <div class="d-flex justify-content-between border-bottom border-bottom-dashed py-2">
+                            <p class="fw-medium mb-0"><i class="ri-checkbox-blank-circle-fill text-danger align-middle me-2"></i> Exceeded</p>
+                            <div>
+                                <span class="text-muted pe-5">{{exceeded}}</span>
+                            </div>
+                        </div><!-- end -->
+                        <div class="d-flex justify-content-between py-2">
+                            <p class="fw-medium mb-0"><i class="ri-checkbox-blank-circle-fill text-success align-middle me-2"></i> All</p>
+                            <div>
+                                <span class="text-muted pe-5">{{all}}</span>
+                            </div>
+                        </div><!-- end -->
+                    </div>
+            </div>
+        </div><!-- end card -->
+    </div><!-- end col -->
+    <div class="col-xl-7" *ngIf="authService.currentUserValue.designation.id != 'Business'">
+        <div class="card card-height-100 rounded rounded-3">
+            <div class="card-header align-items-center d-flex border-bottom-0 rounded rounded-3">
+                <h4 class="card-title mb-0 flex-grow-1 text-primary">Active Couriers</h4>
+
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div class="table-responsive table-card" style="height: 300px;">
+                    <table class="table table-borderless table-nowrap align-middle mb-0 table-sm" >
+                      <thead class="table-light text-muted">
+                      <tr>
+                        <th style="min-width: 50px;">SR</th>
+                        <th>Invoice No.</th>
+                        <th>Vendor Name</th>
+                        <th>Total Amount</th>
+                        <th> Date</th>
+                        <th> Status</th>
+                        <th>Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let item of statCourierData;let i = index;">
+                        <td style="min-width: 50px;">{{i+1}}</td>
+                        <td>#{{item.invoiceNo}}</td>
+                        <td>{{item.vendorName}}</td>
+                        <td>{{item.totalAmount}}</td>
+                        <td>{{item.date | date:'dd MMM, yyyy'}}</td>
+                        <td><span *ngIf="item.status == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                          <span *ngIf="item.status == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                          <span *ngIf="item.status == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span></td>
+                        <td>
+                          <ul class="list-inline hstack gap-2 mb-0">
+                              <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                  data-bs-trigger="hover" ngbTooltip="View" placement="top">
+                                  <a [routerLink]="['/admin/courier-transaction-details',item._id]"
+                                      class="text-primary d-inline-block edit-item-btn">
+                                      <i class="ri-eye-fill fs-16"></i>
+                                  </a>
+                              </li>
+                          </ul>
+                        </td>
+                        
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div><!-- end col -->
+</div>
+
+
+<!-- Full screen modal content -->
+<ng-template #fullDataModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalFullscreenLabel">Statistics</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Close click')"></button>
+        </div>
+        <div class="modal-body">
+            <ul ngbNav #Modifier="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger">
+                <li [ngbNavItem]="1">
+                    <a ngbNavLink class="nav-link">
+                        Utility
+                    </a>
+                    <ng-template ngbNavContent>
+                        <div class="card"  id="tasksList">
+                            <div class="card-body border border-dashed border-end-0 border-start-0">
+                                <form>
+                                    <div class="row g-3">
+                                        <div class="col-xxl-4 col-sm-8">
+                                            <div class="search-box">
+                                                <input type="text"  name="searchTerm" class="form-control" placeholder="Search for tasks or something..." [(ngModel)]="statUtilitySearchTerm">
+                                              <i class="ri-search-line search-icon"></i>
+                                            </div>
+                                        </div>
+                                        
+                                    </div><!--end row-->
+                                </form>
+                            </div><!--end card-body-->
+                            <div class="card-body">
+                                <div class="table-responsive table-card mb-2">
+                                  <table class="table">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th scope="col">Branch </th>
+                                            <th scope="col">Cluster</th>
+                                            <th scope="col">Division </th>
+                                            <th scope="col">State </th>
+                                            <th scope="col">Zone </th>
+                                            <th scope="col">Utility Name </th>
+                                            <th scope="col">Bill No</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Consumption</th>
+                                            <th scope="col">Bill Amt</th>
+                                            <th scope="col">Exceeded</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr *ngFor="let item of statUtilityData | filter:statUtilitySearchTerm | filter:statUtilityZoneTerm | filter:statUtilityStateTerm | filter:statUtilityDivisionTerm | filter:statUtilityClusterTerm; let i=index">
+                                            <td scope="col">{{item.branch?.code}}  - {{item.branch?.name}}</td>
+                                            <td scope="col">{{item.branch?.cluster}}</td>
+                                            <td scope="col">{{item.branch?.division}}</td>
+                                            <td scope="col">{{item.branch?.state}}</td>
+                                            <td scope="col" id="utilityzone">{{item.branch?.zone}}</td>
+                                            <td scope="col">{{item.utility?.utility?.name}} </td>
+                                            <td scope="col">{{item.billNo}}</td>
+                                            <td scope="col">{{item.date | date:"dd MMM, yyyy"}}</td>
+                                            <td scope="col">{{item.consumption}}</td>
+                                            <td scope="col">₹ {{item.billAmount}}</td>
+                                            <td scope="col">₹ {{item.exceededAmt}}</td>
+                                            <td scope="col"><span *ngIf="item.adminStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                                <span *ngIf="item.adminStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                                <span *ngIf="item.adminStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span></td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                    <a ngbNavLink class="nav-link">
+                        Courier
+                    </a>
+                    <ng-template ngbNavContent>
+                        <div class="card"  id="tasksList">
+                            <div class="card-body border border-dashed border-end-0 border-start-0">
+                                <form>
+                                    <div class="row g-3">
+                                        <div class="col-xxl-4 col-sm-8">
+                                            <div class="search-box">
+                                                <input type="text"  name="searchTerm" class="form-control" placeholder="Search for tasks or something..." [(ngModel)]="statCourierSearchTerm">
+                                              <i class="ri-search-line search-icon"></i>
+                                            </div>
+                                        </div>
+                                        
+                                    </div><!--end row-->
+                                </form>
+                            </div><!--end card-body-->
+                            <div class="card-body">
+                                <div class="table-responsive table-card mb-2">
+                                  <table class="table">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th scope="col">Branch </th>
+                                            <th scope="col">Cluster</th>
+                                            <th scope="col">Division </th>
+                                            <th scope="col">State </th>
+                                            <th scope="col">Zone </th>
+                                            <th scope="col">Invoice No.</th>
+                                            <th scope="col">Vendor Name</th>
+                                            <th scope="col">Total Amount</th>
+                                            <th scope="col">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr *ngFor="let item of statCourierData | filter:statCourierSearchTerm | filter:statCourierZoneTerm | filter:statCourierStateTerm | filter:statCourierDivisionTerm | filter:statCourierClusterTerm; let i=index">
+                                            <td scope="col">{{item.branch?.code}}  - {{item.branch?.name}}</td>
+                                            <td scope="col">{{item.branch?.cluster}}</td>
+                                            <td scope="col">{{item.branch?.division}}</td>
+                                            <td scope="col">{{item.branch?.state}}</td>
+                                            <td scope="col" id="utilityzone">{{item.branch?.zone}}</td>
+                                            <td scope="col">#{{item.invoiceNo}}</td>
+                                            <td scope="col">{{item.vendorName}}</td>
+                                            <td scope="col">{{item.totalAmount}}</td>
+                                            <td scope="col">{{item.date | date:'dd MMM, yyyy'}}</td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>
+            </ul>
+            <div class="tab-content text-muted">
+                <div [ngbNavOutlet]="Modifier"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="javascript:void(0);" class="btn btn-link link-success fw-medium" data-bs-dismiss="modal" (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</a>
+        </div>
+    </div><!-- /.modal-content -->
+  </ng-template><!-- /.modal-dialog -->
+
+
+
+<ng-template #DataModal let-modal>
+    <app-tracking-modal  type="utility" id="{{item._id}}"></app-tracking-modal>
+</ng-template>

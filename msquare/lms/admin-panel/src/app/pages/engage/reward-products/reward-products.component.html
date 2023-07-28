@@ -1,0 +1,115 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Reward Products" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control" placeholder="Search"
+                                    [(ngModel)]="searchTerm">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+
+                        <div class="col-xxl-7 col-sm-12 flex items-end">
+                            <div class="text-md-right float-md-end ">
+                                <ul class="pagination">
+
+                                    <li class="page-item me-2">
+                                        <button type="button" (click)="getData()"
+                                            class="btn btn-outline-primary btn-icon waves-effect waves-light"><i
+                                                class=" ri-refresh-line"></i></button>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        <button type="button"
+                                            [routerLink]="['action/create']"
+                                            class="btn btn-primary waves-effect waves-light">Create</button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th>{{'SR' | translate}}</th>
+                                <th>{{'Name' | translate}}</th>
+                                <th>{{'Points' | translate}}</th>
+                                <th>{{'Photo' | translate}}</th>
+                                <th>{{'Status' | translate}}</th>
+                                <th>{{'Action' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data | search:searchTerm; let i = index">
+                                <td class="text-muted">{{i+1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.points}}</td>
+                                <td>
+                                    <div>
+                                        <a  (click)="showModal(dataModal,item.photo)" style="cursor: zoom-in;">
+                                          <img src="{{item.photo}}" style="width: 50px">
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="form-check form-switch form-switch-success form-switch-md"
+                                        style="text-align: center;">
+                                        <input type="checkbox" [checked]="item.status == '1'"
+                                            (click)="changeStatus(item,$event)" class="form-check-input">
+                                    </div>
+                                </td>
+                                <td>
+                                    <ul class="list-inline hstack gap-2 mb-0">
+                                        <li data-bs-toggle="tooltip" data-bs-trigger="hover" ngbtooltip="Edit"
+                                            placement="top" class="list-inline-item edit">
+                                            <a class="text-primary d-inline-block edit-item-btn"
+                                                (click)="editData(item._id)" style="cursor: pointer;">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                        <li data-bs-toggle="tooltip" data-bs-trigger="hover" ngbtooltip="Edit"
+                                            placement="top" class="list-inline-item edit">
+                                            <a class="text-danger d-inline-block edit-item-btn"
+                                                (click)="deleteData(item._id)" style="cursor: pointer;">
+                                                <i class="ri-delete-bin-line fs-16"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+</div>
+
+<!-- Center Modal -->
+<ng-template #dataModal let-modal>
+    <div class="modal-body text-center p-5">
+        <button type="button" style="float:right;" (click)="modalService.dismissAll()" class="close">
+            <span aria-hidden="true">&times;</span></button>
+        <img src="{{imageModal}}" 
+        onerror="this.src='assets/images/image.png';" style="width: 100%; height: auto;" />
+    </div>
+</ng-template>

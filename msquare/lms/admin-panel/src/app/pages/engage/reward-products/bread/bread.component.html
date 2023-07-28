@@ -1,0 +1,57 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="back()"></i>
+                <span class="card-title mb-0 text-primary">{{label}}</span>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-lg-3 mb-3">
+                        <div class="form-group">
+                            <label>{{'Name' | translate}} <span class="text-danger">*</span></label>
+                            <input type="text" placeholder="Name" [(ngModel)]="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mb-3">
+                        <div class="form-group">
+                            <label>{{'Points' | translate}} <span class="text-danger">*</span></label>
+                            <input type="number" placeholder="Points" [(ngModel)]="points" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <div class="form-group">
+                            <label>{{'Photo' | translate}} <span class="text-danger">*</span></label>
+                            <input type="file" class="hide_file form-control" (change)="uploadPhoto($event)"
+                                accept="image/*" #documentFileChild>
+                                <a *ngIf="photo !== ''"  (click)="showModal(dataModal)" style="cursor: zoom-in;">
+                                    <img src="{{photo}}" class="mt-2" style="width: 100px">
+                                  </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+                <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light"
+                    [disabled]="loader" (click)="save()">Save <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                        style="margin-left: 10px;"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Center Modal -->
+<ng-template #dataModal let-modal>
+    <div class="modal-body text-center p-5">
+        <button type="button" style="float:right;" (click)="modalService.dismissAll()" class="close">
+            <span aria-hidden="true">&times;</span></button>
+        <img src="{{photo}}" 
+        onerror="this.src='assets/images/image.png';" style="width: 100%; height: auto;" />
+    </div>
+</ng-template>

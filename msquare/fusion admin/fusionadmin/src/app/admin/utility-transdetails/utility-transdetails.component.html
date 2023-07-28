@@ -1,0 +1,475 @@
+
+
+<div class="row">
+    <div class="card"  id="tasksList">
+        <div class="card-header">
+            <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+            <span class="card-title mb-0 text-primary">Utility Transaction Details</span>
+        </div><!-- end card header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6 border-right">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Branch Code</label>
+                                <input type="text" class="form-control" readonly value="{{item.branch?.code}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Branch Name</label>
+                                <input type="text" class="form-control" readonly value="{{item.branch?.name}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Permises Type</label>
+                                <input type="text" class="form-control" readonly value="{{item.utility?.premisesType}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Property Type</label>
+                                <input type="text" class="form-control" readonly value="{{item.utility?.propertyType}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <textarea value="{{item.branch?.address}}" type="text" class="form-control" readonly rows="3"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Cluster</label>
+                                <input readonly value="{{item.branch?.cluster}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Division</label>
+                                <input readonly value="{{item.branch?.division}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">State</label>
+                                <input readonly value="{{item.branch?.state}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+            
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Zone</label>
+                                <input readonly value="{{item.branch?.zone}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Utility</label>
+                                <input readonly value="{{item.utility?.utility?.name}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+            
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Customer Id</label>
+                                <input readonly value="{{item.meter?.meterId}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Meter Name</label>
+                                <input readonly value="{{item.meter?.name}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Initial Reading</label>
+                                <input readonly value="{{item.meter?.initialReading}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Allowed Consumption</label>
+                                <input readonly value="{{item.meter?.allowedConsumption}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Maximum Consumption</label>
+                                <input readonly value="{{item.meter?.maximumConsumption}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                         <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Utility Start Date</label>
+                                <input readonly value="{{item.meter?.utilityStartDate | date:'dd MMM, yyyy'}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Utility Cycle</label>
+                                <input readonly value="{{item.meter?.utilityCycle}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">TDS Amount</label>
+                                <input readonly value="{{item.meter?.tdsAmount}}"  type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">TDS Certificate</label>
+                                <!-- <input [disabled]="action == 0" type="file" class="form-control" (change)="uploadTdsCertificate($event)" placeholder="Select"> -->
+                                <div class="mt-1" *ngIf="item.meter?.tdsCertificate != ''">
+                                    <a href="{{baseURL}}retrieve/{{item.meter?.tdsCertificate}}" target="_blank">View Document</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Bill No.</label>
+                                <input type="text" class="form-control" readonly value="{{item.billNo}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Vendor Name</label>
+                                <input type="text" class="form-control" readonly value="{{item.vendorName}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Bill Type</label>
+                                <input type="text" class="form-control" readonly value="{{item.billType}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Invoice Date</label>
+                                <input type="text" class="form-control" readonly value="{{item.invoiceDate | date:'dd MMM, yyyy'}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">From Bill Date</label>
+                                <input type="text" class="form-control" readonly value="{{item.fromBillDate | date:'dd MMM, yyyy'}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">To Bill Date</label>
+                                <input type="text" class="form-control" readonly value="{{item.toBillDate | date:'dd MMM, yyyy'}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">No. of Days</label>
+                                <input type="text" class="form-control" readonly value="{{item.noOfDays}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.billType == 'Sub Meter'">
+                            <div class="mb-3">
+                                <label class="form-label required">Initial Reading</label>
+                                <input type="text" class="form-control" readonly value="{{item.initReading}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.billType == 'Sub Meter'">
+                            <div class="mb-3">
+                                <label class="form-label required">Final Reading</label>
+                                <input type="text" class="form-control" readonly value="{{item.finalReading}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Consumption</label>
+                                <input type="text" class="form-control" readonly value="{{item.consumption}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.billType == 'Sub Meter'">
+                            <div class="mb-3">
+                                <label class="form-label required">Charges Per Unit</label>
+                                <input type="text" class="form-control" readonly value="{{item.chargesPerUnit}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.billType == 'Shared'">
+                            <div class="mb-3">
+                                <label class="form-label required">Total Bill</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="text" class="form-control" readonly value="{{item.totalBill}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.billType == 'Shared'">
+                            <div class="mb-3">
+                                <label class="form-label required">% of Total Bill</label>
+                                <div class="input-group">                                    
+                                    <input type="text" class="form-control" readonly value="{{item.perTotalBill}}">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Bill Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="text" class="form-control" readonly value="{{item.billAmount}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Late Fee</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="text" class="form-control" readonly value="{{item.lateFee}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Arrear</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="text" class="form-control" readonly value="{{item.arrear}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Gross Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="text" class="form-control" readonly value="{{item.grossAmount}}">
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Due Date</label>
+                                <input type="text" class="form-control" readonly value="{{item.dueDate | date:'dd MMM, yyyy'}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Fund To Be Transferred</label>
+                                <input type="text" class="form-control" readonly value="{{item.fundsToBeTransferred}}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label required">Disbursement Amount</label>
+                                <input type="text" class="form-control" readonly value="{{item.branchAccount}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Bill Document</label>
+                                <!-- <input [disabled]="action == 0" type="file" class="form-control" (change)="uploadTdsCertificate($event)" placeholder="Select"> -->
+                                <div class="mt-1" *ngIf="item.billDocument != ''">
+                                    <a href="{{baseURL}}retrieve/{{item.billDocument}}" target="_blank">View Document</a>
+                                </div>
+                            </div>
+                        </div> 
+                        
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Admin Approval</label>
+                                <br>
+                                <span *ngIf="item.adminStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                <span ngbTooltip="Approve By {{item.adminApproved?.name}} On {{item.adminStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.adminStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                <span ngbTooltip="Reject By {{item.rejectedBy?.name}} On {{item.adminStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.adminStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Finance Approval</label>
+                                <br>
+                                <span *ngIf="item.financeStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                <span ngbTooltip="Approve By {{item.financeApproved?.name}} On {{item.financeStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.financeStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                <span ngbTooltip="Reject By {{item.rejectedBy?.name}} On {{item.financeStatusDate | date:'dd MMM, yyyy'}}" placement="top" *ngIf="item.financeStatus == 'Rejected'" class="badge rounded-pill bg-danger">Reject</span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6" *ngIf="item.adminStatus == 'Approved' && item.adminStatusRemark != undefined && item.adminStatusRemark != '' && item.adminStatusRemark != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Admin Remark</label>
+                                <input type="text" class="form-control" readonly value="{{item.adminStatusRemark}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" *ngIf="item.financeStatus == 'Approved' && item.financeStatusRemark != undefined && item.financeStatusRemark != '' && item.financeStatusRemark != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Finance Remark</label>
+                                <input type="text" class="form-control" readonly value="{{item.financeStatusRemark}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" *ngIf="item.adminStatus == 'Approved' && item.adminRejectRemark != undefined && item.adminRejectRemark != '' && item.adminRejectRemark != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Admin Remark</label>
+                                <input type="text" class="form-control" readonly value="{{item.adminRejectRemark}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" *ngIf="item.financeStatus == 'Approved' && item.financeRejectRemark != undefined && item.financeRejectRemark != '' && item.financeRejectRemark != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Finance Remark</label>
+                                <input type="text" class="form-control" readonly value="{{item.financeRejectRemark}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" *ngIf="item.transactionDate != undefined && item.transactionDate != '' && item.transactionDate != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Transaction Date</label>
+                                <input type="text" class="form-control" readonly value="{{item.transactionDate | date:'dd MMM, yyyy'}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" *ngIf="item.transactionAmt != undefined && item.transactionAmt != '' && item.transactionAmt != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Transaction Amount</label>
+                                <input type="text" class="form-control" readonly value="{{item.transactionAmt}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.transactionReceipt != undefined && item.transactionReceipt != '' && item.transactionReceipt != null">
+                            <div class="mb-3">
+                                <label class="form-label required">Transaction Receipt</label>
+                                <div class="mt-1" *ngIf="item.transactionReceipt != '' && item.transactionReceipt != null && item.transactionReceipt != undefined">
+                                    <a href="{{baseURL}}retrieve/{{item.transactionReceipt}}" target="_blank">View Document</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <button type="button" style="float: right;" placement="top"  class="btn btn-outline-primary waves-effect waves-light" (click)="openModal(fullDataModal)">
+                Activity </button>
+            <button type="button" style="float: right;" *ngIf="item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && (authS.hasApprovePermission('utility',item.grossAmount, item.verifyStatus) || authS.hasVerifiedPermission('utility',item.grossAmount, item.verifyStatus))" placement="top"  class="btn btn-outline-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'adminreject')">
+                Reject </button>
+            <button type="button" style="float: right;" *ngIf="item.isOpen  && item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && authS.hasApprovePermission('utility',item.grossAmount, item.verifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'adminapprove')">
+                Approve </button>
+            <button type="button" style="float: right;" *ngIf="authS.currentUserValue.roleProfile == 'admin' && item.isOpen  && item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && authS.hasVerifiedPermission('utility',item.grossAmount, item.verifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'adminverify')">
+                Verify </button>
+            <button type="button" style="float: right;" *ngIf="authS.currentUserValue.roleProfile == 'business' && !item.isOpen  && item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && authS.hasVerifiedPermission('utility',item.grossAmount, item.verifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'adminverify')">
+                Verify </button>
+            <span  style="float: right;" *ngIf="item.adminStatus == 'Pending'  && item.financeStatus == 'Pending' && !authS.hasApprovePermission('utility',item.grossAmount, item.verifyStatus) && !authS.hasVerifiedPermission('utility',item.grossAmount, item.verifyStatus)" class="text-danger waves-effect waves-light me-2 fw-medium">
+                Permission Restricted </span>
+            <a href="{{baseURL}}retrieve/{{item.billDocument}}"  class="me-2" *ngIf="authS.currentUserValue.roleProfile == 'admin' && !item.isOpen  && item.adminStatus == 'Pending' && item.financeStatus == 'Pending' && getViewBillStatus()" target="_blank" style="float: right;"> <button type="button"   class="btn btn-primary waves-effect waves-light" (click)="updateAdminOpen(item._id)">
+                Verify </button></a>
+            <button type="button" style="float: right;" *ngIf="item.adminStatus == 'Approved'  && item.financeStatus == 'Pending' && (authS.hasFApprovePermission('utility',item.grossAmount, item.fverifyStatus) || authS.hasFVerifiedPermission('utility',item.grossAmount, item.fverifyStatus))" placement="top"  class="btn btn-outline-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'financereject')">
+                Reject </button>
+            <button type="button" style="float: right;" *ngIf="item.isFOpen  && item.adminStatus == 'Approved'  && item.financeStatus == 'Pending' && authS.hasFApprovePermission('utility',item.grossAmount, item.fverifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'financeapprove')">
+                Approve </button>
+            <button type="button" style="float: right;" *ngIf="item.isFOpen  && item.adminStatus == 'Approved'  && item.financeStatus == 'Pending' && authS.hasFVerifiedPermission('utility',item.grossAmount, item.fverifyStatus)" class="btn btn-primary waves-effect waves-light me-2" (click)="openModal1(dataModal,'financeverify')">
+                Verify </button>
+            <span  style="float: right;" *ngIf="item.adminStatus == 'Approved'  && item.financeStatus == 'Pending' && !authS.hasFApprovePermission('utility',item.grossAmount, item.fverifyStatus) && !authS.hasFVerifiedPermission('utility',item.grossAmount, item.fverifyStatus)" class="text-danger waves-effect waves-light me-2 fw-medium">
+                Permission Restricted </span>
+            <a href="{{baseURL}}retrieve/{{item.billDocument}}"  class="me-2" *ngIf="authS.currentUserValue.designation.id == 'L1-Finance' && !item.isFOpen  && item.adminStatus == 'Approved' && item.financeStatus == 'Pending' && getFViewBillStatus()" target="_blank" style="float: right;"> <button type="button"   class="btn btn-primary waves-effect waves-light" (click)="updateFinanceOpen(item._id)">
+                Verify </button></a>
+                   
+        </div>
+    </div>
+    
+</div>
+
+<ng-template #fullDataModal let-modal>
+    <app-tracking-modal  type="utility" id="{{item._id}}"></app-tracking-modal>
+</ng-template>
+
+<ng-template #dataModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="value == 'adminverify' || value == 'financeverify'">Verify Bill</h5>
+            <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="value == 'adminapprove' || value == 'financeapprove'">Approve Bill</h5>
+            <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="value == 'adminreject' || value == 'financereject'">Reject Bill</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="modal.dismiss('Close click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12" *ngIf="value == 'financeverify'">
+                    <div class="mb-3">
+                        <label class="form-label">Transaction Date</label>
+                        <input [(ngModel)]="date" [ngModelOptions]="{standalone: true}"  type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-12" *ngIf="value == 'financeverify'">
+                    <div class="mb-3">
+                        <label class="form-label">Transaction Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₹</span>
+                            <input [(ngModel)]="amount" [ngModelOptions]="{standalone: true}"  type="number" class="form-control"
+                            placeholder="Enter Transaction Amount">
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-12" *ngIf="value == 'financeverify'">
+                    <div class="mb-3">
+                        <label class="form-label">Transaction Receipt</label>
+                        <input type="file" (change)="uploadTransactionReceipt($event);" class="form-control" placeholder="Select">
+                        <div class="mt-1" *ngIf="receipt != '' && receipt != undefined && receipt != null">
+                            <a href="{{baseURL}}retrieve/{{receipt}}" target="_blank">View</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" *ngIf="value == 'financeverify'">
+                    <div class="mb-3">
+                        <label class="form-label">Disbursement Branch Account</label>
+                        <ng-select [(ngModel)]="branchAccount" [ngModelOptions]="{standalone: true}">
+                            <ng-option value="" disabled="" selected="">Select Disbursement Branch Account</ng-option>
+                            <ng-option value="Branch Disbursement Account" >Branch Disbursement Account</ng-option>
+                            <ng-option value="Cash Collection Account">Cash Collection Account</ng-option>
+                            <ng-option value="MSME BM Account">MSME BM Account</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="mb-3">
+                        <label class="form-label">Remark</label>
+                        <input [(ngModel)]="remark" [ngModelOptions]="{standalone: true}"  type="text" class="form-control"
+                            placeholder="Enter Remark">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="mb-3">
+                        <label class="form-label">Upload Document</label>
+                        <input type="file" class="form-control" (change)="uploadDocument($event)"
+                            placeholder="Enter Remark">
+                        <div class="mt-1" *ngIf="document != ''">
+                            <a href="{{baseURL}}retrieve/{{document}}" target="_blank">View Document</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" *ngIf="value == 'financeverify'" (click)="updateFVerifiyStatus()" class="btn btn-primary waves-effect waves-light">Submit</button>
+            <button type="button" *ngIf="value == 'financeapprove'" (click)="updateFinanceStatus('Approved')" class="btn btn-primary waves-effect waves-light">Submit</button>
+            <button type="button" *ngIf="value == 'financereject'" (click)="updateFinanceStatus('Rejected')" class="btn btn-primary waves-effect waves-light">Submit</button>
+            <button type="button" *ngIf="value == 'adminverify'" (click)="updateVerifiyStatus()" class="btn btn-primary waves-effect waves-light">Submit</button>
+            <button type="button" *ngIf="value == 'adminapprove'" (click)="updateAdminStatus('Approved')" class="btn btn-primary waves-effect waves-light">Submit</button>
+            <button type="button" *ngIf="value == 'adminreject'" (click)="updateAdminStatus('Rejected')" class="btn btn-primary waves-effect waves-light">Submit</button>
+        </div>
+    </div><!-- /.modal-content -->
+
+</ng-template><!-- /.modal-dialog -->

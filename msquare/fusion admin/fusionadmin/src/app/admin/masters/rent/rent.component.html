@@ -1,0 +1,1302 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Rent Master" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul ngbNav #ModifierCustom="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink class="nav-link">
+                    Statistics
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card crm-widget">
+                        <div class="card-body p-0">
+                            <div class="row row-cols-md-3 row-cols-1">
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Total
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{commercial.total}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Recent
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0">
+                                                    <span
+                                                        class="counter-value text-primary">{{commercial.recent}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Assigned
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{commercial.assigned}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Pending Assigned
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{commercial.pendingAssigned}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content text-muted">
+            <div [ngbNavOutlet]="ModifierCustom"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-6">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control"
+                                    placeholder="Search for Branch Code, Name, Cluster, Division,Zone"
+                                    (keyup)="search($event)">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+
+                        <div class="col-xxl-3 col-sm-3">
+                            <div class="input-light">
+                                <select class="form-control bg-light border-light" data-choices
+                                    data-choices-search-false name="choices-single-default" id="idStatus"
+                                    (change)="statusSearch($event)">
+                                    <option value="" disabled>Status</option>
+                                    <option value="" selected>All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-4 col-sm-3 flex items-end">
+                            <button type="button" class="btn btn-primary" style="float:right;"
+                                [routerLink]="['action/create']"> <i class="ri-add-fill me-1 align-bottom"></i>
+                                Create
+                            </button>
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table">
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th style="min-width: 50px;">SR</th>
+                                <th>Branch</th>
+                                <th>Property Type</th>
+                                <th>Premises Type</th>
+                                <th>Monthly Rent</th>
+                                <th>Furnished/Un-Furnished</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data;let i = index;">
+                                <td style="min-width: 50px;">{{i+1}}</td>
+                                <td>#{{item.branchCode}} - {{item.branchName}}</td>
+                                <td>{{item.propertyType}}</td>
+                                <td>{{item.premisesType}}</td>
+                                <td>₹ {{item.monthlyRent}}</td>
+                                <td>{{item.isFurnished}}</td>
+                                <td>
+                                    <div dir="ltr"
+                                        class=" ms-1 form-check form-switch form-switch-success form-switch-md">
+
+                                        <input type="checkbox" id="customSwitchsizelg"
+                                            [checked]="item.status == 'Active'"
+                                            (change)="changeStatus($event,item._id,i)" class="form-check-input">
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-info rounded-pill"
+                                        (click)="openCanvas(auditCanvas,item)"><i
+                                            class="ri-eye-2-line fs-16"></i></button>
+                                </td>
+                                <td>
+                                    <ul class="list-inline hstack gap-2 mb-0">
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                            data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                            <a (click)="edit(item._id)"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="text-md-right float-md-end ">
+                            <ul class="pagination">
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="page==1"
+                                        (click)="previousPage()">
+                                        <span aria-hidden="true"><i class="ri-arrow-left-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore"
+                                        (click)="nextPage()">
+                                        <span aria-hidden="true"><i class="ri-arrow-right-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item" *ngIf="loading">
+                                    <span class="spinner-border flex-shrink-0" role="status"><span
+                                            class="visually-hidden">Loading...</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+</div>
+
+<ng-template #auditCanvas let-offcanvas>
+    <div class="d-flex align-items-center bg-primary bg-gradient p-3 offcanvas-header">
+        <h5 class="m-0 me-2 text-white">Modification History</h5>
+        <button type="button" class="btn-close btn-close-white ms-auto " data-bs-dismiss="offcanvas" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click');activities=[]"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <ngx-simplebar class="h-100">
+            <div class="card" *ngFor="let item of activities">
+                <div class="card-header">
+                    <button class="btn btn-outline-primary btn-sm rounded-pill float-end" (click)="openModal(dataModal, item)">
+                        <i class="ri-eye-line" style="vertical-align: middle;"></i>
+                    </button>
+                    <h6 class="card-title">{{item.user?.name}}</h6>
+                    <p class="card-subtitle text-muted mb-0">{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</p>
+                </div>
+            </div>
+        </ngx-simplebar>
+    </div>
+</ng-template>
+
+<ng-template #dataModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalFullscreenLabel">{{item.user?.name}} |
+                {{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="modal.dismiss('Close click');item=[]"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-6 border-right">
+                    <h5>Previous Data</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Branch Code
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.branchCode == undefined || item.currentData?.branchCode == '' || item.currentData?.branchCode == null)?'-':item.currentData?.branchCode}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Branch Name
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.branchName == undefined || item.currentData?.branchName == '' || item.currentData?.branchName == null)?'-':item.currentData?.branchName}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Premises Type
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.premisesType == undefined || item.currentData?.premisesType == '' || item.currentData?.premisesType == null)?'-':item.currentData?.premisesType}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Property Type
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.propertyType == undefined || item.currentData?.propertyType == '' || item.currentData?.propertyType == null)?'-':item.currentData?.propertyType}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Annual Increment Term
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.annualIncrementTerm == undefined || item.currentData?.annualIncrementTerm == '' || item.currentData?.annualIncrementTerm == null)?'0':item.currentData?.annualIncrementTerm}}%
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Notice Period
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.noticePeriod == undefined || item.currentData?.noticePeriod == '' || item.currentData?.noticePeriod == null)?'-':item.currentData?.noticePeriod}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Area Sq.Ft
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.areaSqft == undefined || item.currentData?.areaSqft == '' || item.currentData?.areaSqft == null)?'0':item.currentData?.areaSqft}}%
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Furnished/Un-Furnished
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.isFurnished == undefined || item.currentData?.isFurnished == '' || item.currentData?.isFurnished == null)?'-':item.currentData?.isFurnished}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Rent Start Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.rentStartDate == undefined || item.currentData?.rentStartDate == '' || item.currentData?.rentStartDate == null)?'-':item.currentData?.rentStartDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Rent Cycle
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.rentCycle == undefined || item.currentData?.rentCycle == '' || item.currentData?.rentCycle == null)?'-':item.currentData?.rentCycle}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1">
+                                Property Details
+                            </h6>
+                            <p class="text-muted">
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.currentData?.room"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.currentData?.room"></i>
+                                    Room
+                                </span>
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.currentData?.hall"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.currentData?.hall"></i>
+                                    Hall
+                                </span>
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.currentData?.kitchen"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.currentData?.kitchen"></i>
+                                    Kitchen
+                                </span>
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.currentData?.bathroom"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.currentData?.bathroom"></i>
+                                    Bathroom
+                                </span>
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.currentData?.storeroom"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.currentData?.storeroom"></i>
+                                    Storeroom
+                                </span>
+                                <span class="px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.currentData?.parkingSpace"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.currentData?.parkingSpace"></i>
+                                    Parking Space
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Security Deposit
+                            </h6>
+                            <p class="text-muted">
+                                ₹ {{(item.currentData?.securityDeposit == undefined || item.currentData?.securityDeposit == '' || item.currentData?.securityDeposit == null)?'0':item.currentData?.securityDeposit}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Monthly Rent
+                            </h6>
+                            <p class="text-muted">
+                                ₹ {{(item.currentData?.monthlyRent == undefined || item.currentData?.monthlyRent == '' || item.currentData?.monthlyRent == null)?'0':item.currentData?.monthlyRent}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Agreement Term
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.agreementTerm == undefined || item.currentData?.agreementTerm == '' || item.currentData?.agreementTerm == null)?'-':item.currentData?.agreementTerm.substring(0, 2)+"-"+item.currentData?.agreementTerm.substring(2)}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Lock In Period
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.lockInPeriod == undefined || item.currentData?.lockInPeriod == '' || item.currentData?.lockInPeriod == null)?'-':item.currentData?.lockInPeriod}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Maintenance Amount
+                            </h6>
+                            <p class="text-muted">
+                                ₹ {{(item.currentData?.maintenanceAmount == undefined || item.currentData?.maintenanceAmount == '' || item.currentData?.maintenanceAmount == null)?'0':item.currentData?.maintenanceAmount}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Total Monthly Rent
+                            </h6>
+                            <p class="text-muted">
+                                ₹ {{(item.currentData?.totalMonthlyRent == undefined || item.currentData?.totalMonthlyRent == '' || item.currentData?.totalMonthlyRent == null)?'0':item.currentData?.totalMonthlyRent}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1">
+                                Address
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.address == undefined || item.currentData?.address == '' || item.currentData?.address == null)?'-':item.currentData?.address}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Cluster
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.cluster == undefined || item.currentData?.cluster == '' || item.currentData?.cluster == null)?'-':item.currentData?.cluster}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Division
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.division == undefined || item.currentData?.division == '' || item.currentData?.division == null)?'-':item.currentData?.division}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                State
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.state == undefined || item.currentData?.state == '' || item.currentData?.state == null)?'-':item.currentData?.state}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Zone
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.zone == undefined || item.currentData?.zone == '' || item.currentData?.zone == null)?'-':item.currentData?.zone}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1">
+                                Facilites
+                            </h6>
+                            <p class="text-muted">
+                                <span [class]="i == (utilityMasters.length - 1)?'px-1':'border-right px-1'" *ngFor="let data of utilityMasters;let i=index">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="getFacility(data,item.currentData?.facility)"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!getFacility(data,item.currentData?.facility)"></i>
+                                    {{data.name}}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Landlord Name
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.landlordName == undefined || item.currentData?.landlordName == '' || item.currentData?.landlordName == null)?'-':item.currentData?.landlordName}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Mobile No
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.mobileNo == undefined || item.currentData?.mobileNo == '' || item.currentData?.mobileNo == null)?'-':item.currentData?.mobileNo}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Pancard number (Landlord)
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.panLandlord == undefined || item.currentData?.panLandlord == '' || item.currentData?.panLandlord == null)?'-':item.currentData?.panLandlord}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Landlord Gst No
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.gstNo == undefined || item.currentData?.gstNo == '' || item.currentData?.gstNo == null)?'-':item.currentData?.gstNo}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Bank Account No
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.bankAccNo == undefined || item.currentData?.bankAccNo == '' || item.currentData?.bankAccNo == null)?'-':item.currentData?.bankAccNo}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                IFSC Code
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.ifscCode == undefined || item.currentData?.ifscCode == '' || item.currentData?.ifscCode == null)?'-':item.currentData?.ifscCode}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Account Name
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.accName == undefined || item.currentData?.accName == '' || item.currentData?.accName == null)?'-':item.currentData?.accName}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Stamp Paper value
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.stampPaperValue == undefined || item.currentData?.stampPaperValue == '' || item.currentData?.stampPaperValue == null)?'-':item.currentData?.stampPaperValue}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Executed Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.executedDate == undefined || item.currentData?.executedDate == '' || item.currentData?.executedDate == null)?'-':item.currentData?.executedDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Effective Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.effectiveDate == undefined || item.currentData?.effectiveDate == '' || item.currentData?.effectiveDate == null)?'-':item.currentData?.effectiveDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Expiry Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.expiryDate == undefined || item.currentData?.expiryDate == '' || item.currentData?.expiryDate == null)?'-':item.currentData?.expiryDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Lessor Signature
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.lessorSignature == undefined || item.currentData?.lessorSignature == '' || item.currentData?.lessorSignature == null)?'No':item.currentData?.lessorSignature}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Lessos Signature
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.lessosSignature == undefined || item.currentData?.lessosSignature == '' || item.currentData?.lessosSignature == null)?'No':item.currentData?.lessosSignature}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Witness Signature
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.witnessSignature == undefined || item.currentData?.witnessSignature == '' || item.currentData?.witnessSignature == null)?'No':item.currentData?.witnessSignature}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Notary Done
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.notaryDone == undefined || item.currentData?.notaryDone == '' || item.currentData?.notaryDone == null)?'No':item.currentData?.notaryDone}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Pan (Owner)
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.panOwner == undefined || item.currentData?.panOwner == '' || item.currentData?.panOwner == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.panOwner != undefined && item.currentData?.panOwner != '' && item.currentData?.panOwner != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.panOwner}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Premise Image
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.premiseImage == undefined || item.currentData?.premiseImage == '' || item.currentData?.premiseImage == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.premiseImage != undefined && item.currentData?.premiseImage != '' && item.currentData?.premiseImage != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.premiseImage}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Aadhar (Owner)
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.aadharOwner == undefined || item.currentData?.aadharOwner == '' || item.currentData?.aadharOwner == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.aadharOwner != undefined && item.currentData?.aadharOwner != '' && item.currentData?.aadharOwner != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.aadharOwner}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Bank Account Details (Owner)
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.bankAccDetailsOwner == undefined || item.currentData?.bankAccDetailsOwner == '' || item.currentData?.bankAccDetailsOwner == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.bankAccDetailsOwner != undefined && item.currentData?.bankAccDetailsOwner != '' && item.currentData?.bankAccDetailsOwner != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.bankAccDetailsOwner}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Notary
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.notary == undefined || item.currentData?.notary == '' || item.currentData?.notary == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.notary != undefined && item.currentData?.notary != '' && item.currentData?.notary != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.notary}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Authority Copy
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.authorityCopy == undefined || item.currentData?.authorityCopy == '' || item.currentData?.authorityCopy == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.authorityCopy != undefined && item.currentData?.authorityCopy != '' && item.currentData?.authorityCopy != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.authorityCopy}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Branch Electricity Bill
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.electricityBill == undefined || item.currentData?.electricityBill == '' || item.currentData?.electricityBill == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.electricityBill != undefined && item.currentData?.electricityBill != '' && item.currentData?.electricityBill != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.electricityBill}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Copy of Address Proof
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.addressProof == undefined || item.currentData?.addressProof == '' || item.currentData?.addressProof == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.addressProof != undefined && item.currentData?.addressProof != '' && item.currentData?.addressProof != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.addressProof}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1">
+                                Copy of Address Proof
+                            </h6>
+                            <div class="table-responsive mb-2">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="bg-light text-muted">
+                                            <th style="min-width: 50px;">SR</th>
+                                            <th>Year</th>
+                                            <th>File No.</th>
+                                            <th>Fie</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of item.currentData?.agreement;let i = index;">
+                                            <td style="min-width: 50px;">{{i+1}}</td>
+                                            <td>{{data.year}}</td>
+                                            <td>{{data.fileNo}}</td>
+                                            <td><a href="{{baseURL}}retrieve/{{data.file}}" target="_blank">View</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Executed Date of Rent Agreement
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.executedDateOfRentAgreement == undefined || item.currentData?.executedDateOfRentAgreement == '' || item.currentData?.executedDateOfRentAgreement == null)?'-':item.currentData?.executedDateOfRentAgreement | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                No. of manpower (Applied for)
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.noOfManpower == undefined || item.currentData?.noOfManpower == '' || item.currentData?.noOfManpower == null)?'-':item.currentData?.noOfManpower}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Address Mentioned in SME with Rent Agreement
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.isAddressMatched == undefined || item.currentData?.isAddressMatched == '' || item.currentData?.isAddressMatched == null)?'-':item.currentData?.isAddressMatched}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                SNE Certificate/Gram Panchayat NOC
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.currentData?.sneCertificate == undefined || item.currentData?.sneCertificate == '' || item.currentData?.sneCertificate == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.currentData?.sneCertificate != undefined && item.currentData?.sneCertificate != '' && item.currentData?.sneCertificate != null)">
+                                <a href="{{baseURL}}retrieve/{{item.currentData?.sneCertificate}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1">
+                                Trade Licence
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.isTradeLicence == undefined || item.currentData?.isTradeLicence == '' || item.currentData?.isTradeLicence == null)?'No':item.currentData?.isTradeLicence}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.currentData?.isTradeLicence == 'Yes'">
+                            <h6 class="fs-14 mb-1">
+                                From Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.tradeLicenceFromDate == undefined || item.currentData?.tradeLicenceFromDate == '' || item.currentData?.tradeLicenceFromDate == null)?'-':item.currentData?.tradeLicenceFromDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.currentData?.isTradeLicence == 'Yes'">
+                            <h6 class="fs-14 mb-1">
+                                To Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.tradeLicenceToDate == undefined || item.currentData?.tradeLicenceToDate == '' || item.currentData?.tradeLicenceToDate == null)?'-':item.currentData?.tradeLicenceToDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.currentData?.isTradeLicence == 'Yes'">
+                            <h6 class="fs-14 mb-1">
+                                Expiry Date/Validity
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.currentData?.tradeLicenceExpiryDate == undefined || item.currentData?.tradeLicenceExpiryDate == '' || item.currentData?.tradeLicenceExpiryDate == null)?'-':item.currentData?.tradeLicenceExpiryDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5>Updated Data</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.branchCode == item.currentData?.branchCode)?'':'text-primary'">
+                                Branch Code
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.branchCode == undefined || item.updatedData?.branchCode == '' || item.updatedData?.branchCode == null)?'-':item.updatedData?.branchCode}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.branchName == item.currentData?.branchName)?'':'text-primary'">
+                                Branch Name
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.branchName == undefined || item.updatedData?.branchName == '' || item.updatedData?.branchName == null)?'-':item.updatedData?.branchName}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.premisesType == item.currentData?.premisesType)?'':'text-primary'">
+                                Premises Type
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.premisesType == undefined || item.updatedData?.premisesType == '' || item.updatedData?.premisesType == null)?'-':item.updatedData?.premisesType}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.propertyType == item.currentData?.propertyType)?'':'text-primary'">
+                                Property Type
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.propertyType == undefined || item.updatedData?.propertyType == '' || item.updatedData?.propertyType == null)?'-':item.updatedData?.propertyType}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.annualIncrementTerm == item.currentData?.annualIncrementTerm)?'':'text-primary'">
+                                Annual Increment Term
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.annualIncrementTerm == undefined || item.updatedData?.annualIncrementTerm == '' || item.updatedData?.annualIncrementTerm == null)?'0':item.updatedData?.annualIncrementTerm}}%
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.noticePeriod == item.currentData?.noticePeriod)?'':'text-primary'">
+                                Notice Period
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.noticePeriod == undefined || item.updatedData?.noticePeriod == '' || item.updatedData?.noticePeriod == null)?'-':item.updatedData?.noticePeriod}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.areaSqft == item.currentData?.areaSqft)?'':'text-primary'">
+                                Area Sq.Ft
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.areaSqft == undefined || item.updatedData?.areaSqft == '' || item.updatedData?.areaSqft == null)?'0':item.updatedData?.areaSqft}}%
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.isFurnished == item.currentData?.isFurnished)?'':'text-primary'">
+                                Furnished/Un-Furnished
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.isFurnished == undefined || item.updatedData?.isFurnished == '' || item.updatedData?.isFurnished == null)?'-':item.updatedData?.isFurnished}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(datePipe.transform(item.updatedData?.rentStartDate, 'dd/MM/yyyy') == datePipe.transform(item.currentData?.rentStartDate, 'dd/MM/yyyy'))?'':'text-primary'">
+                                Rent Start Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.rentStartDate == undefined || item.updatedData?.rentStartDate == '' || item.updatedData?.rentStartDate == null)?'-':item.updatedData?.rentStartDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.rentCycle == item.currentData?.rentCycle)?'':'text-primary'">
+                                Rent Cycle
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.rentCycle == undefined || item.updatedData?.rentCycle == '' || item.updatedData?.rentCycle == null)?'-':item.updatedData?.rentCycle}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1" [class]="((item.updatedData?.room == item.currentData?.room) || (item.updatedData?.hall == item.currentData?.hall)
+                            || (item.updatedData?.kitchen == item.currentData?.kitchen) || (item.updatedData?.bathroom == item.currentData?.bathroom) || (item.updatedData?.storeroom == item.currentData?.storeroom)
+                            || (item.updatedData?.parkingSpace == item.currentData?.parkingSpace))?'':'text-primary'">
+                                Property Details
+                            </h6>
+                            <p class="text-muted">
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.updatedData?.room"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.updatedData?.room"></i>
+                                    Room
+                                </span>
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.updatedData?.hall"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.updatedData?.hall"></i>
+                                    Hall
+                                </span>
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.updatedData?.kitchen"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.updatedData?.kitchen"></i>
+                                    Kitchen
+                                </span>
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.updatedData?.bathroom"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.updatedData?.bathroom"></i>
+                                    Bathroom
+                                </span>
+                                <span class="border-right px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.updatedData?.storeroom"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.updatedData?.storeroom"></i>
+                                    Storeroom
+                                </span>
+                                <span class="px-1">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="item.updatedData?.parkingSpace"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!item.updatedData?.parkingSpace"></i>
+                                    Parking Space
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.securityDeposit == item.currentData?.securityDeposit)?'':'text-primary'">
+                                Security Deposit
+                            </h6>
+                            <p class="text-muted">
+                                ₹ {{(item.updatedData?.securityDeposit == undefined || item.updatedData?.securityDeposit == '' || item.updatedData?.securityDeposit == null)?'0':item.updatedData?.securityDeposit}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.monthlyRent == item.currentData?.monthlyRent)?'':'text-primary'">
+                                Monthly Rent
+                            </h6>
+                            <p class="text-muted">
+                                ₹ {{(item.updatedData?.monthlyRent == undefined || item.updatedData?.monthlyRent == '' || item.updatedData?.monthlyRent == null)?'0':item.updatedData?.monthlyRent}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.agreementTerm == item.currentData?.agreementTerm)?'':'text-primary'">
+                                Agreement Term
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.agreementTerm == undefined || item.updatedData?.agreementTerm == '' || item.updatedData?.agreementTerm == null)?'-':item.updatedData?.agreementTerm.substring(0, 2)+"-"+item.updatedData?.agreementTerm.substring(2)}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.lockInPeriod == item.currentData?.lockInPeriod)?'':'text-primary'">
+                                Lock In Period
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.lockInPeriod == undefined || item.updatedData?.lockInPeriod == '' || item.updatedData?.lockInPeriod == null)?'-':item.updatedData?.lockInPeriod}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.maintenanceAmount == item.currentData?.maintenanceAmount)?'':'text-primary'">
+                                Maintenance Amount
+                            </h6>
+                            <p class="text-muted">
+                                ₹ {{(item.updatedData?.maintenanceAmount == undefined || item.updatedData?.maintenanceAmount == '' || item.updatedData?.maintenanceAmount == null)?'0':item.updatedData?.maintenanceAmount}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.totalMonthlyRent == item.currentData?.totalMonthlyRent)?'':'text-primary'">
+                                Total Monthly Rent
+                            </h6>
+                            <p class="text-muted">
+                                ₹ {{(item.updatedData?.totalMonthlyRent == undefined || item.updatedData?.totalMonthlyRent == '' || item.updatedData?.totalMonthlyRent == null)?'0':item.updatedData?.totalMonthlyRent}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.address == item.currentData?.address)?'':'text-primary'">
+                                Address
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.address == undefined || item.updatedData?.address == '' || item.updatedData?.address == null)?'-':item.updatedData?.address}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.cluster == item.currentData?.cluster)?'':'text-primary'">
+                                Cluster
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.cluster == undefined || item.updatedData?.cluster == '' || item.updatedData?.cluster == null)?'-':item.updatedData?.cluster}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.division == item.currentData?.division)?'':'text-primary'">
+                                Division
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.division == undefined || item.updatedData?.division == '' || item.updatedData?.division == null)?'-':item.updatedData?.division}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.state == item.currentData?.state)?'':'text-primary'">
+                                State
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.state == undefined || item.updatedData?.state == '' || item.updatedData?.state == null)?'-':item.updatedData?.state}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.zone == item.currentData?.zone)?'':'text-primary'">
+                                Zone
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.zone == undefined || item.updatedData?.zone == '' || item.updatedData?.zone == null)?'-':item.updatedData?.zone}}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1" [class]="(arrayEqual(item.currentData?.facility,item.updatedData?.facility))?'':'text-primary'">
+                                Facilites
+                            </h6>
+                            <p class="text-muted">
+                                <span [class]="i == (utilityMasters.length - 1)?'px-1':'border-right px-1'" *ngFor="let data of utilityMasters;let i=index">
+                                    <i class="ri-check-line text-success fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="getFacility(data,item.updatedData?.facility)"></i>
+                                    <i class="ri-close-line text-danger fs-16 me-1" style="vertical-align: middle; font-weight: 600;" *ngIf="!getFacility(data,item.updatedData?.facility)"></i>
+                                    {{data.name}}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.landlordName == item.currentData?.landlordName)?'':'text-primary'">
+                                Landlord Name
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.landlordName == undefined || item.updatedData?.landlordName == '' || item.updatedData?.landlordName == null)?'-':item.updatedData?.landlordName}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.mobileNo == item.currentData?.mobileNo)?'':'text-primary'">
+                                Mobile No
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.mobileNo == undefined || item.updatedData?.mobileNo == '' || item.updatedData?.mobileNo == null)?'-':item.updatedData?.mobileNo}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.panLandlord == item.currentData?.panLandlord)?'':'text-primary'">
+                                Pancard number (Landlord)
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.panLandlord == undefined || item.updatedData?.panLandlord == '' || item.updatedData?.panLandlord == null)?'-':item.updatedData?.panLandlord}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.gstNo == item.currentData?.gstNo)?'':'text-primary'">
+                                Landlord Gst No
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.gstNo == undefined || item.updatedData?.gstNo == '' || item.updatedData?.gstNo == null)?'-':item.updatedData?.gstNo}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.bankAccNo == item.currentData?.bankAccNo)?'':'text-primary'">
+                                Bank Account No
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.bankAccNo == undefined || item.updatedData?.bankAccNo == '' || item.updatedData?.bankAccNo == null)?'-':item.updatedData?.bankAccNo}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.ifscCode == item.currentData?.ifscCode)?'':'text-primary'">
+                                IFSC Code
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.ifscCode == undefined || item.updatedData?.ifscCode == '' || item.updatedData?.ifscCode == null)?'-':item.updatedData?.ifscCode}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.accName == item.currentData?.accName)?'':'text-primary'">
+                                Account Name
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.accName == undefined || item.updatedData?.accName == '' || item.updatedData?.accName == null)?'-':item.updatedData?.accName}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.stampPaperValue == item.currentData?.stampPaperValue)?'':'text-primary'">
+                                Stamp Paper value
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.stampPaperValue == undefined || item.updatedData?.stampPaperValue == '' || item.updatedData?.stampPaperValue == null)?'-':item.updatedData?.stampPaperValue}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(datePipe.transform(item.updatedData?.executedDate, 'dd/MM/yyyy') == datePipe.transform(item.currentData?.executedDate, 'dd/MM/yyyy'))?'':'text-primary'">
+                                Executed Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.executedDate == undefined || item.updatedData?.executedDate == '' || item.updatedData?.executedDate == null)?'-':item.updatedData?.executedDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(datePipe.transform(item.updatedData?.effectiveDate, 'dd/MM/yyyy') == datePipe.transform(item.currentData?.effectiveDate, 'dd/MM/yyyy'))?'':'text-primary'">
+                                Effective Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.effectiveDate == undefined || item.updatedData?.effectiveDate == '' || item.updatedData?.effectiveDate == null)?'-':item.updatedData?.effectiveDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(datePipe.transform(item.updatedData?.expiryDate, 'dd/MM/yyyy') == datePipe.transform(item.currentData?.expiryDate, 'dd/MM/yyyy'))?'':'text-primary'">
+                                Expiry Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.expiryDate == undefined || item.updatedData?.expiryDate == '' || item.updatedData?.expiryDate == null)?'-':item.updatedData?.expiryDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.lessorSignature == item.currentData?.lessorSignature)?'':'text-primary'">
+                                Lessor Signature
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.lessorSignature == undefined || item.updatedData?.lessorSignature == '' || item.updatedData?.lessorSignature == null)?'No':item.updatedData?.lessorSignature}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.lessosSignature == item.currentData?.lessosSignature)?'':'text-primary'">
+                                Lessos Signature
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.lessosSignature == undefined || item.updatedData?.lessosSignature == '' || item.updatedData?.lessosSignature == null)?'No':item.updatedData?.lessosSignature}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.witnessSignature == item.currentData?.witnessSignature)?'':'text-primary'">
+                                Witness Signature
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.witnessSignature == undefined || item.updatedData?.witnessSignature == '' || item.updatedData?.witnessSignature == null)?'No':item.updatedData?.witnessSignature}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.notaryDone == item.currentData?.notaryDone)?'':'text-primary'">
+                                Notary Done
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.notaryDone == undefined || item.updatedData?.notaryDone == '' || item.updatedData?.notaryDone == null)?'No':item.updatedData?.notaryDone}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.panOwner == item.currentData?.panOwner)?'':'text-primary'">
+                                Pan (Owner)
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.panOwner == undefined || item.updatedData?.panOwner == '' || item.updatedData?.panOwner == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.panOwner != undefined && item.updatedData?.panOwner != '' && item.updatedData?.panOwner != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.panOwner}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.premiseImage == item.currentData?.premiseImage)?'':'text-primary'">
+                                Premise Image
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.premiseImage == undefined || item.updatedData?.premiseImage == '' || item.updatedData?.premiseImage == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.premiseImage != undefined && item.updatedData?.premiseImage != '' && item.updatedData?.premiseImage != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.premiseImage}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.aadharOwner == item.currentData?.aadharOwner)?'':'text-primary'">
+                                Aadhar (Owner)
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.aadharOwner == undefined || item.updatedData?.aadharOwner == '' || item.updatedData?.aadharOwner == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.aadharOwner != undefined && item.updatedData?.aadharOwner != '' && item.updatedData?.aadharOwner != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.aadharOwner}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.bankAccDetailsOwner == item.currentData?.bankAccDetailsOwner)?'':'text-primary'">
+                                Bank Account Details (Owner)
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.bankAccDetailsOwner == undefined || item.updatedData?.bankAccDetailsOwner == '' || item.updatedData?.bankAccDetailsOwner == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.bankAccDetailsOwner != undefined && item.updatedData?.bankAccDetailsOwner != '' && item.updatedData?.bankAccDetailsOwner != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.bankAccDetailsOwner}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.notary == item.currentData?.notary)?'':'text-primary'">
+                                Notary
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.notary == undefined || item.updatedData?.notary == '' || item.updatedData?.notary == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.notary != undefined && item.updatedData?.notary != '' && item.updatedData?.notary != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.notary}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.authorityCopy == item.currentData?.authorityCopy)?'':'text-primary'">
+                                Authority Copy
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.authorityCopy == undefined || item.updatedData?.authorityCopy == '' || item.updatedData?.authorityCopy == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.authorityCopy != undefined && item.updatedData?.authorityCopy != '' && item.updatedData?.authorityCopy != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.authorityCopy}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.electricityBill == item.currentData?.electricityBill)?'':'text-primary'">
+                                Branch Electricity Bill
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.electricityBill == undefined || item.updatedData?.electricityBill == '' || item.updatedData?.electricityBill == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.electricityBill != undefined && item.updatedData?.electricityBill != '' && item.updatedData?.electricityBill != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.electricityBill}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.addressProof == item.currentData?.addressProof)?'':'text-primary'">
+                                Copy of Address Proof
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.addressProof == undefined || item.updatedData?.addressProof == '' || item.updatedData?.addressProof == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.addressProof != undefined && item.updatedData?.addressProof != '' && item.updatedData?.addressProof != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.addressProof}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6 class="fs-14 mb-1" [class]="(arrayEqual(item.currentData?.agreement,item.updatedData?.agreement))?'':'text-primary'">
+                                Copy of Address Proof
+                            </h6>
+                            <div class="table-responsive mb-2">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="bg-light text-muted">
+                                            <th style="min-width: 50px;">SR</th>
+                                            <th>Year</th>
+                                            <th>File No.</th>
+                                            <th>Fie</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of item.updatedData?.agreement;let i = index;">
+                                            <td style="min-width: 50px;">{{i+1}}</td>
+                                            <td>{{data.year}}</td>
+                                            <td>{{data.fileNo}}</td>
+                                            <td><a href="{{baseURL}}retrieve/{{data.file}}" target="_blank">View</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(datePipe.transform(item.updatedData?.executedDateOfRentAgreement, 'dd/MM/yyyy') == datePipe.transform(item.currentData?.executedDateOfRentAgreement, 'dd/MM/yyyy'))?'':'text-primary'">
+                                Executed Date of Rent Agreement
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.executedDateOfRentAgreement == undefined || item.updatedData?.executedDateOfRentAgreement == '' || item.updatedData?.executedDateOfRentAgreement == null)?'-':item.updatedData?.executedDateOfRentAgreement | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.noOfManpower == item.currentData?.noOfManpower)?'':'text-primary'">
+                                No. of manpower (Applied for)
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.noOfManpower == undefined || item.updatedData?.noOfManpower == '' || item.updatedData?.noOfManpower == null)?'-':item.updatedData?.noOfManpower}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.isAddressMatched == item.currentData?.isAddressMatched)?'':'text-primary'">
+                                Address Mentioned in SME with Rent Agreement
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.isAddressMatched == undefined || item.updatedData?.isAddressMatched == '' || item.updatedData?.isAddressMatched == null)?'-':item.updatedData?.isAddressMatched}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.sneCertificate == item.currentData?.sneCertificate)?'':'text-primary'">
+                                SNE Certificate/Gram Panchayat NOC
+                            </h6>
+                            <p class="text-muted" *ngIf="(item.updatedData?.sneCertificate == undefined || item.updatedData?.sneCertificate == '' || item.updatedData?.sneCertificate == null)">
+                                No Document
+                            </p>
+                            <p class="text-muted" *ngIf="(item.updatedData?.sneCertificate != undefined && item.updatedData?.sneCertificate != '' && item.updatedData?.sneCertificate != null)">
+                                <a href="{{baseURL}}retrieve/{{item.updatedData?.sneCertificate}}" target="_blank">View Document</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="fs-14 mb-1" [class]="(item.updatedData?.isTradeLicence == item.currentData?.isTradeLicence)?'':'text-primary'">
+                                Trade Licence
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.isTradeLicence == undefined || item.updatedData?.isTradeLicence == '' || item.updatedData?.isTradeLicence == null)?'No':item.updatedData?.isTradeLicence}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.updatedData?.isTradeLicence == 'Yes'">
+                            <h6 class="fs-14 mb-1" [class]="(datePipe.transform(item.updatedData?.tradeLicenceFromDate, 'dd/MM/yyyy') == datePipe.transform(item.currentData?.tradeLicenceFromDate, 'dd/MM/yyyy'))?'':'text-primary'">
+                                From Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.tradeLicenceFromDate == undefined || item.updatedData?.tradeLicenceFromDate == '' || item.updatedData?.tradeLicenceFromDate == null)?'-':item.updatedData?.tradeLicenceFromDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.updatedData?.isTradeLicence == 'Yes'">
+                            <h6 class="fs-14 mb-1" [class]="(datePipe.transform(item.updatedData?.tradeLicenceToDate, 'dd/MM/yyyy') == datePipe.transform(item.currentData?.tradeLicenceToDate, 'dd/MM/yyyy'))?'':'text-primary'">
+                                To Date
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.tradeLicenceToDate == undefined || item.updatedData?.tradeLicenceToDate == '' || item.updatedData?.tradeLicenceToDate == null)?'-':item.updatedData?.tradeLicenceToDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                        <div class="col-lg-6" *ngIf="item.updatedData?.isTradeLicence == 'Yes'">
+                            <h6 class="fs-14 mb-1" [class]="(datePipe.transform(item.updatedData?.tradeLicenceExpiryDate, 'dd/MM/yyyy') == datePipe.transform(item.currentData?.tradeLicenceExpiryDate, 'dd/MM/yyyy'))?'':'text-primary'">
+                                Expiry Date/Validity
+                            </h6>
+                            <p class="text-muted">
+                                {{(item.updatedData?.tradeLicenceExpiryDate == undefined || item.updatedData?.tradeLicenceExpiryDate == '' || item.updatedData?.tradeLicenceExpiryDate == null)?'-':item.updatedData?.tradeLicenceExpiryDate | date:'dd MMM, yyyy'}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

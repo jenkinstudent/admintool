@@ -1,0 +1,535 @@
+<div class="card">
+    <div class="card-header">
+        <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;"
+            [routerLink]="['/admin/dashboard']"></i>
+        <span class="card-title mb-0">{{label}}</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-6 border-right">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Name of the Bank <span class="text-danger">*</span> </label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Name of the Bank" [(ngModel)]="bankName" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Loan Name <span class="text-danger">*</span></label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Loan Name" [(ngModel)]="loanName" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Short Code_Lender Wise</label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Short Code_Lender Wise" [(ngModel)]="shortCodeLenderWise" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Actual No</label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Actual No" [(ngModel)]="actualNo" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Amount Sanctioned <span class="text-danger">*</span></label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Amount Sanctioned" [(ngModel)]="amountSanctioned" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Sanction Date <span class="text-danger">*</span></label>
+                            <input type="date" [disabled]="action == 'view'" class="form-control" [(ngModel)]="sanctionDate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Processing Fee%</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Processing Fee%" [(ngModel)]="processingFee" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">FDR%</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter FDR%" [(ngModel)]="fdr" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">ROI% <span class="text-danger">*</span></label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter ROI%" [(ngModel)]="roi" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Tenure <span class="text-danger">*</span></label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Tenure" [(ngModel)]="tenure" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Other Exp.%</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Other Exp.%" [(ngModel)]="otherExp" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Int on FDR%</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Int on FDR%" [(ngModel)]="intOnFdr" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">ROI (Gross)%</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter ROI (Gross)%" [(ngModel)]="roiGross" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">ROI(Net)%</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter ROI(Net)%" [(ngModel)]="roiNet" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">New rate <span class="text-danger" *ngIf="anyChangeInInterestDuringYear == 'Yes'">*</span></label>
+                            <input type="number"  [disabled]="action == 'view' || anyChangeInInterestDuringYear == 'No'" class="form-control" placeholder="Enter New rate" [(ngModel)]="newRate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Current ROI%</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Current ROI%" [(ngModel)]="currentRoi" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Rating</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="rating" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yes">Yes</ng-option>
+                                <ng-option value="No">No</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Availed Amount</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Availed Amount" [(ngModel)]="availedAmount" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Terms of Text Repayment1_I</label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Terms of Text Repayment1_I" [(ngModel)]="termsOfTextRepayment1_I" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Terms of Text Repayment2_I</label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Terms of Text Repayment2_I" [(ngModel)]="termsOfTextRepayment2_I" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Nature Of Instrument1</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="natureOfInstrument1" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Secured">Secured</ng-option>
+                                <ng-option value="Unsecured">Unsecured</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Nature Of Instrument2</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="natureOfInstrument2" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Long Term">Long Term</ng-option>
+                                <ng-option value="Short Term">Short Term</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Type of Facility</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="typeOfFacility" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="NCD">NCD</ng-option>
+                                <ng-option value="SUB DEBT">SUB DEBT</ng-option>
+                                <ng-option value="ECB">ECB</ng-option>
+                                <ng-option value="TERM LOAN">TERM LOAN</ng-option>
+                                <ng-option value="VEHICLE LOAN">VEHICLE LOAN</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Payment Frequency</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="paymentFrequency" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yearly">Yearly</ng-option>
+                                <ng-option value="Monthly">Monthly</ng-option>
+                                <ng-option value="Bi Monthly">Bi Monthly</ng-option>
+                                <ng-option value="Half Yearly">Half Yearly</ng-option>
+                                <ng-option value="Quarterly">Quarterly</ng-option>
+                                <ng-option value="Bullet">Bullet</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Sanction Letter</label>
+                            <input type="date" [disabled]="action == 'view'" class="form-control" [(ngModel)]="sanctionLetter" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Maturity Date - Formula Based</label>
+                            <input type="date" [disabled]="action == 'view'" class="form-control" [(ngModel)]="maturityDate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Change Effective Date</label>
+                            <input type="date" [disabled]="action == 'view'" class="form-control" [(ngModel)]="changeEffectiveDate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Legal Fee</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Legal Fee" [(ngModel)]="legalFee" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Trustee Fee</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Trustee Fee" [(ngModel)]="trusteeFee" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Arranger Fee</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Arranger Fee" [(ngModel)]="arrangerFee" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Rating_Fee</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Rating_Fee" [(ngModel)]="ratingFee" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Listing</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Listing" [(ngModel)]="listing" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Step Down</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="stempDown" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yes">Yes</ng-option>
+                                <ng-option value="No">No</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Step</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="step" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Quarterly">Quarterly</ng-option>
+                                <ng-option value="Half Yearly">Half Yearly</ng-option>
+                                <ng-option value="Yearly">Yearly</ng-option>
+                                <ng-option value="Bullet">Bullet</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Tranche Name <span class="text-danger">*</span></label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Tranche Name" [(ngModel)]="trancheName" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Short Code</label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Short Code" [(ngModel)]="shortCode" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Moratorium Status Phase 1</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="moratoriumStatusPhase1" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Received">Received</ng-option>
+                                <ng-option value="Not Received">Not Received</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Moratorium Status Phase 2</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="moratoriumStatusPhase2" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Received">Received</ng-option>
+                                <ng-option value="Not Received">Not Received</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Disbursement Date <span class="text-danger">*</span></label>
+                            <input type="date" [disabled]="action == 'view'" class="form-control" [(ngModel)]="disbursementDate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Amount Disbursed <span class="text-danger">*</span></label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Amount Disbursed" [(ngModel)]="amountDisbursed" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Margin%</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Margin%" [(ngModel)]="margin" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Moratorium(No. Of Months)</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Moratorium(No. Of Months)" [(ngModel)]="noOfMonthsMoratorium" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Repayment Schedule <span class="text-danger">*</span></label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="repaymentSchedule" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yearly">Yearly</ng-option>
+                                <ng-option value="Monthly">Monthly</ng-option>
+                                <ng-option value="Bi Monthly">Bi Monthly</ng-option>
+                                <ng-option value="Half Yearly">Half Yearly</ng-option>
+                                <ng-option value="Quarterly">Quarterly</ng-option>
+                                <ng-option value="Bullet">Bullet</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">EMI Start date <span class="text-danger">*</span></label>
+                            <input type="date" [disabled]="action == 'view'" class="form-control" [(ngModel)]="emiStartDate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Fund Raised during the FY</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Fund Raised during the FY" [(ngModel)]="fundRaisedDuringFY" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Base Rate</label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Base Rate" [(ngModel)]="baseRate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Any change in interest during year</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="anyChangeInInterestDuringYear" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yes">Yes</ng-option>
+                                <ng-option value="No">No</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Date of change of interest(ROI%) <span class="text-danger" *ngIf="anyChangeInInterestDuringYear == 'Yes'">*</span></label>
+                            <input type="date" [disabled]="action == 'view' || anyChangeInInterestDuringYear == 'No'" class="form-control" [(ngModel)]="dateOfChangeOfInterest" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">ROI Type</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="roiType" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Fixed">Fixed</ng-option>
+                                <ng-option value="Variable">Variable</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">PG</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="pg" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yes">Yes</ng-option>
+                                <ng-option value="No">No</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Terms of Text Repayment1_P</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="termsOfTextRepayment1_P" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yearly">Yearly</ng-option>
+                                <ng-option value="Monthly">Monthly</ng-option>
+                                <ng-option value="Bi Monthly">Bi Monthly</ng-option>
+                                <ng-option value="Half Yearly">Half Yearly</ng-option>
+                                <ng-option value="Quarterly">Quarterly</ng-option>
+                                <ng-option value="Bullet">Bullet</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Terms of Text Repayment2_P</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="termsOfTextRepayment2_P" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yearly">Yearly</ng-option>
+                                <ng-option value="Monthly">Monthly</ng-option>
+                                <ng-option value="Bi Monthly">Bi Monthly</ng-option>
+                                <ng-option value="Half Yearly">Half Yearly</ng-option>
+                                <ng-option value="Quarterly">Quarterly</ng-option>
+                                <ng-option value="Bullet">Bullet</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">TYPE OF LENDER1</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="typeOfLender1" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="NBFCs">NBFCs</ng-option>
+                                <ng-option value="Banks">Banks</ng-option>
+                                <ng-option value="Others">Others</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">TYPE OF LENDER2</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="typeOfLender2" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Domestic NCD">Domestic NCD</ng-option>
+                                <ng-option value="Foreign NCD">Foreign NCD</ng-option>
+                                <ng-option value="Domestic NCD_(SD)">Domestic NCD_(SD)</ng-option>
+                                <ng-option value="ECB">ECB</ng-option>
+                                <ng-option value="Term Loan">Term Loan</ng-option>
+                                <ng-option value="Vehicle Loan">Vehicle Loan</ng-option>
+                                <ng-option value="Term Loan SD">Term Loan SD</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Nature Of Instrument3</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="natureOfInstrument3" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="NCD">NCD</ng-option>
+                                <ng-option value="SUB DEBT_(NCD)">SUB DEBT_(NCD)</ng-option>
+                                <ng-option value="ECB">ECB</ng-option>
+                                <ng-option value="TERM LOAN">TERM LOAN</ng-option>
+                                <ng-option value="VEHICLE LOAN">VEHICLE LOAN</ng-option>
+                                <ng-option value="SUB DEBT_(TL)">SUB DEBT_(TL)</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">TYPE OF LENDER3</label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="typeOfLender3" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Domestic NCD">Domestic NCD</ng-option>
+                                <ng-option value="Foreign NCD">Foreign NCD</ng-option>
+                                <ng-option value="Domestic NCD_(SD)">Domestic NCD_(SD)</ng-option>
+                                <ng-option value="ECB">ECB</ng-option>
+                                <ng-option value="Term Loan">Term Loan</ng-option>
+                                <ng-option value="Vehicle Loan">Vehicle Loan</ng-option>
+                                <ng-option value="Term Loan SD">Term Loan SD</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Original Maturity of loan</label>
+                            <input type="text" [disabled]="action == 'view'" class="form-control" placeholder="Enter Original Maturity of loan" [(ngModel)]="originalMaturityOfLoan" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Interest Rate</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Interest Rate" [(ngModel)]="interestRate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">0th Date</label>
+                            <input type="date" [disabled]="action == 'view'" class="form-control" [(ngModel)]="thDate" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Compounding <span class="text-danger">*</span></label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="compounding" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Yes">Yes</ng-option>
+                                <ng-option value="No">No</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Documentation Charges</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Documentation Charges" [(ngModel)]="documentationCharges" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Stamp Duty</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Stamp Duty" [(ngModel)]="stampDuty" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">NSDL</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter NSDL" [(ngModel)]="nsdl" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Linkintime-RTA</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Linkintime-RTA" [(ngModel)]="linkinktimeRta" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Debenture Stamping</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Debenture Stamping" [(ngModel)]="debentureStamping" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Other Fee</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Other_Fee" [(ngModel)]="otherFee" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Applicable Taxes</label>
+                            <input type="number"  [disabled]="action == 'view'" class="form-control" placeholder="Enter Applicable Taxes" [(ngModel)]="applicableTaxes" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Flag <span class="text-danger">*</span></label>
+                            <ng-select [disabled]="action == 'view'" [(ngModel)]="flag" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="0">0</ng-option>
+                                <ng-option value="1">1</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer" *ngIf="action !== 'view'">
+       
+        <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light" (click)="save()"
+            [disabled]="loader">Submit <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                style="margin-left: 10px;"></i></button>
+    </div>
+</div>

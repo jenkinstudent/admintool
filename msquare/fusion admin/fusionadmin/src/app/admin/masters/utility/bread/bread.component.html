@@ -1,0 +1,234 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+
+<div class="card">
+    <div class="card-header">
+        <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+        <span class="card-title mb-0 text-primary">{{label}}</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-6 border-right">
+                <div class="row">
+                    <div class="col-lg-6" *ngIf="!edit">
+                        <div class="mb-3">
+                            <label class="form-label">Search Branch</label>
+                            <ng-select (change)="getBranch($event)" >
+                               <ng-container *ngFor="let item of branches;let i=index">
+                                <ng-option value="{{i}}">#{{item.code}} - {{item.name}}</ng-option>
+                               </ng-container> 
+                             </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" *ngIf="!edit"></div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Branch Code</label>
+                            <input type="text" class="form-control" placeholder="Enter Branch Code" disabled="" [(ngModel)]="branchCode" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Branch Name</label>
+                            <input [disabled]="action == 0" type="text" class="form-control"
+                                placeholder="Enter Branch Name" [(ngModel)]="branchName" disabled="" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Permises Type</label>
+                            <ng-select [(ngModel)]="premisesType" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="MFI Branch">MFI Branch</ng-option>
+                                <ng-option value="Staff Accommodation">Staff Accommodation</ng-option>
+                                <ng-option value="Divisional Off.">Divisional Off.</ng-option>
+                                <ng-option value="Cluster office">Cluster office</ng-option>
+                                <ng-option value="Regional Off.">Regional Off.</ng-option>
+                                <ng-option value="MSME">MSME</ng-option>
+                                <ng-option value="Corporate Off.">Corporate Off.</ng-option>
+                                <ng-option value="Registered office">Registered office</ng-option>
+                             </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Property Type</label>
+                            <ng-select [(ngModel)]="propertyType" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Commercial">Commercial</ng-option>
+                                <ng-option value="Domestic">Domestic</ng-option>
+                             </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <textarea [(ngModel)]="address" [ngModelOptions]="{standalone: true}" type="text" class="form-control"
+                                placeholder="Enter Address" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Cluster</label>
+                            <input disabled="" value="{{cluster}}"  type="text" class="form-control"
+                            placeholder="Enter Cluster Name">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Division</label>
+                            <input disabled="" value="{{division}}"  type="text" class="form-control"
+                            placeholder="Enter Division Name">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">State</label>
+                            <input disabled="" value="{{state}}"  type="text" class="form-control"
+                            placeholder="Enter State Name">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Zone</label>
+                            <input disabled="" value="{{zone}}"  type="text" class="form-control"
+                            placeholder="Enter Zone Name">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Utility</label>
+                            <ng-select [(ngModel)]="utility" [ngModelOptions]="{standalone: true}" (change)="getUtilityMaster($event)">
+                                <ng-option *ngFor="let item of utilityL" value="{{item._id}}">{{item.name}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div *ngIf="error"><br>
+                            <label class="form-label text-danger">{{branchName}} with selected utility is already existed.</label>
+                        </div>
+                        <div *ngIf="errorRent">
+                            <label class="form-label text-danger">{{branchName}} with selected facility is included in rent.</label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label required">Status</label>
+                            <ng-select [(ngModel)]="status" [ngModelOptions]="{standalone: true}">
+                                <ng-option value="Active">Active</ng-option>
+                                <ng-option value="Inactive">Inactive</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="invoice-table table table-borderless table-nowrap mb-0">
+                        <thead class="align-middle">
+                            <tr class="table-active">
+                                <th scope="col" style="min-width: 50px;">#</th>
+                                <th scope="col" *ngIf="isElectricity" class="required">
+                                    Customer Id
+                                </th>
+                                <th scope="col" *ngIf="!isElectricity">
+                                    Customer Id
+                                </th>
+                                <th scope="col" style="width: 150px;" class="required">
+                                       Name
+                                </th>
+                                <th scope="col" style="width: 150px;" class="required">
+                                    Bill Type
+                                </th>
+                                <th scope="col" class="required">Allowed Consumption</th>
+                                <th scope="col" class="required">Maximum Consumption</th>
+                                <th scope="col" class="required">Utility Start Date</th>
+                                <th scope="col" class="required">Utility Cycle (Days)</th>
+                                <th scope="col">TDS Amount</th>
+                                <th scope="col" style="width: 100px">TDS Certificate</th>
+                                <th scope="col" class="text-end"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="newlink">
+                            <tr *ngFor="let item of items;let i=index" id="{{i+1}}" class="product">
+                                <th scope="row" class="product-id" style="min-width: 50px;">{{i+1}}</th>
+                                <td class="text-start">
+                                        <input type="text" class="form-control" placeholder="Customer Id" required [(ngModel)]="item.meterId"  [ngModelOptions]="{standalone: true}"/>
+                                </td>
+                                <td style="width: 150px;">
+                                    <input type="text" class="form-control" placeholder="Name" required [(ngModel)]="item.name" [ngModelOptions]="{standalone: true}"/>
+                                </td>
+                                <td style="width: 150px;">
+                                    <ng-select [(ngModel)]="item.billType" [ngModelOptions]="{standalone: true}">
+                                        <ng-option *ngFor="let item of billTypes" value="{{item}}">{{item}}</ng-option>
+                                    </ng-select>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        <input type="number" class="form-control" placeholder="Allowed Consumption" required [(ngModel)]="item.allowedConsumption" [ngModelOptions]="{standalone: true}"/>
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        <input type="number" class="form-control" placeholder="Maximum Consumption" required [(ngModel)]="item.maximumConsumption" [ngModelOptions]="{standalone: true}"/>
+                                    </div>    
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control" required [(ngModel)]="item.utilityStartDate" [ngModelOptions]="{standalone: true}"/>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="Utility Cycle" required [(ngModel)]="item.utilityCycle" [ngModelOptions]="{standalone: true}"/>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" placeholder="TDS Amount" required [(ngModel)]="item.tdsAmount" [ngModelOptions]="{standalone: true}"/>
+                                </td>
+                                <td style="width: 150px">
+                                    <input type="file" class="form-control" accept="image/*,application/pdf" 
+                                    #tdsCertificateChild placeholder="TDS Certificate" (change)="uploadTdsCertificate($event,i)" required />
+                                    <div class="mt-1" *ngIf="item.tdsCertificate != undefined && item.tdsCertificate != '' && item.tdsCertificate != null">
+                                        <a href="{{baseURL}}retrieve/{{item.tdsCertificate}}" target="_blank">View Document</a>
+                                    </div>
+                                </td>
+                               
+                                <td class="product-removal">
+                                    <a class="btn btn-ghost-danger" (click)="delete(i)"><i class="ri-delete-bin-fill"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tr id="newForm" style="display: none;"></tr>
+                        <tr *ngIf="items.length < 5">
+                            <td colspan="9">
+                                <a class="btn btn-soft-secondary fw-medium" (click)="add()"><i class="ri-add-fill me-1 align-bottom"></i> Add Item</a>
+                            </td>
+                        </tr>
+                    </table><!--end table-->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="card-footer" *ngIf="action !== 0">
+       
+        <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light" (click)="save()"
+            [disabled]="loader">Save <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                style="margin-left: 10px;"></i></button>
+                <button type="button" style="float: right;" class="btn btn-ghost-primary waves-effect waves-light me-3" (click)="_location.back()"
+                [disabled]="loader">Close</button>
+    </div>
+</div>

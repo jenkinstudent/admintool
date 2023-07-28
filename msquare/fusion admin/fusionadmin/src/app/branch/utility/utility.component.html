@@ -1,0 +1,1343 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Utility Bill" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card crm-widget">
+            <div class="card-body p-0">
+                <div class="row row-cols-md-3 row-cols-1">
+                    <div class="col col-lg border-end">
+                        <div class="py-4 px-3">
+                            <h5 class="text-muted text-uppercase fs-13">
+                                Expected Vouchers
+                            </h5>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <h2 class="mb-0"><span
+                                            class="counter-value text-primary">{{expectedVouchers}}</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-lg border-end">
+                        <div class="py-4 px-3">
+                            <h5 class="text-muted text-uppercase fs-13">
+                                Voucher Raised
+                            </h5>
+                            <div class="d-flex align-items-center">
+
+                                <div class="flex-grow-1">
+                                    <h2 class="mb-0">
+                                        <span class="counter-value text-primary">{{vouchersRaised}}</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-lg border-end">
+                        <div class="py-4 px-3">
+                            <h5 class="text-muted text-uppercase fs-13">
+                                Pending Vouchers
+                            </h5>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <h2 class="mb-0"><span
+                                            class="counter-value text-primary">{{expectedVouchers - vouchersRaised}}</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-lg">
+                        <div class="py-4 px-3">
+                            <h5 class="text-muted text-uppercase fs-13">
+                                Current Month
+                            </h5>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <h2 class="mb-0"><span
+                                            class="counter-value text-primary">{{expectedVouchers}}</span></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-3 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control"
+                                    placeholder="Search for tasks or something..." (keyup)="search($event)">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-3 col-sm-12">
+                            <input type="text" placeholder="From date to To date" class="form-control bg-white"
+                                [(ngModel)]="selectedDate" [ngModelOptions]="{standalone: true}"
+                                (change)="onSelectedDate($event)" mwlFlatpickr [altInput]="true"
+                                [convertModelValue]="true" mode="range">
+                        </div>
+                        <div class="col-xxl-3 col-sm-12">
+                            <ng-select [(ngModel)]="selectedProduct" [ngModelOptions]="{standalone: true}"
+                            (change)="onSelectedProduct($event)">
+                                <ng-option value="" disabled>Select Utility Product</ng-option>
+                                <ng-option *ngFor="let item of utilityMasters;" value="{{item._id}}">
+                                    {{item.name}}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+
+
+                        <div class="col-xxl-3 col-sm-12 flex items-end">
+                           
+                            <button style="float: right;" [routerLink]="['action/create']" type="button"
+                                class="btn btn-primary"> <i class="ri-add-fill me-1 align-bottom"></i>
+                                Create
+                            </button>
+                            <button  style="float: right;" class="btn btn-outline-primary me-1" *ngIf="selectedDate || searchTerm || selectedProduct"
+                            (click)="clear()">Clear</button>
+                            <!-- <button style="float: right;margin-right: 10px;" [routerLink]="['/branch/courier']" type="button" class="btn btn-outline-primary" >
+                                Courier Master
+                            </button> -->
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+
+                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-tabs nav-tabs-custom nav-primary mb-3">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink>
+                            Pending To Be Raised
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table  table-nowrap align-middle mb-0">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th>Action</th>
+                                            <th>Branch</th>
+                                            <th>Premises Type</th>
+                                            <th>State</th>
+                                            <th>Zone</th>
+                                            <th>Utility Name</th>
+                                            <th>Customer Id</th>
+                                            <th>Meter Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of notRaised;let i=index">
+                                            <tr *ngIf="item.adminStatus == 'Pending'">
+                                                <td>
+                                                    <ul class="list-inline hstack gap-0 mb-0"
+                                                        *ngIf="item.adminStatus == 'Pending'">
+                                                        <li class="list-inline-item edit me-0">
+                                                            <button [routerLink]="['/branch/utility/raised',item._id]"
+                                                                class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                                                Raise
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td>#{{item.utility?.branchCode}} -
+                                                    {{item.utility?.branchName}}</td>
+                                                <td>{{item.utility?.premisesType}}</td>
+                                                <td>{{item.utility?.state}}</td>
+                                                <td>{{item.utility?.zone}}</td>
+                                                <td>{{item.utility?.utility?.name}}</td>
+                                                <td>{{item.meter?.meterId}}</td>
+                                                <td>{{item.meter?.name}}</td>
+                                            </tr>
+                                        </ng-container>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink>
+                            Draft
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table  table-nowrap align-middle mb-0">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Action</th>
+                                            <th>Admin Approval</th>
+                                            <th>Finance Approval</th>
+                                            <th>Voucher No.</th>
+                                            <th>Branch </th>
+                                            <th>Cluster </th>
+                                            <th>Division </th>
+                                            <th>State </th>
+                                            <th>Zone </th>
+                                            <th>Utility Name </th>
+                                            <th>Premises Type</th>
+                                            <th>Bill No.</th>
+                                            <th>Invoice Date</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Date Raised On</th>
+                                            <th>Due Date</th>
+                                            <th>Consumption</th>
+                                            <th>Gross Amt</th>
+                                            <th>Exceeded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data | filter:searchTerm;let i = index;">
+                                            <tr
+                                                *ngIf="item.billStatus == 'Draft'">
+                                                <td>{{i+1}}</td>
+                                            <td>
+                                                <ul class="list-inline hstack gap-2 mb-0">
+                                                    <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                                        ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                                        ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                                        ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                                        ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus == 'Rejected' || item.adminStatus == 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="edit(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-pencil-fill fs-16"></i>
+                                                        </a>
+
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="view(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-eye-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li ngbTooltip="Activity"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        placement="top" class="list-inline-item edit me-0">
+                                                        <button (click)="openModal(DataModal,item)"
+                                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-pages-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="item?.adminStatus == 'Pending'">
+                                                    <div *ngFor="let data of item.verifyStatus;">
+                                                        <span *ngIf="data.status == 'Pending'"
+                                                        class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                        <span *ngIf="data.status == 'Verified'"
+                                                        ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                        placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Admin - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td><div *ngIf="item?.financeStatus == 'Pending'">
+                                                <div *ngFor="let data of item.fverifyStatus;">
+                                                    <span *ngIf="data.status == 'Pending'"
+                                                    class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                    <span *ngIf="data.status == 'Verified'"
+                                                    ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                    placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                </div>
+                                            </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Finance - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td>{{item?.voucherNo}}<br><span *ngIf="item.old"
+                                                    class="badge badge-soft-primary badge-border">Old</span></td>
+                                            <td>{{item?.branch?.code}} - {{item?.branch?.name}}
+                                                <br>
+                                                <span *ngIf="item?.utility?.premisesType == 'MFI Branch'"
+                                                    class="badge badge-soft-primary badge-border">MFI Branch</span>
+                                            </td>
+                                            <td>{{item?.branch?.cluster}}</td>
+                                            <td>{{item?.branch?.division}}</td>
+                                            <td>{{item?.branch?.state}}</td>
+                                            <td>{{item?.branch?.zone}}</td>
+                                            <td>{{item?.utility?.utility?.name}} </td>
+                                            <td>{{item?.utility?.premisesType}}</td>
+                                            <td>{{item?.billNo}}</td>
+                                            <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.consumption}}</td>
+                                            <td>₹ {{item?.grossAmount}}</td>
+                                            <td>₹
+                                                {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                            </td>
+                                            </tr>
+                                        </ng-container>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                        <a ngbNavLink>
+                            Raised
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table  table-nowrap align-middle mb-0">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Action</th>
+                                            <th>Admin Approval</th>
+                                            <th>Finance Approval</th>
+                                            <th>Voucher No.</th>
+                                            <th>Branch </th>
+                                            <th>Cluster </th>
+                                            <th>Division </th>
+                                            <th>State </th>
+                                            <th>Zone </th>
+                                            <th>Utility Name </th>
+                                            <th>Premises Type</th>
+                                            <th>Bill No.</th>
+                                            <th>Invoice Date</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Date Raised On</th>
+                                            <th>Due Date</th>
+                                            <th>Consumption</th>
+                                            <th>Gross Amt</th>
+                                            <th>Exceeded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data | filter:searchTerm;let i = index;">
+                                            <tr
+                                                *ngIf="item.adminStatus == 'Pending' && item.financeStatus == 'Pending' && item.billStatus == 'Submitted'">
+                                                <td>{{i+1}}</td>
+                                            <td>
+                                                <ul class="list-inline hstack gap-2 mb-0">
+                                                    <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                                        ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                                        ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                                        ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                                        ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus == 'Rejected' || item.adminStatus == 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="edit(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-pencil-fill fs-16"></i>
+                                                        </a>
+
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="view(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-eye-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li ngbTooltip="Activity"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        placement="top" class="list-inline-item edit me-0">
+                                                        <button (click)="openModal(DataModal,item)"
+                                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-pages-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="item?.adminStatus == 'Pending'">
+                                                    <div *ngFor="let data of item.verifyStatus;">
+                                                        <span *ngIf="data.status == 'Pending'"
+                                                        class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                        <span *ngIf="data.status == 'Verified'"
+                                                        ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                        placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Admin - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td><div *ngIf="item?.financeStatus == 'Pending'">
+                                                <div *ngFor="let data of item.fverifyStatus;">
+                                                    <span *ngIf="data.status == 'Pending'"
+                                                    class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                    <span *ngIf="data.status == 'Verified'"
+                                                    ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                    placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                </div>
+                                            </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Finance - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td>{{item?.voucherNo}}<br><span *ngIf="item.old"
+                                                    class="badge badge-soft-primary badge-border">Old</span></td>
+                                            <td>{{item?.branch?.code}} - {{item?.branch?.name}}
+                                                <br>
+                                                <span *ngIf="item?.utility?.premisesType == 'MFI Branch'"
+                                                    class="badge badge-soft-primary badge-border">MFI Branch</span>
+                                            </td>
+                                            <td>{{item?.branch?.cluster}}</td>
+                                            <td>{{item?.branch?.division}}</td>
+                                            <td>{{item?.branch?.state}}</td>
+                                            <td>{{item?.branch?.zone}}</td>
+                                            <td>{{item?.utility?.utility?.name}} </td>
+                                            <td>{{item?.utility?.premisesType}}</td>
+                                            <td>{{item?.billNo}}</td>
+                                            <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.consumption}}</td>
+                                            <td>₹ {{item?.grossAmount}}</td>
+                                            <td>₹
+                                                {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                            </td>
+                                            </tr>
+                                        </ng-container>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4">
+                        <a ngbNavLink>
+                            Approved
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-nowrap align-middle mb-0">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Action</th>
+                                            <th>Admin Approval</th>
+                                            <th>Finance Approval</th>
+                                            <th>Voucher No.</th>
+                                            <th>Branch </th>
+                                            <th>Cluster </th>
+                                            <th>Division </th>
+                                            <th>State </th>
+                                            <th>Zone </th>
+                                            <th>Utility Name </th>
+                                            <th>Premises Type</th>
+                                            <th>Bill No.</th>
+                                            <th>Invoice Date</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Date Raised On</th>
+                                            <th>Due Date</th>
+                                            <th>Consumption</th>
+                                            <th>Gross Amt</th>
+                                            <th>Exceeded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data | filter:searchTerm;let i = index;">
+                                            <tr
+                                                *ngIf="item.adminStatus == 'Approved' && item.financeStatus == 'Pending'">
+                                                <td>{{i+1}}</td>
+                                            <td>
+                                                <ul class="list-inline hstack gap-2 mb-0">
+                                                    <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                                        ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                                        ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                                        ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                                        ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus == 'Rejected' || item.adminStatus == 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="edit(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-pencil-fill fs-16"></i>
+                                                        </a>
+
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="view(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-eye-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li ngbTooltip="Activity"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        placement="top" class="list-inline-item edit me-0">
+                                                        <button (click)="openModal(DataModal,item)"
+                                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-pages-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="item?.adminStatus == 'Pending'">
+                                                    <div *ngFor="let data of item.verifyStatus;">
+                                                        <span *ngIf="data.status == 'Pending'"
+                                                        class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                        <span *ngIf="data.status == 'Verified'"
+                                                        ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                        placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Admin - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td><div *ngIf="item?.financeStatus == 'Pending'">
+                                                <div *ngFor="let data of item.fverifyStatus;">
+                                                    <span *ngIf="data.status == 'Pending'"
+                                                    class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                    <span *ngIf="data.status == 'Verified'"
+                                                    ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                    placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                </div>
+                                            </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Finance - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td>{{item?.voucherNo}}<br><span *ngIf="item.old"
+                                                    class="badge badge-soft-primary badge-border">Old</span></td>
+                                            <td>{{item?.branch?.code}} - {{item?.branch?.name}}
+                                                <br>
+                                                <span *ngIf="item?.utility?.premisesType == 'MFI Branch'"
+                                                    class="badge badge-soft-primary badge-border">MFI Branch</span>
+                                            </td>
+                                            <td>{{item?.branch?.cluster}}</td>
+                                            <td>{{item?.branch?.division}}</td>
+                                            <td>{{item?.branch?.state}}</td>
+                                            <td>{{item?.branch?.zone}}</td>
+                                            <td>{{item?.utility?.utility?.name}} </td>
+                                            <td>{{item?.utility?.premisesType}}</td>
+                                            <td>{{item?.billNo}}</td>
+                                            <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.consumption}}</td>
+                                            <td>₹ {{item?.grossAmount}}</td>
+                                            <td>₹
+                                                {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                            </td>
+
+                                            </tr>
+                                        </ng-container>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="5">
+                        <a ngbNavLink>
+                            Rejected
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-nowrap align-middle mb-0">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Action</th>
+                                            <th>Admin Approval</th>
+                                            <th>Finance Approval</th>
+                                            <th>Voucher No.</th>
+                                            <th>Branch </th>
+                                            <th>Cluster </th>
+                                            <th>Division </th>
+                                            <th>State </th>
+                                            <th>Zone </th>
+                                            <th>Utility Name </th>
+                                            <th>Premises Type</th>
+                                            <th>Bill No.</th>
+                                            <th>Invoice Date</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Date Raised On</th>
+                                            <th>Due Date</th>
+                                            <th>Consumption</th>
+                                            <th>Gross Amt</th>
+                                            <th>Exceeded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data | filter:searchTerm;let i = index;">
+                                            <tr
+                                                *ngIf="item.adminStatus == 'Rejected' || item.financeStatus == 'Rejected'">
+                                                <td>{{i+1}}</td>
+                                            <td>
+                                                <ul class="list-inline hstack gap-2 mb-0">
+                                                    <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                                        ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                                        ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                                        ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                                        ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus == 'Rejected' || item.adminStatus == 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="edit(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-pencil-fill fs-16"></i>
+                                                        </a>
+
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="view(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-eye-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li ngbTooltip="Activity"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        placement="top" class="list-inline-item edit me-0">
+                                                        <button (click)="openModal(DataModal,item)"
+                                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-pages-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="item?.adminStatus == 'Pending'">
+                                                    <div *ngFor="let data of item.verifyStatus;">
+                                                        <span *ngIf="data.status == 'Pending'"
+                                                        class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                        <span *ngIf="data.status == 'Verified'"
+                                                        ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                        placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Admin - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td><div *ngIf="item?.financeStatus == 'Pending'">
+                                                <div *ngFor="let data of item.fverifyStatus;">
+                                                    <span *ngIf="data.status == 'Pending'"
+                                                    class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                    <span *ngIf="data.status == 'Verified'"
+                                                    ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                    placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                </div>
+                                            </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Finance - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td>{{item?.voucherNo}}<br><span *ngIf="item.old"
+                                                    class="badge badge-soft-primary badge-border">Old</span></td>
+                                            <td>{{item?.branch?.code}} - {{item?.branch?.name}}
+                                                <br>
+                                                <span *ngIf="item?.utility?.premisesType == 'MFI Branch'"
+                                                    class="badge badge-soft-primary badge-border">MFI Branch</span>
+                                            </td>
+                                            <td>{{item?.branch?.cluster}}</td>
+                                            <td>{{item?.branch?.division}}</td>
+                                            <td>{{item?.branch?.state}}</td>
+                                            <td>{{item?.branch?.zone}}</td>
+                                            <td>{{item?.utility?.utility?.name}} </td>
+                                            <td>{{item?.utility?.premisesType}}</td>
+                                            <td>{{item?.billNo}}</td>
+                                            <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.consumption}}</td>
+                                            <td>₹ {{item?.grossAmount}}</td>
+                                            <td>₹
+                                                {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                            </td>
+                                            </tr>
+                                        </ng-container>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="6">
+                        <a ngbNavLink>
+                            Rework
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-nowrap align-middle mb-0">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Action</th>
+                                            <th>Admin Approval</th>
+                                            <th>Finance Approval</th>
+                                            <th>Voucher No.</th>
+                                            <th>Branch </th>
+                                            <th>Cluster </th>
+                                            <th>Division </th>
+                                            <th>State </th>
+                                            <th>Zone </th>
+                                            <th>Utility Name </th>
+                                            <th>Premises Type</th>
+                                            <th>Bill No.</th>
+                                            <th>Invoice Date</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Date Raised On</th>
+                                            <th>Due Date</th>
+                                            <th>Consumption</th>
+                                            <th>Gross Amt</th>
+                                            <th>Exceeded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data | filter:searchTerm;let i = index;">
+                                            <tr *ngIf="item.rework">
+                                                <td>{{i+1}}</td>
+                                            <td>
+                                                <ul class="list-inline hstack gap-2 mb-0">
+                                                    <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                                        ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                                        ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                                        ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                                        ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="view(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-eye-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li ngbTooltip="Activity"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        placement="top" class="list-inline-item edit me-0">
+                                                        <button (click)="openModal(DataModal,item)"
+                                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-pages-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="item?.adminStatus == 'Pending'">
+                                                    <div *ngFor="let data of item.verifyStatus;">
+                                                        <span *ngIf="data.status == 'Pending'"
+                                                        class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                        <span *ngIf="data.status == 'Verified'"
+                                                        ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                        placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Admin - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td><div *ngIf="item?.financeStatus == 'Pending'">
+                                                <div *ngFor="let data of item.fverifyStatus;">
+                                                    <span *ngIf="data.status == 'Pending'"
+                                                    class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                    <span *ngIf="data.status == 'Verified'"
+                                                    ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                    placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                </div>
+                                            </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Finance - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td>{{item?.voucherNo}}<br><span *ngIf="item.old"
+                                                    class="badge badge-soft-primary badge-border">Old</span></td>
+                                            <td>{{item?.branch?.code}} - {{item?.branch?.name}}
+                                                <br>
+                                                <span *ngIf="item?.utility?.premisesType == 'MFI Branch'"
+                                                    class="badge badge-soft-primary badge-border">MFI Branch</span>
+                                            </td>
+                                            <td>{{item?.branch?.cluster}}</td>
+                                            <td>{{item?.branch?.division}}</td>
+                                            <td>{{item?.branch?.state}}</td>
+                                            <td>{{item?.branch?.zone}}</td>
+                                            <td>{{item?.utility?.utility?.name}} </td>
+                                            <td>{{item?.utility?.premisesType}}</td>
+                                            <td>{{item?.billNo}}</td>
+                                            <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.consumption}}</td>
+                                            <td>₹ {{item?.grossAmount}}</td>
+                                            <td>₹
+                                                {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                            </td>
+                                            </tr>
+                                        </ng-container>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="7">
+                        <a ngbNavLink>
+                            Payment In-Process
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-nowrap align-middle mb-0">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Action</th>
+                                            <th>Admin Approval</th>
+                                            <th>Finance Approval</th>
+                                            <th>Voucher No.</th>
+                                            <th>Branch </th>
+                                            <th>Cluster </th>
+                                            <th>Division </th>
+                                            <th>State </th>
+                                            <th>Zone </th>
+                                            <th>Utility Name </th>
+                                            <th>Premises Type</th>
+                                            <th>Bill No.</th>
+                                            <th>Invoice Date</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Date Raised On</th>
+                                            <th>Due Date</th>
+                                            <th>Consumption</th>
+                                            <th>Gross Amt</th>
+                                            <th>Exceeded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data | filter:searchTerm;let i = index;">
+                                            <tr
+                                                *ngIf="item.adminStatus == 'Approved' && item.financeStatus == 'Approved'">
+                                                <td>{{i+1}}</td>
+                                            <td>
+                                                <ul class="list-inline hstack gap-2 mb-0">
+                                                    <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                                        ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                                        ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                                        ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                                        ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus == 'Rejected' || item.adminStatus == 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="edit(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-pencil-fill fs-16"></i>
+                                                        </a>
+
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="view(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-eye-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li ngbTooltip="Activity"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        placement="top" class="list-inline-item edit me-0">
+                                                        <button (click)="openModal(DataModal,item)"
+                                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-pages-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="item?.adminStatus == 'Pending'">
+                                                    <div *ngFor="let data of item.verifyStatus;">
+                                                        <span *ngIf="data.status == 'Pending'"
+                                                        class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                        <span *ngIf="data.status == 'Verified'"
+                                                        ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                        placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Admin - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td><div *ngIf="item?.financeStatus == 'Pending'">
+                                                <div *ngFor="let data of item.fverifyStatus;">
+                                                    <span *ngIf="data.status == 'Pending'"
+                                                    class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                    <span *ngIf="data.status == 'Verified'"
+                                                    ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                    placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                </div>
+                                            </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Finance - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td>{{item?.voucherNo}}<br><span *ngIf="item.old"
+                                                    class="badge badge-soft-primary badge-border">Old</span></td>
+                                            <td>{{item?.branch?.code}} - {{item?.branch?.name}}
+                                                <br>
+                                                <span *ngIf="item?.utility?.premisesType == 'MFI Branch'"
+                                                    class="badge badge-soft-primary badge-border">MFI Branch</span>
+                                            </td>
+                                            <td>{{item?.branch?.cluster}}</td>
+                                            <td>{{item?.branch?.division}}</td>
+                                            <td>{{item?.branch?.state}}</td>
+                                            <td>{{item?.branch?.zone}}</td>
+                                            <td>{{item?.utility?.utility?.name}} </td>
+                                            <td>{{item?.utility?.premisesType}}</td>
+                                            <td>{{item?.billNo}}</td>
+                                            <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.consumption}}</td>
+                                            <td>₹ {{item?.grossAmount}}</td>
+                                            <td>₹
+                                                {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                            </td>
+
+
+                                            </tr>
+                                        </ng-container>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="8">
+                        <a ngbNavLink>
+                            All
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-nowrap align-middle mb-0">
+                                    <thead class="table-light text-muted">
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Action</th>
+                                            <th>Admin Approval</th>
+                                            <th>Finance Approval</th>
+                                            <th>Voucher No.</th>
+                                            <th>Branch </th>
+                                            <th>Cluster </th>
+                                            <th>Division </th>
+                                            <th>State </th>
+                                            <th>Zone </th>
+                                            <th>Utility Name </th>
+                                            <th>Premises Type</th>
+                                            <th>Bill No.</th>
+                                            <th>Invoice Date</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Date Raised On</th>
+                                            <th>Due Date</th>
+                                            <th>Consumption</th>
+                                            <th>Gross Amt</th>
+                                            <th>Exceeded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of data | filter:searchTerm;let i = index;">
+                                            <td>{{i+1}}</td>
+                                            <td>
+                                                <ul class="list-inline hstack gap-2 mb-0">
+                                                    <li *ngIf="item?.adminStatus == 'Approved' && (item?.adminStatusRemark != undefined && item?.adminStatusRemark != null && item?.adminStatusRemark != '')"
+                                                        ngbTooltip="{{item?.adminStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.adminStatus == 'Rejected' && (item?.adminRejectRemark != undefined && item?.adminRejectRemark != null && item?.adminRejectRemark != '')"
+                                                        ngbTooltip="{{item?.adminRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-primary text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Approved' && (item?.financeStatusRemark != undefined && item?.financeStatusRemark != null && item?.financeStatusRemark != '')"
+                                                        ngbTooltip="{{item?.financeStatusRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-success d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-fill fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li *ngIf="item?.financeStatus == 'Rejected' && (item?.financeRejectRemark != undefined && item?.financeRejectRemark != null && item?.financeRejectRemark != '')"
+                                                        ngbTooltip="{{item?.financeRejectRemark}}" placement="top"
+                                                        class="list-inline-item edit me-2">
+                                                        <button
+                                                            class=" btn btn-ghost-success text-danger d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-message-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus == 'Rejected' || item.adminStatus == 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="edit(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-pencil-fill fs-16"></i>
+                                                        </a>
+
+                                                    </li>
+                                                    <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                        <a (click)="view(item._id)"
+                                                            class="text-primary d-inline-block edit-item-btn">
+                                                            <i class="ri-eye-fill fs-16"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li ngbTooltip="Activity"
+                                                        *ngIf="item.financeStatus != 'Rejected' && item.adminStatus != 'Rejected'"
+                                                        placement="top" class="list-inline-item edit me-0">
+                                                        <button (click)="openModal(DataModal,item)"
+                                                            class=" btn btn-ghost-primary text-primary d-inline-block edit-item-btn p-0">
+                                                            <i class="ri-pages-line fs-18"></i>
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <div *ngIf="item?.adminStatus == 'Pending'">
+                                                    <div *ngFor="let data of item.verifyStatus;">
+                                                        <span *ngIf="data.status == 'Pending'"
+                                                        class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                        <span *ngIf="data.status == 'Verified'"
+                                                        ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                        placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Admin - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td><div *ngIf="item?.financeStatus == 'Pending'">
+                                                <div *ngFor="let data of item.fverifyStatus;">
+                                                    <span *ngIf="data.status == 'Pending'"
+                                                    class="badge rounded-pill bg-warning">{{data.role}} - {{data.status}}</span>
+                                                    <span *ngIf="data.status == 'Verified'"
+                                                    ngbTooltip="Verified By {{data?.user?.name}} On {{data?.statusUpdatedOn | date:'dd MMM, yyyy'}}"
+                                                    placement="top" class="badge rounded-pill bg-success">{{data.role}} - Verify</span>
+                                                </div>
+                                            </div>
+                                                <span
+                                                    ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                                    class="badge rounded-pill bg-success">L2-Finance - Approve</span>
+                                                <span
+                                                    ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                                    placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                                    class="badge rounded-pill bg-danger">Reject</span></td>
+                                            <td>{{item?.voucherNo}}<br><span *ngIf="item.old"
+                                                    class="badge badge-soft-primary badge-border">Old</span></td>
+                                            <td>{{item?.branch?.code}} - {{item?.branch?.name}}
+                                                <br>
+                                                <span *ngIf="item?.utility?.premisesType == 'MFI Branch'"
+                                                    class="badge badge-soft-primary badge-border">MFI Branch</span>
+                                            </td>
+                                            <td>{{item?.branch?.cluster}}</td>
+                                            <td>{{item?.branch?.division}}</td>
+                                            <td>{{item?.branch?.state}}</td>
+                                            <td>{{item?.branch?.zone}}</td>
+                                            <td>{{item?.utility?.utility?.name}} </td>
+                                            <td>{{item?.utility?.premisesType}}</td>
+                                            <td>{{item?.billNo}}</td>
+                                            <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.fromBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.toBillDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                            <td>{{item?.consumption}}</td>
+                                            <td>₹ {{item?.grossAmount}}</td>
+                                            <td>₹
+                                                {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content text-muted">
+                    <div [ngbNavOutlet]="nav"></div>
+                </div>
+
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+
+    <ng-template #DataModal let-modal>
+        <app-tracking-modal type="utility" id="{{item._id}}"></app-tracking-modal>
+    </ng-template>

@@ -1,0 +1,137 @@
+<header id="page-topbar" style="border-bottom: 1px solid #C75D20;background: #FEF3E1;">
+    <div class="layout-width">
+        <div class="navbar-header">
+            <div class="d-flex">
+                <!-- LOGO -->
+                <div class="navbar-brand-box horizontal-logo">
+                    <a href="" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <img src="assets/images/logo.png" alt="" height="22">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="assets/images/logo.png" alt="" height="50" width="200">
+                        </span>
+                    </a>
+
+                    <a href="" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="assets/images/logo.png" alt="" height="22">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="assets/images/logo.png" alt="" height="50" width="200">
+                        </span>
+                    </a>
+                </div>
+
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+                    id="topnav-hamburger-icon" (click)="toggleMobileMenu($event)">
+                    <span class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+
+                
+            </div>
+
+            <div class="d-flex align-items-center">
+
+
+                <div class="ms-1 header-item d-none d-sm-flex">
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        data-toggle="fullscreen" (click)="fullscreen()">
+                        <i class='bx bx-fullscreen fs-22'></i>
+                    </button>
+                </div>
+
+
+                <div class="dropdown topbar-head-dropdown ms-1 header-item" ngbDropdown>
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" ngbDropdownToggle (click)="unreadNotification = 0">
+                        <i class='bx bx-bell fs-22'></i>
+                        <span *ngIf="unreadNotification > 0"
+                            class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{unreadNotification}}<span
+                                class="visually-hidden">unread messages</span></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                        aria-labelledby="page-header-notifications-dropdown" ngbDropdownMenu>
+
+                        <div class="dropdown-head bg-primary bg-pattern rounded-top">
+                            <div class="p-3">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
+                                    </div>
+                                    <div class="col-auto dropdown-tabs" style="cursor: pointer;" (click)="markNotificationAsRead()">
+                                        <span class="badge badge-soft-light fs-13"> MARK READ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <ngx-simplebar style="max-height: 300px;">
+                                <div class="pe-2">
+                                    <div *ngFor="let item of notifications"
+                                        class="text-reset notification-item d-block dropdown-item position-relative">
+                                        <div class="d-flex">
+                                            <!-- <div class="avatar-xs me-3">
+                                                    <span class="avatar-title bg-soft-info text-info rounded-circle fs-16">
+                                                        <i class="bx bx-badge-check"></i>
+                                                    </span>
+                                                </div> -->
+                                            <div class="flex-1">
+                                                <a  class="stretched-link" style="cursor: pointer;" (click)="navigateUser(item)">
+                                                    <h6 class="mt-0 mb-2 lh-base">{{item.title}}<br>
+                                                        <div class="fs-12 text-muted">
+                                                            <p class="mb-1" [innerHTML]="item.message"></p>
+                                                        </div>
+                                                    </h6>
+                                                </a>
+                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                    <span><i class="mdi mdi-clock-outline"></i>
+                                                        {{item.createdAt | date:'dd MMM, yyyy'}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                            </ngx-simplebar>
+                        </div>
+
+                    </div>
+                </div>
+            <div class="dropdown ms-1 header-item topbar-user" ngbDropdown style="background: #FEF3E1;">
+                <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                    <span class="d-flex align-items-center">
+                        <img class="rounded-circle header-profile-user" src="assets/images/users/user.png"
+                            alt="Header Avatar">
+                        <span class="text-start ms-xl-2">
+                            <span
+                                class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{this.authService.currentUserValue.name}}</span>
+                            <span
+                                class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{'' | greet}}</span>
+                        </span>
+                    </span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                    <!-- item-->
+                    <a class="dropdown-item" [routerLink]="['/admin/settings/profile']"><i
+                            class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
+                            class="align-middle">Profile</span></a>
+                    <a class="dropdown-item" *ngIf="authService.currentUserValue.issuperadmin"
+                        [routerLink]="['/admin/settings']"><i
+                            class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span
+                            class="align-middle">Settings</span></a>
+                    <a class="dropdown-item" href="javascript: void(0);" (click)="authService.logout()"><i
+                            class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle"
+                            data-key="t-logout">Logout</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</header>

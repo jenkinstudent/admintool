@@ -1,0 +1,83 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Meter Master" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card"  id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-12">
+                            <div class="search-box">
+                                <input type="text"  name="searchTerm" class="form-control" placeholder="Search for tasks or something...">
+                              <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div><!--end col-->
+  
+                        <div class="col-xxl-3 col-sm-4">
+                            <div class="input-light">
+                                <select class="form-control bg-light border-light" data-choices data-choices-search-false name="choices-single-default"  id="idStatus">
+                                    <option value="" disabled>Status</option>
+                                    <option value="" selected>All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div><!--end col-->
+                        
+                        <div class="col-xxl-4 col-sm-4 flex items-end">
+                            <button [routerLink]="['action/create']" type="button" class="btn btn-primary" > <i class="ri-add-fill me-1 align-bottom"></i>
+                                Create
+                            </button>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </form>
+            </div><!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                  <table class="table">
+                    <thead>
+                    <tr class="bg-light text-muted">
+                      <th class="sort" sortable="taskId" style="min-width: 50px;">SR</th>
+                      <th class="sort" sortable="project">Branch</th>
+                      <th class="sort" sortable="task">Id</th>
+                      <th class="sort" sortable="creater">Name</th>
+                      <th class="sort" sortable="subItem">Initial Reading</th>
+                      <th class="sort" sortable="priority">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of data;let i = index;">
+                      <td style="min-width: 50px;">{{i+1}}</td>
+                      <td>{{item.branch?.name}}</td>
+                      <td>{{item.meterId}}</td>
+                      <td>{{item.name}}</td>
+                      <td>{{item.initialReading}}</td>
+                      <td>
+                        <ul class="list-inline hstack gap-2 mb-0">
+                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                <a (click)="edit(item._id)"
+                                    class="text-primary d-inline-block edit-item-btn">
+                                    <i class="ri-pencil-fill fs-16"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                <a (click)="delete(item._id,i)"
+                                    class="text-danger d-inline-block edit-item-btn">
+                                    <i class="ri-delete-bin-fill fs-16"></i>
+                                </a>
+                            </li>
+                        </ul>
+                      </td>
+                      
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+        </div><!--end card-->
+    </div><!--end col-->
+  </div><!--end row-->

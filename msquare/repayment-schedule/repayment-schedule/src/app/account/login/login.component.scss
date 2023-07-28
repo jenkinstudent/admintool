@@ -1,0 +1,52 @@
+/*extra small devices*/
+@media only screen and (max-width : 600px){
+    .card-pad{
+        // padding: 1rem !important;
+        width: 90%; 
+        display:block;
+        // iheight: 100vh;
+    }
+}
+
+/*small devices*/
+@media only screen and (min-width : 600px) and (max-width: 767px){
+    .card-pad{
+        // padding: 1rem !important;
+        width: 90%; 
+        display:block;
+    }
+}
+
+/*medium devices*/
+@media only screen and (min-width : 768px)  and (max-width: 991px){
+    .card-pad{
+        // padding: 1rem !important;
+        width: 70%; 
+        display:block;
+    }
+}
+
+/*large devices*/
+@media only screen and (min-width : 992px)  and (max-width: 1199px){
+    .card-pad{
+        width: 60%; 
+        display:block;
+    }
+}
+
+/*extra large devices*/
+@media only screen and (min-width : 1200px){
+    .card-pad{
+        width: 50%; 
+        display:block;
+        // padding-left: 13rem !important;
+        // padding-right: 13rem !important;
+    }
+}
+
+.card-pad{
+    position: relative !important;
+    top: 25%;
+    margin: 0 auto !important;
+    vertical-align: middle;
+}

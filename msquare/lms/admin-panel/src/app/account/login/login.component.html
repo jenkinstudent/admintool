@@ -1,0 +1,94 @@
+<!-- auth-page wrapper -->
+<div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center" style="height: 100vh !important;">
+    <div class="bg-overlay"></div>
+    <!-- auth-page content -->
+    <div class="auth-page-content overflow-hidden pt-lg-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card overflow-hidden" style="border-radius: 10px;">
+                        <div class="row g-0"> 
+                            <div class="col-lg-6 d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block">
+                                <div class="auth-one-bg h-100" >
+                                    <div class="bg-overlay"></div>
+                                    <div style="display: block;margin: auto 0;">
+                                        <img src="assets/images/office.png" alt="" style="width:100%;height:auto;bottom: 0;
+                                        position: absolute;">
+                                    </div>
+                                    <div class="position-relative d-flex flex-column" style="padding:20px !important; padding-bottom: 0px;">
+                                        <h1 style=" margin-bottom: 10px; font-weight: normal;color:#666;">{{'Admin Login' | translate}}</h1>
+                                        <h4 style="color:#666;font-weight: 300; " class="mb-0">{{'Make sure your account is secure' | translate}}</h4>
+                                       
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <!-- end col -->
+  
+                            <div class="col-lg-6" style="background-color:#754C29;">
+                                <div class="p-lg-5 p-4" style="padding:20px !important">
+                                    <!-- <h1 style=" margin-bottom: 10px; font-weight: normal;color:#fff;">{{'Welcome!' | translate}}</h1> -->
+                                    <div class="text-center mt-4">
+                                        <a style="margin: 0 auto;"><img src="assets/images/Desktop-White-Logo.png" alt="" style="width: 252px; height: 65.5px;"></a>
+                                    </div>
+  
+                                    <div class="m-5 mt-4 mb-0" >
+                                        <form>
+  
+                                            <div class="mb-2">
+                                                <input type="text" class="form-control" placeholder="{{'Email' | translate}}" [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+                                            </div>
+  
+                                            <div class="mb-2">
+                                                <div class="position-relative auth-pass-inputgroup">
+                                                  <input [type]="fieldTextType ? 'text' : 'password'" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control pe-5" placeholder="{{'Password' | translate}}">
+                                                  <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="mdi align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType
+                                                  }" (click)="toggleFieldTextType()"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <ng-select class="langselect" [(ngModel)]="language" [ngModelOptions]="{standalone: true}">
+                                                    <ng-option value="" selected disabled="">{{'Language'  | translate}}</ng-option>
+                                                    <ng-option *ngFor="let language of translate.getLangs()" value="{{language}}">{{language}}</ng-option>
+                                                </ng-select>
+                                            </div>
+  
+                                            
+
+                                            <div class="form-check form-check-outline form-check-dark">
+                                                <div class="float-end" style="cursor: pointer;" [routerLink]="['/auth/forgot-password']">
+                                                    <a  style="color:#fff;">{{'Forgot password?'  | translate}}</a>
+                                                </div>
+                                                <input class="form-check-input" style="background-color:#fff" type="checkbox" checked [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}">
+                                                <label class="form-check-label" style="color: #fff;cursor:default;">{{'Remember me'  | translate}}</label>
+                                            </div>
+  
+                                            <button type="button" style="display: block;margin:0 auto;" class="btn btn-light ps-4 pe-4 mt-3" (click)="login()">{{'Sign In'  | translate}}</button>
+                                            
+  
+                                        </form>
+                                    </div>
+                                    <br><br><br>
+                                    <!-- <div class="mt-4 text-center">
+                                        <a class="mb-0 text-white" [routerLink]="['/auth/register']">{{'Dont have an account? Signup'  | translate}}</a>
+                                    </div> -->
+                                </div>
+                                <br><br><br>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                    </div>
+                    <!-- end card -->
+                </div>
+                <!-- end col -->
+  
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end auth page content -->
+  </div>
+  <!-- end auth-page-wrapper -->
+  

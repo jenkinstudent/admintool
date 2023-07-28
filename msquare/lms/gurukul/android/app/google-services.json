@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "844017539018",
+    "project_id": "fusion-gurukul",
+    "storage_bucket": "fusion-gurukul.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844017539018:android:6eb05c81d5e6b54d1f2133",
+        "android_client_info": {
+          "package_name": "com.msquare.fmldemployee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "844017539018-qjpma1025vln4tkqqbu5rqqhunso2djt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.msquare.fmldemployee",
+            "certificate_hash": "13fce4742a3656319ceb964e53a18e9f1f4e4511"
+          }
+        },
+        {
+          "client_id": "844017539018-drom875sv5fietbg7operdqtut49umg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiZgANKeEQarITovkQZpi7-iqfSngy_Ag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844017539018-drom875sv5fietbg7operdqtut49umg7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

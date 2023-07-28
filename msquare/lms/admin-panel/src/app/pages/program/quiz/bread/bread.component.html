@@ -1,0 +1,332 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+
+<div class="card">
+    <div class="card-header">
+        <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+        <span class="card-title mb-0 text-primary">{{label}}</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Question Bank Code</label>
+                            <input disabled="" type="text" class="form-control" value="P{{questionBankCode}}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Question Bank Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Add Question Bank Title"
+                                [(ngModel)]="quizTitle" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Question Bank Description <span class="text-danger">*</span></label>
+                            <textarea type="text" class="form-control" rows="7" placeholder="Add Question Bank Description"
+                                [(ngModel)]="description" [ngModelOptions]="{standalone: true}"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Keywords, Description, Tags <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Add Keywords, Description, Tags"
+                                [(ngModel)]="keywords" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Upload Thumbnail (300px X 200px)</label>
+                            <input type="file" class="form-control" (change)="uploadThumbnail($event)"
+                             #thumbnailChild>
+                            <div class="mt-1" *ngIf="thumbnailLink != ''">
+                                <a href="{{thumbnailLink}}" target="_blank">
+                                    {{'View Thumbnail' | translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Questions Count <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Add Questions Count"
+                                [(ngModel)]="questionsCount" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Quiz Time in Minutes <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Add Quiz Time in Minutes"
+                                [(ngModel)]="quizTime" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" *ngIf="!edit" style="float: right;" class="btn btn-primary waves-effect waves-light ms-2" (click)="save(true)"
+        [disabled]="loader">{{label}} and Add Questions<i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+            style="margin-left: 10px;"></i></button>
+        <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light" (click)="save(false)"
+            [disabled]="loader">{{label}} <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                style="margin-left: 10px;"></i></button>
+    </div>
+</div>
+
+<div class="card" *ngIf="edit">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-5">
+                <label class="form-label">Total Questions: <span class="text-danger">{{questions.length}}</span></label>
+                <button class="btn btn-primary" style="margin-left: 10px;" *ngIf="!add" (click)="addQ()">{{'Add Question' | translate}}</button>
+            </div>
+            <div class="col-lg-1">
+                
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group form-group">
+                    <input type="file" class="form-control" #importQuestions (change)="selectImportFile($event)">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary btn-flat" (click)="importFile()">{{'Import' | translate}}</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-primary me-2"><a href="{{baseURL}}/download/SampleQuestionFile.xlsx" target="_blank" style="color: unset;" download>{{'Download Sample' | translate}}</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="add">
+    <div class="card-header">
+        <span class="card-title mb-0 text-primary" *ngIf="!update">{{'Add Question' | translate}}</span>
+        <span class="card-title mb-0 text-primary" *ngIf="update">{{'Edit Question' | translate}}</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <label class="form-label">Question <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="question" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option A <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="optionA" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option B <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="optionB" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option C</label>
+                    <input type="text" class="form-control" [(ngModel)]="optionC" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option D</label>
+                    <input type="text" class="form-control" [(ngModel)]="optionD" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option E</label>
+                    <input type="text" class="form-control" [(ngModel)]="optionE" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option F</label>
+                    <input type="text" class="form-control" [(ngModel)]="optionF" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option G</label>
+                    <input type="text" class="form-control" [(ngModel)]="optionG" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option H</label>
+                    <input type="text" class="form-control" [(ngModel)]="optionH" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option I</label>
+                    <input type="text" class="form-control" [(ngModel)]="optionI" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">Option J</label>
+                    <input type="text" class="form-control" [(ngModel)]="optionJ" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <label class="form-label">Remark</label>
+                    <input type="text" class="form-control" [(ngModel)]="remark" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <label class="form-label">Answer <span class="text-danger">*</span></label><br>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="A" value="A" class="form-check-input">
+                        <label for="A" class="form-check-label">A</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="B" value="B" class="form-check-input">
+                        <label for="B" class="form-check-label">B</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="C" value="C" class="form-check-input">
+                        <label for="C" class="form-check-label">C</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="D" value="D" class="form-check-input">
+                        <label for="D" class="form-check-label">D</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="E" value="E" class="form-check-input">
+                        <label for="E" class="form-check-label">E</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="F" value="F" class="form-check-input">
+                        <label for="F" class="form-check-label">F</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="G" value="G" class="form-check-input">
+                        <label for="G" class="form-check-label">G</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="H" value="H" class="form-check-input">
+                        <label for="H" class="form-check-label">H</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="I" value="I" class="form-check-input">
+                        <label for="I" class="form-check-label">I</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="answer" [(ngModel)]="answer" [ngModelOptions]="{standalone: true}" id="J" value="J" class="form-check-input">
+                        <label for="J" class="form-check-label">J</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" *ngIf="!update" class="btn btn-primary waves-effect waves-light me-2" (click)="addQuestion()">Add</button>
+        <button type="button" *ngIf="update" class="btn btn-primary waves-effect waves-light me-2" (click)="editQuestionById()">Update</button>
+        <button type="button" class="btn btn-outline-primary waves-effect waves-light" (click)="close()">Close</button>
+    </div>
+</div>
+
+<div class="card" *ngIf="edit">
+    <div class="card-header">
+        <span class="card-title mb-0 text-primary">{{'Questions' | translate}}</span>
+    </div><!-- end card header -->
+    <div class="card-body border border-dashed border-end-0 border-start-0">
+        <form>
+            <div class="row g-3">
+                <div class="col-xxl-5 col-sm-12">
+                    <div class="search-box">
+                        <input type="text" name="searchTerm" class="form-control"
+                            placeholder="Search..." [(ngModel)]="searchTerm">
+                        <i class="ri-search-line search-icon"></i>
+                    </div>
+                </div>
+                <!--end col-->
+                <div class="col-xxl-3 col-sm-4">
+                </div>
+                <!--end col-->
+                <div class="col-xxl-4 col-sm-8 flex items-end">
+                    <button type="button" class="btn btn-danger" style="float: right;" (click)="deleteQuestions()">{{'Delete Questions' | translate}}</button>
+                    <button class="btn btn-primary me-2" style="float:right" (click)="exportAsXLSX()">{{'Export' | translate}}</button>
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table-card mb-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-light text-muted">
+                        <th class="text-center"> 
+                            <div class="form-check">
+                                <input type="checkbox" (change)="allQuestionSelection($event)" class="form-check-input">
+                            </div>
+                        </th>
+                        <th class="text-center" style="min-width: 50px;">SR</th>
+                        <th class="text-center">Question</th>
+                        <th class="text-center">Answer</th>
+                        <th class="text-center">Option A</th>
+                        <th class="text-center">Option B</th>
+                        <th class="text-center">Option C</th>
+                        <th class="text-center">Option D</th>
+                        <th class="text-center">Option E</th>
+                        <th class="text-center">Option F</th>
+                        <th class="text-center">Option G</th>
+                        <th class="text-center">Option H</th>
+                        <th class="text-center">Option I</th>
+                        <th class="text-center">Option J</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of questions | filter: searchTerm;let i = index;">
+                        <td class="text-center">
+                            <div class="form-check">
+                                <input type="checkbox" [(ngModel)]="item.checked" (change)="checkQuiz(i)" class="form-check-input">
+                            </div>
+                        </td>
+                        <td class="text-center text-muted">#{{i+1}}</td>
+                        <td class="text-center"><p [innerHTML]="item.question"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.answer"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionA"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionB"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionC"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionD"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionE"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionF"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionG"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionH"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionI"></p></td>
+                        <td class="text-center"><p [innerHTML]="item.optionJ"></p></td>
+                        <td class="text-center">
+                            <ul class="list-inline hstack gap-2 mb-0">
+                                <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                    data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                    <a (click)="editQuestion(item._id)"
+                                        class="text-primary d-inline-block edit-item-btn" style="cursor: pointer;">
+                                        <i class="ri-pencil-fill fs-16"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                      </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

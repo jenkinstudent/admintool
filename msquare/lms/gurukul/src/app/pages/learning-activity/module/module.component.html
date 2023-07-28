@@ -1,0 +1,46 @@
+<app-breadcrumbs isBack="Yes" title="{{'My Learning Activities'| translate}} ({{'Modules'| translate}})"></app-breadcrumbs>
+<div class="row project-wrapper">
+    <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 h-100" style="padding: unset;">
+        <app-sidebar type="learningActivity"></app-sidebar>
+    </div>
+    <div class="col-xxl-10 col-xl-10 col-lg-9 col-md-9 col-sm-12 col-xs-12 h-100" >
+        <div class="mobileCardPadding" style="padding: 20px;">
+            <div class="card" style="min-height: 70vh !important; box-shadow: unset;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-12 col-xs-12" *ngFor="let module of module;let p = index">
+                            <div class="card card-height-100" style="box-shadow: unset; border:1px solid #f0f0f1;border-radius: unset;"  >
+                                <div class="card-body cursor-pointer" style="padding:0.5rem;" [routerLink]="['/pages/my-learning-activities/module-details',index,courseIndex,p]">
+                                    <div class="mb-1" style="display: grid;grid-template-columns:1fr;">
+                                        <div class="grid text-center">
+                                            <img src="assets/images/user.png" style="width: 14px;">
+                                            <span class="" style="font-size: 9px;"> {{counts[p]}} Done </span>
+                                        </div>
+                                    </div>
+                                    <img  style="width: 100%;" class="thumbnail cursor-pointer" onerror="this.src='assets/images/module.png';" src="{{module.moduleId?.thumbnail}}">
+                                    <h4 class="card-title mt-1 mb-1 fs-12" style="font-weight: bold;">{{module.moduleId?.title}}</h4>
+                                    <p class="card-text text-muted fs-12"> {{module.moduleId?.description}}</p>
+                                </div>
+                                <ngb-progressbar [value]="module.percentage" style="height: 1px"></ngb-progressbar>
+                                <div class="card-footer cursor-pointer" style="padding:0.5rem;" [routerLink]="['/pages/my-learning-activities/module-details',index,courseIndex,p]">
+                                    <div style="display: grid;grid-template-columns:3fr 1fr;">
+                                        <div class="grid" style="line-height: 10px;">
+                                            <img src="assets/images/quality.png" style="width: 11px;">
+                                            <span class="" style="font-size: 10px;"> Get certified by completing the module.</span>
+                                        </div>
+                                        <div class="grid align-self-center">
+                                            <button style="background-color: #ae3033; " class="btn btn-cust btn-rounded btn-sm">{{'Open' | translate}}</button>
+                                            <!-- <button *ngIf="module.percentage > 0 && module.percentage < 100" style="background-color: #e9983e;"class="btn btn-cust btn-rounded btn-sm">{{'Resume' | translate}}</button>
+                                            <button *ngIf="module.percentage == 100" style="background-color: #5fb157;"class="btn btn-cust btn-rounded btn-sm">{{'Completed' | translate}}</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+ 
+</div>

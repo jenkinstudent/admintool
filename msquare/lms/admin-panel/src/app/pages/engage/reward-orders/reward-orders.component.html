@@ -1,0 +1,133 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Reward Orders" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control" placeholder="Search"
+                                    [(ngModel)]="searchTerm">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+
+                        <div class="col-xxl-7 col-sm-12 flex items-end">
+                            <div class="text-md-right float-md-end ">
+                                <ul class="pagination">
+
+                                    <li class="page-item me-2">
+                                        <button type="button" (click)="getData()"
+                                            class="btn btn-outline-primary btn-icon waves-effect waves-light"><i
+                                                class=" ri-refresh-line"></i></button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th>{{'SR' | translate}}</th>
+                                <th>{{'Employee Name' | translate}}</th>
+                                <th>{{'Items' | translate}}</th>
+                                <th>{{'Address' | translate}}</th>
+                                <th>{{'Action' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data | search:searchTerm; let i = index">
+                                <td class="text-muted">{{i+1}}</td>
+                                <td>{{item.employeeId?.firstName}} {{item.employeeId?.lastName}}</td>
+                                <td><span *ngFor="let data of item.items;let ind=index">{{data.itemId?.name}} X {{data.qty}} <br></span></td>
+                                <td>{{item.addressLine1}}, {{item.addressLine2}}, {{item.city}}, {{item.state}}, {{item.country}} - {{item.pincode}}</td>
+                                <td>
+                                    <ul class="list-inline hstack gap-2 mb-0">
+                                        <li data-bs-toggle="tooltip" data-bs-trigger="hover" ngbtooltip="Edit"
+                                            placement="top" class="list-inline-item edit">
+                                            <a class="text-success d-inline-block edit-item-btn"
+                                                (click)="openModal(dataModal,item)" style="cursor: pointer;">
+                                                <i class="ri-check-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+</div>
+
+<!-- Center Modal -->
+<ng-template #dataModal let-modal>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                    <label>Address Line 1</label>
+                    <input type="text" placeholder="Address Line 1" [(ngModel)]="item.addressLine1" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                    <label>Address Line 2</label>
+                    <input type="text" placeholder="Address Line 2" [(ngModel)]="item.addressLine2" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" placeholder="City" [(ngModel)]="item.city" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" placeholder="State" [(ngModel)]="item.state" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" placeholder="Country" [(ngModel)]="item.country" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                    <label>Pincode</label>
+                    <input type="text" placeholder="Pincode" [(ngModel)]="item.pincode" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-12 mb-3">
+                <div class="form-group">
+                    <label>Remark</label>
+                    <input type="text" placeholder="Remark" [(ngModel)]="item.remark" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" (click)="modalService.dismissAll()" >Close</button>
+        <button type="button" class="btn btn-primary" (click)="approve()" data-dismiss="modal">Approve</button>
+      </div>
+</ng-template>

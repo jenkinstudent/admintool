@@ -1,0 +1,70 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="back()"></i>
+                <span class="card-title mb-0 text-primary">{{label}}</span>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-6 border-right">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3" style="margin-bottom: unset;">
+                                    <label>{{'Photo' | translate}} <span class="text-danger">*</span></label>
+                                    <input type="file" class="hide_file form-control" (change)="uploadPhoto($event)"
+                                        accept="image/*" #documentFileChild>
+
+                                    <a *ngIf="photo !== ''" href="{{photo}}"
+                                        target="_blank">{{'View Photo' | translate}}</a>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group" style="margin-top: 25px;margin-bottom: 40px;">
+                                    <div class="checkbox" style="margin-top:unset">
+                                        <label> <input type="checkbox" [(ngModel)]="isDefault"> Default</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <label>{{'Content Type' | translate}} ({{'Video' | translate}})</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon3">https://www.youtube.com/embed/</span>
+                                    <input type="text" class="form-control" id="basic-url"
+                                        aria-describedby="basic-addon3" [(ngModel)]="youtubeLink">
+                                </div>
+                                <a href="https://www.youtube.com/embed/{{youtubeLink}}" *ngIf="youtubeLink != '' && youtubeLink != null && youtubeLink != undefined" target="_blank">{{'View Youtube Link' | translate}}</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>{{'Message' | translate}} <span class="text-danger">*</span></label>
+                                <textarea class="form-control" rows="6" placeholder="Enter Message"
+                                    [(ngModel)]="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+                <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light"
+                    [disabled]="loader" (click)="save()">Save <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                        style="margin-left: 10px;"></i></button>
+                <button type="button" style="float: right;" class="btn btn-ghost-primary waves-effect waves-light me-3"
+                    (click)="back()" [disabled]="loader">Back</button>
+            </div>
+        </div>
+    </div>
+</div>

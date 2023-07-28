@@ -1,0 +1,102 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+
+<div class="card">
+    <div class="card-header">
+        <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+        <span class="card-title mb-0 text-primary">{{label}}</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-6 border-right">
+                <div class="row">
+                    
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Branch Code</label>
+                            <input type="text" class="form-control" placeholder="Enter Branch Code" [disabled]="action == 'edit'" [(ngModel)]="branchCode" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Branch Name</label>
+                            <input [disabled]="action == 'view'" type="text" class="form-control"
+                                placeholder="Enter Branch Name" [(ngModel)]="branchName"  [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Cluster</label>
+                            <input [disabled]="action == 'view'" [(ngModel)]="cluster" [ngModelOptions]="{standalone: true}"  type="text" class="form-control"
+                            placeholder="Enter Cluster Name">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Division</label>
+                            <input [disabled]="action == 'view'" [(ngModel)]="division" [ngModelOptions]="{standalone: true}" type="text" class="form-control"
+                            placeholder="Enter Division Name">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">State</label>
+                            <input [disabled]="action == 'view'" [(ngModel)]="state" [ngModelOptions]="{standalone: true}" type="text" class="form-control"
+                            placeholder="Enter State Name">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Zone</label>
+                            <input [disabled]="action == 'view'" [(ngModel)]="zone" [ngModelOptions]="{standalone: true}"  type="text" class="form-control"
+                            placeholder="Enter Zone Name">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <input [disabled]="action == 'view'" [(ngModel)]="address" [ngModelOptions]="{standalone: true}"  type="text" class="form-control"
+                            placeholder="Enter Address">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Pincode</label>
+                            <input [disabled]="action == 'view'" [(ngModel)]="pincode" mask="000 000" [ngModelOptions]="{standalone: true}"  type="text" class="form-control"
+                            placeholder="Enter Pincode">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+
+                   
+                    
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Email Id</label>
+                            <input type="email" class="form-control"
+                            placeholder="Enter Email Id" [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6" *ngIf="!edit">
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input  type="password" class="form-control"
+                                 placeholder="Enter Password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+                               
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer" *ngIf="action !== 'view'">
+        <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light" (click)="save()"
+            [disabled]="loader">{{label}} <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                style="margin-left: 10px;"></i></button>
+    </div>
+</div>

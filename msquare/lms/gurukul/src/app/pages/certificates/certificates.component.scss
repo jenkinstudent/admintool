@@ -1,0 +1,53 @@
+.grid-container{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.grid-item{
+    padding: 5px;
+}
+
+.title{
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.item-title{
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+@media only screen and (min-width: 1200px) {
+    .image{
+        height: 300px !important;
+    }
+}
+
+
+.input-step{
+    height:23px;
+}
+
+.form-control[readonly]{
+    background-color: white !important;
+}
+
+.margin{
+    margin: 1.5rem;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .margin{
+        margin: unset !important;
+    }
+
+    .container{
+        padding: unset !important;
+    }
+}

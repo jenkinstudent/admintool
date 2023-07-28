@@ -1,0 +1,75 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="back()"></i>
+                <span class="card-title mb-0 text-primary">{{label}}</span>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group mb-3">
+                            <label>{{'Type' | translate}}</label>
+                            <ng-select [(ngModel)]="type">
+                                <ng-option value="" disabled> Select Type</ng-option>
+                                <ng-option value="Individual">Individual</ng-option>
+                                <ng-option value="By Department">By Department</ng-option>
+                                <ng-option value="By Group">By Group</ng-option>
+                            </ng-select>
+                            </div>
+                    </div>
+                    <div class="col-lg-12" *ngIf="type == 'Individual'">
+                        <div class="form-group mb-3">
+                            <ng-select (change)="getIndividual($event)">
+                                <ng-option value="" disabled>Select Individual</ng-option>
+                                <ng-option *ngFor="let item of users;let i =index" value="{{i}}">{{item.firstName}}
+                                    {{item.lastName}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" *ngIf="type == 'By Department'">
+                        <div class="form-group mb-3">
+                            <ng-select (change)="getByDept($event)">
+                                <ng-option value="" disabled>Select Department</ng-option>
+                                <ng-option *ngFor="let item of empData" value="{{item}}">{{item}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" *ngIf="type == 'By Group'">
+                        <div class="form-group mb-3">
+                            <ng-select (change)="getByGroup($event)">
+                                <ng-option value="" disabled>Select Group</ng-option>
+                                <ng-option *ngFor="let group of groupData" value="{{group._id}}">{{group.name}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group mb-3">
+                            <label>{{'Subject' | translate}}</label>
+                            <input class="form-control" [(ngModel)]="subject">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group mb-3">
+                          <label>{{'Message' | translate}}</label>
+                          <ckeditor [editor]="Editor" #activeWallEditor [config]="config" [(ngModel)]="message">
+                            </ckeditor>
+                        </div>
+                      </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+                <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light"
+                    [disabled]="loader" (click)="save()">Save <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                        style="margin-left: 10px;"></i></button>
+                <button type="button" style="float: right;" class="btn btn-ghost-primary waves-effect waves-light me-3"
+                    (click)="back()" [disabled]="loader">Back</button>
+            </div>
+        </div>
+    </div>
+</div>

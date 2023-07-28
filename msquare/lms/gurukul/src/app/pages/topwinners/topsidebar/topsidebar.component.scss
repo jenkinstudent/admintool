@@ -1,0 +1,65 @@
+.card{
+    background-color: #1e1e1e;
+    box-shadow: unset;
+    margin-bottom: unset;
+    border-radius: unset;
+    
+    overflow: auto;
+}
+.accordion .accordion-item .accordion-header{
+    background-color: unset !important;
+}
+.accordion .accordion-item .accordion-header .accordion-button{
+    background-color: unset !important;
+}
+
+.accordion .accordion-button{
+    color: #1e1e1e;
+    box-shadow: unset;
+    background-color: unset;
+    border: unset;
+    padding: 6px;
+}
+
+.accordion-body{
+    padding: unset !important;
+}
+
+.collapse .card-body{
+    padding: 3px !important;
+}
+
+.accordion .card{
+    border-bottom: unset;
+}
+
+.active{
+    background-color: #cd5e29 !important;
+    background-image:unset !important;
+    color:white !important;
+    .ri-dashboard-fill{
+        color:white !important;
+    }
+}
+
+.course-header{
+    background-image: linear-gradient(#1e1e1e, gray, #1e1e1e);
+}
+
+// .acHeader{
+//     background-image: linear-gradient(#1e1e1e, #424242, #1e1e1e);
+// }
+
+.moduleHeader{
+    font-size:10px;color:#1e1e1e; list-style-type:none; padding: 5px; cursor: pointer;background-image: linear-gradient(#eeeeee, #e0e0e0, #bdbdbd);
+}
+
+.progHeader{
+    color: white !important; 
+    font-size: 13px !important; 
+    font-weight: bold !important;
+
+    .block{
+        color: rgb(255,255,255,0.5)
+    }
+}

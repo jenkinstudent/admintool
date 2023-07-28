@@ -1,0 +1,796 @@
+<app-breadcrumbs isBack="Yes" title="{{'My Learning Activities'| translate}} ({{'Modules Details'| translate}})"  name="{{module.title}}"></app-breadcrumbs>
+<div class="row project-wrapper">
+    <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-3 col-sm-12 col-xs-12 h-100" style="padding: unset;">
+        <app-sidebar type="learningActivity"></app-sidebar>
+    </div>
+    <div class="col-xxl-10 col-xl-10 col-lg-9 col-md-9 col-sm-12 col-xs-12 h-100" >
+        <ul ngbNav #ModifierCustom="ngbNav" [activeId]="activeId" class="nav nav-pills nav-customs nav-danger mt-2">
+            <li [ngbNavItem]="1" style="margin-right: 10px" class="ngb-nav-0">
+                <a ngbNavLink class="nav-link training nav-0" (click)="activeId = 1">
+                    {{'Training Module' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card videoCard mt-3">
+                        <div class="card-body videoCaurosel">
+                            <div style="width:100%;" *ngIf="!isLoaded">
+                                <p role="status" class="spinner-border text-danger text-center" style="margin: 0 auto;
+                                display: block;">
+                                </p>
+                            </div>
+                           
+                            <ngb-carousel [pauseOnHover]="true" [keyboard]="true" [interval]="0"
+                                [showNavigationArrows]="module.moduleId?.documents.length > 1">
+                                <ng-template ngbSlide *ngFor="let item of module.moduleId?.documents">
+                                    <div class="row mb-2" style="text-align: center;display:block;">
+                                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" (click)="zoom = zoom-0.1"><i class='ri-zoom-out-line fs-22'></i></button>
+                                        <button class="btn btn-light btn-sm fs-13 fw-bold" style="width:auto;" (click)="prevPage()"
+                                            [disabled]="page === 1">{{'Prev' | translate}}</button>
+                                        <span>{{ page }} / {{ totalPages }}</span>
+                                        <button class="btn btn-light btn-sm fs-13 fw-bold" style="width:auto;" (click)="nextPage()"
+                                            [disabled]="page === totalPages">{{'Next' | translate}}</button>
+                                        
+                                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" (click)="zoom = zoom+0.1"><i class='ri-zoom-in-line fs-22'></i></button>
+                                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen" *ngIf="this.getPlatform() == 'web'" (click)="fullscreen()"><i class='bx bx-fullscreen fs-22'></i></button>
+                                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen" *ngIf="this.getPlatform() == 'android'" (click)="openFullScreenModal(fullscreenModal,item.path)"><i class='bx bx-fullscreen fs-22'></i></button>
+                                    </div>
+                                    <pdf-viewer class="pdfViwer h125Responsive"
+                                        src="{{item.path}}"
+                                        [original-size]="false" [fit-to-page]="false" [autoresize]="true"
+                                        [zoom-scale]="'page-width'" [zoom]="zoom" [show-all]="false" [page]="page"
+                                        (after-load-complete)="afterLoadComplete($event)"
+                                        style="width: 100%; display: block;">
+                                    </pdf-viewer>
+                                        
+                                </ng-template>
+                            </ngb-carousel>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2" style="margin-right: 10px" class="ngb-nav-1">
+                <a ngbNavLink class="nav-link youtube" (click)="activeId = 2">
+                    {{'Video' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card videoCard mt-3">
+                        <div class="card-body videoCaurosel">
+                            <ngb-carousel [pauseOnHover]="true" [keyboard]="true" [interval]="0"
+                                [showNavigationArrows]="module.moduleId?.youtubes.length > 1">
+                                <ng-template ngbSlide *ngFor="let item of module.moduleId?.youtubes">
+                                    <iframe width="100%" style="margin-bottom: 10px;" class="h115Responsive"
+                                        [src]="item.path | youtubePipe" title="YouTube video player" frameborder="0"
+                                        allowfullscreen></iframe>
+                                </ng-template>
+                            </ngb-carousel>
+                            
+                        </div>
+                    </div>
+                   
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="3" style="margin-right: 10px" class="ngb-nav-2">
+                <a ngbNavLink class="nav-link onePagerData" (click)="activeId = 3">
+                    {{'One Pager' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card videoCard mt-3">
+                        <div class="card-body videoCaurosel">
+
+                            <ngb-carousel [pauseOnHover]="true" [keyboard]="true" [interval]="0"
+                                [showNavigationArrows]="module.moduleId?.onePagers.length > 1">
+                                <ng-template ngbSlide *ngFor="let item of module.moduleId?.onePagers">
+                                    <img src="{{item.path}}"
+                                    onerror="this.src='assets/images/file.png';" class="h90Responsive"
+                                    style="width:100%;display: block;margin:0 auto;height: auto;" height="auto">
+
+
+                                </ng-template>
+                            </ngb-carousel>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="4" style="margin-right: 10px">
+                <a ngbNavLink class="nav-link ngb-nav-3" (click)="changeTab(4)">
+                    {{'Quiz' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                    <div style="text-align: right;" *ngIf="!scoreResult && !knowAnswer  && quizStart && !quizEnabled">
+                        <span class="time">{{displayTime1}}</span>
+                    </div>
+                    <div style="text-align: right; height: 15px;" *ngIf="scoreResult || knowAnswer || !quizStart && !quizEnabled">
+                        
+                    </div>
+                    <div class="card videoCard" style="background-color: #f6d8c9;">
+                        <div class="card-body quizCard" style="display:block;margin:0 auto;" *ngIf="!knowAnswer && quizStart && quizEnabled">
+                            <div class="text-center mb-2" style="background-color: #6e6e72; padding: 15px;">
+                                <h5 class="text-white mb-0">{{questionBankTitle}}</h5>
+                            </div>
+                            <div style="height: 430px;overflow: overlay; margin-bottom: 10px;">
+                                <div style="background-color: white; padding: 10px 30px;">
+                                    <img src="assets/images/startQuiz.jpg" style="width: 300px;display: block; margin: 20px auto;">
+                                    <h5>{{'Quiz Guidelines' | translate}}</h5>
+                                    <ol>
+                                        <li>{{'Read the module carefully before attempting the quiz.' | translate}}</li>
+                                        <li>{{'There is timer for every quiz, you need to complete the Quiz in one go. If you come out from the quiz page session will be expired and you will have to start the quiz again.' | translate}}</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="text-center" style="background-color: #6e6e72; padding: 15px;">
+                               <button class="btn btn-light btn-sm"  (click)="startTest()">{{'Start Quiz' | translate}}</button>
+                            </div>
+                        </div>
+                        <div class="card-body quizCard" style="display:block;margin:0 auto;" *ngIf="!knowAnswer && quizStart && !quizEnabled">
+                            <div class="text-center mb-2" style="background-color: #6e6e72; padding: 15px;">
+                                <h5 class="text-white mb-0">{{'Quiz' | translate}} - {{questionBankTitle}}</h5>
+                            </div>
+                            <div style="height: 430px;overflow: overlay;" *ngIf="!scoreResult">
+                                <div style="background-color: white; padding: 10px 30px;" *ngFor="let item of questions;let i=index;" class="mb-3">
+                                    <span style="color: #1e1e1e;"><b>{{("0"+(i+1)).slice(-2)}}.</b> &nbsp;&nbsp;{{item.question}}</span>
+                                    <div class="mt-3 mb-1">
+                                        <div class="row">
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <input [id]="'radioA'+i" style="display:none" value="A" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioA'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> A.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionA}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <input [id]="'radioB'+i" style="display:none" value="B" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioB'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> B.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionB}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionC != ''">
+                                                <input [id]="'radioC'+i" style="display:none" value="C" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioC'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> C.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionC}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionD != ''">
+                                                <input [id]="'radioD'+i" style="display:none" value="D" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioD'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> D.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionD}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionE != ''">
+                                                <input [id]="'radioE'+i" style="display:none" value="E" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioE'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> E.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionE}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionF != ''">
+                                                <input [id]="'radioF'+i" style="display:none" value="F" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioF'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> F.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionF}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionG != ''">
+                                                <input [id]="'radioG'+i" style="display:none" value="G" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioG'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> G.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionG}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionH != ''">
+                                                <input [id]="'radioH'+i" style="display:none" value="H" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioH'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> H.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionH}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionI != ''">
+                                                <input [id]="'radioI'+i" style="display:none" value="I" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioI'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> I.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionI}}</a></label>
+                                            </div>
+                                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionJ != ''">
+                                                <input [id]="'radioJ'+i" style="display:none" value="J" type="radio" [name]="'question'+i" (change)="inputRadioChange($event,i)" [(ngModel)]="item.Act_Answer">
+                                                <label [for]="'radioJ'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                <b class="input-option"> J.</b> 
+                                                <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionJ}}</a></label>
+                                            </div>
+                                            
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                                <div class="text-center" style="background-color: #6e6e72; padding: 15px;" *ngIf="!scoreResult && !knowAnswer">
+                                    <button class="btn btn-light btn-sm" [disabled]="loader" (click)="submitAns()">{{'Submit' | translate}}</button>
+                                 </div>
+                            </div>
+                            <div style="height: 430px; overflow: overlay; background-color: #bdbec0; padding: 10px; margin-bottom: 10px;" *ngIf="scoreResult">
+                                <div class="text-center">
+                                    <h4 style="font-weight: bold;color:#1e1e1e; margin-bottom: 2px;">{{'Thank You!' | translate}}</h4>
+                                    <h5>{{'Your quiz has been completed!' | translate}}</h5>
+                                </div>
+                                <div class="card" style="box-shadow:unset; margin-bottom: unset;">
+                                    <div class="card-body">
+                                        <div class="grid-container">
+                                            <div class="grid-item">
+                                                <div style="background-color: #cd5e29;padding: 2px 4px;border-radius: 5px;">
+                                                    <span style="color: white; margin-bottom: unset;font-size: 18px;">{{'Total Question' | translate}}: {{quizScoreData.totalQuestion}}</span>
+                                                </div>
+                                                <div class="mt-5">
+                                                    <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">{{'Attempted' | translate}} <span class="badge" style="padding: 6px;
+                                                        background-color: #6e6e72; font-size: 14px;">{{quizScoreData.totalQuestion}}</span></span>
+                                                        
+                                                     <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp;{{'Skipped' | translate}} <span class="badge" style="padding: 6px;
+                                                        background-color: #e9993e; font-size: 14px;">{{quizScoreData.skipAnswer}}</span></span>
+                                                        
+                                                     <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'Correct' | translate}} <span class="badge" style="padding: 6px;
+                                                    background-color: #60b357; font-size: 14px;">{{quizScoreData.correctAnswer}}</span></span>
+                                                    
+                                                     <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'Wrong' | translate}} <span class="badge" style="padding: 6px;
+                                                        background-color: #af3034; font-size: 14px;">{{quizScoreData.wrongAnswer}}</span></span>
+                                                </div>
+                                            </div>
+                                            <div class="grid-item">
+                                                <div style="background-color: #cd5e29;padding: 2px;border-radius: 5px;">
+                                                    <span style="color: white; margin-bottom: unset;font-size: 18px;">{{'Earned Reward Points' | translate}}: {{quizScoreData.correctAnswer}}</span>
+                                                </div>
+                                                <div class="mt-5">
+                                                    <img src="assets/images/new/good.png" onerror="this.src='assets/images/new/good.png';" style="width: 200px; height:150px">
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-2"> 
+                                            <span style="font-size: 10px;">{{'Rate the Quiz' | translate}}</span><br>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 1 && submitRating" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 2 && submitRating" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 3 && submitRating" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 4 && submitRating" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 5 && submitRating" style="font-size: 13px;"></i>
+        
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 1 && submitRating" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 2 && submitRating" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 3 && submitRating" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 4 && submitRating" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 5 && submitRating" style="font-size: 13px;"></i><br *ngIf="submitRating">
+                            
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 1 && !submitRating" (click)="submitRatingData(1)" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 2 && !submitRating" (click)="submitRatingData(2)" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 3 && !submitRating" (click)="submitRatingData(3)" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 4 && !submitRating" (click)="submitRatingData(4)" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-fill text-warning" *ngIf="quizScoreData.rating >= 5 && !submitRating" (click)="submitRatingData(5)" style="font-size: 13px;"></i>
+                                
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 1 && !submitRating" (click)="submitRatingData(1)" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 2 && !submitRating" (click)="submitRatingData(2)" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 3 && !submitRating" (click)="submitRatingData(3)" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 4 && !submitRating" (click)="submitRatingData(4)" style="margin-right: 5px; font-size: 13px;"></i>
+                                            <i class="ri-star-line text-warning" *ngIf="quizScoreData.rating < 5 && !submitRating" (click)="submitRatingData(5)" style="font-size: 13px;"></i><br *ngIf="!submitRating">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center" style="background-color: #6e6e72; padding: 15px;" *ngIf="scoreResult && !knowAnswer">
+                                <button class="btn btn-light btn-sm" (click)="knowAnswer = true">{{'Know Answer' | translate}}</button>
+                             </div>
+                        </div>
+                        <div class="card-body quizCard" style="display:block;margin:0 auto;" *ngIf="knowAnswer && quizStart && !quizEnabled">
+                            <div style="height: 510px;overflow: overlay;">
+                                <ng-container *ngFor="let item of quizScoreData.questionArray;let i=index;">
+                                    <div style="background-color: #ecf5ee; padding: 10px 30px;"  class="mb-3" *ngIf="item.Act_Answer == item.answer">
+                                        <span style="color: #1e1e1e;"><b>{{("0"+(i+1)).slice(-2)}}.</b> &nbsp;&nbsp;{{item.question}}</span>
+                                        <div class="mt-3 mb-1">
+                                            <div class="row">
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioA'+i" style="display:none" value="A" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioA'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> A.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionA}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'A'">
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioB'+i" style="display:none" value="B" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioB'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> B.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionB}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'B'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionC != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioC'+i" style="display:none" value="C" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioC'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> C.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionC}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'C'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionD != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioD'+i" style="display:none" value="D" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioD'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> D.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionD}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'D'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionE != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioE'+i" style="display:none" value="E" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioE'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> E.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionE}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'E'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionF != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioF'+i" style="display:none" value="F" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioF'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> F.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionF}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'F'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionG != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioG'+i" style="display:none" value="G" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioG'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> G.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionG}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'G'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionH != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioH'+i" style="display:none" value="H" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioH'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> H.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionH}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'H'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionI != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioI'+i" style="display:none" value="I" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioI'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> I.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionI}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'I'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionJ != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioJ'+i" style="display:none" value="J" type="radio"  disabled="" [name]="'question'+i" [(ngModel)]="item.answer">
+                                                        <label [for]="'radioJ'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> J.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionJ}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.Act_Answer == 'J'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          
+                                        </div>
+                                        <span style="color: #60b357;font-size: 11px;font-weight: bold;">{{'Remarks' | translate}}:</span><br>
+                                        <span style="color: #60b357;font-size: 11px;">{{item.remark}}</span>
+                                    </div>
+                                    <div style="background-color: #fbebee; padding: 10px 30px;"  class="mb-3" *ngIf="item.Act_Answer != item.answer">
+                                        <span style="color: #1e1e1e;"><b>{{("0"+(i+1)).slice(-2)}}.</b> &nbsp;&nbsp;{{item.question}}</span>
+                                        <div class="mt-3 mb-1">
+                                            <div class="row">
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioA'+i" style="display:none" value="A" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioA'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> A.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionA}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'A'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'A'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioB'+i" style="display:none" value="B" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioB'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> B.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionB}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'B'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'B'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionC != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioC'+i" style="display:none" value="C" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioC'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> C.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionC}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'C'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'C'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionD != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioD'+i" style="display:none" value="D" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioD'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> D.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionD}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'D'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'D'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionE != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioE'+i" style="display:none" value="E" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioE'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> E.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionE}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'E'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'E'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionF != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioF'+i" style="display:none" value="F" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioF'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> F.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionF}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'F'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'F'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionG != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioG'+i" style="display:none" value="G" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioG'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> G.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionG}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'G'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'G'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionH != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioH'+i" style="display:none" value="H" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioH'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> H.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionH}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'H'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'H'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionI != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioI'+i" style="display:none" value="I" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioI'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> I.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionI}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'I'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'I'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.optionJ != ''">
+                                                    <div class="d-flex">
+                                                        <input [id]="'radioJ'+i" style="display:none" value="J" type="radio" disabled="" [name]="'question'+i" [(ngModel)]="item.Act_Answer">
+                                                        <label [for]="'radioJ'+i" style="background-color: #d1d2d4; border-radius: 20px; width: 100%;">
+                                                        <b class="input-option"> J.</b> 
+                                                        <a class="input-btn btn btn-sm me-1" for="typefile"> {{item.optionI}}</a></label>
+                                                        <div style="width: 30px; height: 30px;">
+                                                            <img src="assets/images/new/Wrong.png" style="width: 100%;" *ngIf="item.Act_Answer == 'J'">
+                                                            <img src="assets/images/new/Right.png" style="width: 100%;" *ngIf="item.answer == 'J'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <span style="color: #60b357;font-size: 11px;font-weight: bold;">{{'Remarks' | translate}}:</span><br>
+                                        <span style="color: #60b357;font-size: 11px;">{{item.remark}}</span>
+                                    </div>
+                                </ng-container>
+                                
+                            </div>
+                        </div>
+                        <div class="card-body quizCard" style="display:block;margin:0 auto;text-align: center;" *ngIf="!knowAnswer && !quizStart && !quizEnabled">
+                            <h5 class="fw-bold mb-2">Quiz Lock</h5>
+                            <p class="text-dark mb-5">Quiz will be opened at {{effectiveDate | date:'dd MMM, yyyy hh:mm a'}}</p>
+                            <div style="display: block; margin:0 40px;">
+                                <img src="assets/images/locked.jpg" width="100%">
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="5" style="margin-right: 10px">
+                <a ngbNavLink class="nav-link ngb-nav-4" (click)="activeId = 5">
+                    {{'Winners' | translate}}
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card mt-3" style="box-shadow: unset; background-color: #c7a95c;" *ngIf="!winners && !analytics">
+                        <div class="card-body">
+                            <div class="card mb-2" style="background:url('assets/images/winners-back.png');background-repeat: no-repeat;
+                            background-size: cover;">
+                                <div class="card-body mb-4">
+                                    <h4 class="text-white fw-semibold text-center" style="letter-spacing:1px;">{{questionBankTitle}}</h4>
+                                    <h6 class="text-white fw-semibold text-center" style="letter-spacing:1px;">{{openingDate | date:'LLLL, W'}} {{'Week' | translate}}</h6>
+                                </div>
+    
+                                <div class="grid-container1">
+                                    <ng-container *ngFor="let item of certified?.winners;let i=index">
+                                        <div class="grid-item1" *ngIf="item.top10">
+                                            <div class="text-center">
+                                                <div class="profile-user position-relative d-inline-block mx-auto mb-2">
+                                                    <img onerror="this.src='assets/images/users/user.png';" src="{{item.employeeId?.profilephoto}}" alt="user-profile-image" class="rounded-circle avatar-lg img-thumbnail user-profile-image">
+                                                    <div class="avatar-sm p-0 rounded-circle profile-photo-edit">
+                                                        <label class="profile-photo-edit avatar-sm">
+                                                           <img src="assets/images/1.png" style="width: 100%;" *ngIf="i == 0">
+                                                           <img src="assets/images/2.png" style="width: 100%;" *ngIf="i == 1">
+                                                           <img src="assets/images/3.png" style="width: 100%;" *ngIf="i == 2">
+                                                           <img src="assets/images/4.png" style="width: 100%;" *ngIf="i == 3">
+                                                           <img src="assets/images/5.png" style="width: 100%;" *ngIf="i == 4">
+                                                           <img src="assets/images/6.png" style="width: 100%;" *ngIf="i == 5">
+                                                           <img src="assets/images/7.png" style="width: 100%;" *ngIf="i == 6">
+                                                           <img src="assets/images/8.png" style="width: 100%;" *ngIf="i == 7">
+                                                           <img src="assets/images/9.png" style="width: 100%;" *ngIf="i == 8">
+                                                           <img src="assets/images/10.png" style="width: 100%;" *ngIf="i == 9">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <h5 class="text-white fs-12 fw-semibold mb-1" style="letter-spacing: 1px;">{{item.employeeId?.firstName}} {{item.employeeId?.lastName}} <br>{{item.employeeId?.designation}} - {{item.employeeId?.department}}</h5>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                            <button class="btn btn-sm" style="background-color: #9d2d29; color:white;" (click)="winners = true;">{{'Click here for TOP 100 Winners' | translate}}</button>
+                        </div>
+                        </div> 
+                    </div>
+                    <div class="card mt-3 pb-2" style="box-shadow: unset;" *ngIf="winners && !analytics">
+                        <div class="card-body mb-0">
+                            <div class="my-element">
+                                <div class="flex-grow-1">
+                                    <div class="card certified" style="background-color:#cd5e29;padding: 10px;">
+                                        <h5 style="margin: 2px 10px;" class="fs-12 fw-bold text-white">{{'Top 100 Winners' | translate}} of <br>{{questionBankTitle}}</h5>
+                                    </div>
+                                    <img src="assets/images/new/leftEmp.png" style="width: 70px; ">
+                                   
+                                </div>
+                                <div class="flex-grow-1" style="text-align: right;">
+                                    <div class="card totalP" style="background-color:#cd5e29;padding: 10px;">
+                                        <h5 style="margin: 5px 10px;" class="fs-12 fw-bold text-white">{{'Total Participants' | translate}} - <span class="fs-18">{{certified?.winners?.length}}</span></h5>
+                                    </div>
+                                    <img src="assets/images/new/rightEmp.png" style="width: 70px; ">
+                                </div>
+                            </div>
+
+                            <div class="d-flex d-block d-sm-none mb-3">
+                                <div class="flex-grow-1">
+                                    <div class="card certified" style="background-color:#cd5e29;padding: 10px;">
+                                        <h5 style="margin: 2px 10px;" class="fs-12 fw-bold text-white text-truncate-two-lines">{{'Top 100 Winners' | translate}} of <br>{{questionBankTitle}}</h5>
+                                    </div>
+                                    <img src="assets/images/new/leftEmp.png" style="width: 70px; ">
+                                   
+                                </div>
+                            </div>
+
+                            <div class="d-flex d-block d-sm-none">
+                                <div class="flex-grow-1" style="text-align: right;">
+                                    <div class="card totalP" style="background-color:#cd5e29;padding: 10px;top: 97px;">
+                                        <h5 style="margin: 5px 10px;" class="fs-12 fw-bold text-white text-truncate-two-lines">{{'Total Participants' | translate}} - <span class="fs-18">{{certified?.winners?.length}}</span></h5>
+                                    </div>
+                                    <img src="assets/images/new/rightEmp.png" style="width: 70px; ">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered table-striped">
+                                            <thead class="bg-dark text-light ">
+                                                <tr>
+                                                    <th class="text-center">{{'Rank' | translate}}</th>
+                                                    <th class="text-center">{{'Employee Name' | translate}}</th>
+                                                    <th class="text-center">{{'Designation' | translate}}</th>
+                                                    <th class="text-center">{{'Department' | translate}}</th>
+                                                    <th class="text-center">{{'Branch' | translate}}</th>
+                                                    <th class="text-center">{{'State' | translate}}</th>
+                                                    <th class="text-center">{{'Exam Start Time' | translate}}</th>
+                                                    <th class="text-center">{{'Time Taken' | translate}}</th>
+                                                    <th class="text-center">{{'Exam End Time' | translate}}</th>
+                                                    <th class="text-center">{{'%Score' | translate}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ng-container *ngFor="let item of certified?.winners;let i = index;">
+                                                    <tr class="bg-light" *ngIf="i <100">
+                                                        <td class="text-center">{{i+1}}</td>
+                                                        <td class="text-center">{{item.employeeId?.firstName}} {{item.employeeId?.lastName}}</td>
+                                                        <td class="text-center">{{item.employeeId?.designation}}</td>
+                                                        <td class="text-center">{{item.employeeId?.department}}</td>
+                                                        <td class="text-center">{{item.employeeId?.branch}}</td>
+                                                        <td class="text-center">{{item.employeeId?.stateEmp}}</td>
+                                                        <td class="text-center">{{item.examStartTime | date:'dd MMM,yyyy hh:mm:ss'}}</td>
+                                                        <td class="text-center">{{item.examTime}}</td>
+                                                        <td class="text-center">{{item.quizScoreId?.createdAt | date:'dd MMM,yyyy hh:mm:ss'}}</td>
+                                                        <td class="text-center">{{item.quizScore}}%</td>
+                                                    </tr>
+                                                </ng-container>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-sm" (click)="analytics = true;knowAnalytics()">{{'Know The Analytics'  | translate}}</button>
+                        </div>
+                    </div>
+                    <div class="card mt-3 pb-2" style="box-shadow: unset;" *ngIf="winners && analytics">
+                        <div class="card-body mb-0">
+
+                            <div class="row mt-3" >
+                                <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12" >
+                                    <div class="card" style="box-shadow: unset;
+                                    border: 1px solid #e9ebec;">
+                                        <div class="card-body">
+                                            <apx-chart *ngIf="statePieChart != undefined"  [series]="statePieChart.series" [chart]="statePieChart.chart"
+                                            [labels]="statePieChart.labels" [legend]="statePieChart.legend"
+                                            [dataLabels]="statePieChart.dataLabels" [responsive]="statePieChart.responsive"
+                                            [colors]="statePieChart.colors"></apx-chart>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <h2 class="fw-bold text-dark">{{'State' | translate}}</h2>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card" style="box-shadow: unset;
+                                    border: 1px solid #e9ebec;">
+                                        <div class="card-body">
+                                            <apx-chart *ngIf="departmentPieChart != undefined" [series]="departmentPieChart.series" [chart]="departmentPieChart.chart"
+                                            [labels]="departmentPieChart.labels" [legend]="departmentPieChart.legend"
+                                            [dataLabels]="departmentPieChart.dataLabels" [responsive]="departmentPieChart.responsive"
+                                            [colors]="departmentPieChart.colors"></apx-chart>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <h2 class="fw-bold text-dark">{{'Departments' | translate}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card" style="box-shadow: unset;
+                                    border: 1px solid #e9ebec;">
+                                        <div class="card-body">
+                                            <apx-chart *ngIf="scorePieChart != undefined" [series]="scorePieChart.series" [chart]="scorePieChart.chart"
+                                            [labels]="scorePieChart.labels" [legend]="scorePieChart.legend"
+                                            [dataLabels]="scorePieChart.dataLabels" [responsive]="scorePieChart.responsive"
+                                            [colors]="scorePieChart.colors"></apx-chart>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <h2 class="fw-bold text-dark">{{'%Score' | translate}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content text-muted">
+            <div [ngbNavOutlet]="ModifierCustom"></div>
+        </div>
+    </div>
+ 
+</div>
+
+<!-- Center Modal -->
+<ng-template #dataModal let-modal>
+    <div class="modal-body text-center pt-5 pb-5 pe-2 ps-2">
+        <div class="text-center">
+            <h4 style="font-weight: bold;color:#1e1e1e; margin-bottom: 2px;">{{'Thank You!' | translate}}</h4>
+            <h5>{{'Your quiz has been completed!' | translate}}</h5>
+        </div>
+        <div class="card" style="box-shadow:unset; margin-bottom: unset;">
+            <div class="card-body">
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <div style="background-color: #cd5e29;padding: 2px 4px;border-radius: 5px;">
+                            <span style="color: white; margin-bottom: unset;font-size: 18px;">{{'Total Question' | translate}}: {{dummyQuizScoreData.totalQuestion}}</span>
+                        </div>
+                        <div class="mt-5">
+                            <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">{{'Attempted' | translate}} <span class="badge" style="padding: 6px;
+                                background-color: #6e6e72; font-size: 14px;">{{dummyQuizScoreData.totalQuestion}}</span></span>
+                                
+                             <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp;{{'Skipped' | translate}} <span class="badge" style="padding: 6px;
+                                background-color: #e9993e; font-size: 14px;">{{dummyQuizScoreData.skipAnswer}}</span></span>
+                                
+                             <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'Correct' | translate}} <span class="badge" style="padding: 6px;
+                            background-color: #60b357; font-size: 14px;">{{dummyQuizScoreData.correctAnswer}}</span></span>
+                            
+                             <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{'Wrong' | translate}} <span class="badge" style="padding: 6px;
+                                background-color: #af3034; font-size: 14px;">{{dummyQuizScoreData.wrongAnswer}}</span></span>
+                            
+                            <span style="color: #1e1e1e;margin-bottom: 10px;display: block; font-weight:bold;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp;{{'Score%' | translate}} <span class="badge" style="padding: 6px;
+                                background-color: #52639c; font-size: 14px;">{{dummyQuizScoreData.per}}</span></span>
+                        </div>
+                    </div>
+                    <div class="grid-item">
+                        <!-- <div style="background-color: #cd5e29;padding: 2px;border-radius: 5px;">
+                            <span style="color: white; margin-bottom: unset;font-size: 18px;">Earned Reward Points: {{quizScoreData.correctAnswer}}</span>
+                        </div> -->
+                        <div class="mt-5">
+                            <img src="assets/images/alarm.png" onerror="this.src='assets/images/alarm.png';" style="width: 200px; height:auto">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hstack gap-2 justify-content-center">
+            <a href="javascript:void(0);" class="btn btn-danger" (click)="modalService.dismissAll();quizEnabled = true;">{{'Try Again' | translate}}</a>
+        </div>
+    </div>
+  </ng-template>
+
+   <!-- Center Modal -->
+ <ng-template #fullscreenModal let-modal>
+    <div class="modal-header" style="padding:10px; justify-content: end;">
+        <!-- Buttons Group -->
+        <button type="button" class="btn btn-primary waves-effect waves-light"
+            (click)="modalService.dismissAll();zoomM=1"><i class=" ri-close-circle-line fs-16"></i></button>
+    </div>
+    <div class="modal-body modalPdfViewer" style="padding: unset;">
+        <div class="row m-0 mb-2" style="text-align: center;display:block;">
+            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" (click)="zoomM = zoomM-0.1"><i class='ri-zoom-out-line fs-22'></i></button>
+            <span>{{ page }} / {{ totalPages }}</span>
+            
+            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" (click)="zoomM = zoomM+0.1"><i class='ri-zoom-in-line fs-22'></i></button>
+        </div>
+        <pdf-viewer class="pdfViwer"
+            src="{{path}}"
+            [original-size]="true" [fit-to-page]="true" [autoresize]="true"
+            [zoom-scale]="'page-width'" [zoom]="zoomM" [show-all]="true" [page]="page"
+            (after-load-complete)="afterLoadComplete($event)"
+            style="width: 100%; display: block;height:max-content; display:contents">
+        </pdf-viewer>
+    </div>
+    
+</ng-template>

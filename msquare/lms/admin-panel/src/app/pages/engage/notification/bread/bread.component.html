@@ -1,0 +1,105 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="back()"></i>
+                <span class="card-title mb-0 text-primary">Create Notification</span>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-6 border-right">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12 mb-3">
+                                        <div class="form-group">
+                                            <label>{{'Notification Title' | translate}} <span class="text-danger">*</span></label>
+                                            <input placeholder="Enter Title" type="text" [(ngModel)]="notTitle"
+                                                class="form-control" #title>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <div class="form-group">
+                                            <label>{{'Message' | translate}} <span class="text-danger">*</span></label>
+                                            <textarea type="text" class="form-control" rows="7" placeholder="Add Question Bank Description" [(ngModel)]="messageText" [ngModelOptions]="{standalone: true}"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-3">
+                                        <div class="form-group">
+                                            <label>{{'Upload Image' | translate}}</label>
+
+                                            <input type="file" #myFileInput class="hide_file form-control"
+                                                    (change)="uploadImageFile($event)" accept="image/*">
+
+                                        </div>
+                                        <div class="col-lg-12" *ngIf="image !== ''">
+                                            <a href="{{image}}" target="_blank">{{'View Image' | translate}}</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Segment' | translate}} <span class="text-danger">*</span></label>
+                                    <ng-select [(ngModel)]="segment" [ngModelOptions]="{standalone: true}">
+                                        <ng-option selected="" disabled="">Select Segment</ng-option>
+                                        <ng-option value="All">All</ng-option>
+                                        <ng-option value="Program">By Program</ng-option>
+                                        <ng-option value="Department">By Department</ng-option>
+                                        <ng-option value="Group">By Group</ng-option>
+                                    </ng-select>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="form-group" *ngIf="segment == 'Program'">
+                                        <ng-select [(ngModel)]="program" [ngModelOptions]="{standalone: true}">
+                                            <ng-option value="select" disabled>{{'Select Program' | translate}}</ng-option>
+                                            <ng-option *ngFor="let prg of programData" value="{{prg.title}}">{{prg.title}}</ng-option>
+                                        </ng-select>
+                                    </div>
+
+
+                                    
+                                    <div class="form-group" *ngIf="segment == 'Department'">
+                                        <ng-select [(ngModel)]="department" [ngModelOptions]="{standalone: true}">
+                                            <ng-option value="select" disabled>{{'Select Department' | translate}}</ng-option>
+                                            <ng-option *ngFor="let emp of empData" value="{{emp}}">{{emp}}</ng-option>
+                                        </ng-select>
+                                    </div>
+
+
+                                    <div class="form-group" *ngIf="segment == 'Group'">
+                                        <ng-select [(ngModel)]="group" [ngModelOptions]="{standalone: true}">
+                                            <ng-option value="select" disabled>{{'Select Group' | translate}}</ng-option>
+                                            <ng-option *ngFor="let group of groupData" value="{{group.name}}">
+                                                {{group.name}}</ng-option>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+                <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light"
+                    [disabled]="loader" (click)="sendNotification()">Save <i class="fa fa-circle-o-notch fa-spin"
+                        *ngIf="loader" style="margin-left: 10px;"></i></button>
+                <button type="button" style="float: right;" class="btn btn-ghost-primary waves-effect waves-light me-3"
+                    (click)="back()" [disabled]="loader">Back</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+.grid{
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+}
+
+.margin{
+    margin: 1.5rem;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .margin{
+        margin: unset !important;
+    }
+
+    .grid{
+        display: grid;
+        grid-auto-columns: minmax(0, 3fr);
+        grid-auto-flow: row;
+    }
+}
+
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the data
+	*/
+	td:nth-of-type(1):before { content: "SR"; }
+	td:nth-of-type(2):before { content: "Subject"; }
+	td:nth-of-type(3):before { content: "Message"; }
+	td:nth-of-type(4):before { content: "Image"; }
+	td:nth-of-type(5):before { content: "Remark"; }
+    td:nth-of-type(5):before { content: "Status"; }
+    td:nth-of-type(5):before { content: "Date/Time"; }
+}

@@ -1,0 +1,135 @@
+
+<app-breadcrumbs title="{{'Help & Support' | translate}}"></app-breadcrumbs>
+
+<div class="row project-wrapper" *ngIf="!writeUsOpen">
+
+    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 h-100">
+        <div class="p-2">
+            <div class="card margin" style="background-color: #fff;box-shadow:unset;">
+                <div class="card-body p-4">
+                    <img src="assets/images/Help_Support.jpg" width="100%"><br>
+                    <div class="grid">
+                        <div class="card card-body text-center m-3" style="box-shadow: unset; border: 1px solid #ccc;padding-top: 3rem;padding-bottom: 3rem;">
+                            <div class="avatar-lg mx-auto mb-3">
+                                <img src="assets/images/email.png" width="100px">
+                            </div>
+                            <h4 class=" fs-18 card-title"><strong>{{'Write to Us' | translate}}</strong></h4>
+                            <br><br><br>
+                            <a (click)="writeUsOpen = true" class="btn btn-primary" style="margin: 0 auto;display: block; max-width: 100%;">{{'Click here' | translate}}</a>
+                        </div>
+                        <div class="card card-body text-center m-3" style="box-shadow: unset; border: 1px solid #ccc;padding-top: 3rem;padding-bottom: 3rem;">
+                            <div class="avatar-lg mx-auto mb-3">
+                                <img src="assets/images/email2.png" width="100px">
+                            </div>
+                            <h4 class=" fs-18 card-title"><strong>{{'Email Us' | translate}}</strong></h4>
+                            <br><br><br>
+                            <a href="mailto:lndcomm@fusionmicrofinance.in" class="btn btn-primary" style="margin: 0 auto;display: block; max-width: 100%;">lndcomm@fusionmicrofinance.in</a>
+                        </div>
+                        <div class="card card-body text-center m-3" style="box-shadow: unset; border: 1px solid #ccc;padding-top: 3rem;padding-bottom: 3rem;">
+                            <div class="avatar-lg mx-auto mb-3">
+                                <img src="assets/images/whatsapp.png" width="100px">
+                            </div>
+                            <h4 class=" fs-18 card-title"><strong>{{'WhatsApp' | translate}}</strong></h4>
+                            <br><br><br>
+                            <a href="https://wa.me/+919205883550" target="_blank" class="btn btn-primary" style="margin: 0 auto;display: block; max-width: 100%;">+91-95991 86704</a>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="row project-wrapper" *ngIf="writeUsOpen">
+    
+    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 h-100">
+        <div class="p-2">
+            <div class="card margin" style="background-color: #fff;box-shadow:unset;">
+                <div class="card-body p-4">
+                    <img src="assets/images/Help_Support.jpg" width="100%"><br><br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="card p-2" style="background-color: #eee;box-shadow:unset;margin-top: 5px;margin-bottom: unset;">
+                                <h5 class="text-center">Any Queries</h5>
+                                <div class="p-3">
+                                    <input type="text" placeholder="Enter Subject" class="form-control form-control-sm" id="basiInput" [(ngModel)]="subject">
+
+                                    <br>
+                                    <input class="form-control form-control-sm" type="file" id="formFile" (change)="uploadDoc($event)">
+                                    <a *ngIf="file != ''" style="display: block;" class="mb-1 mt-1"
+                                    href="{{file}}" target="_blank"> Download</a>
+
+                                    <br>
+
+                                    <textarea class="form-control" rows="8" placeholder="Enter Message" [(ngModel)]="message"></textarea>
+
+                                    <br>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary btn-sm text-center me-2" (click)="submitQuery()">Submit</button>   
+
+                                        <button class="btn btn-ghost-primary btn-sm text-center" (click)="writeUsOpen = false">Back</button>   
+                                    </div>
+                                    
+                                </div>
+                                    
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <div class="card p-2" style="background-color: #eee;box-shadow:unset;margin-top: 5px;margin-bottom: unset;">
+                                <h5>Your Queries and Solutions</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered table-striped">
+                                        <thead class="bg-primary text-light ">
+                                            <tr>
+                                                <th class="text-center">SR</th>
+                                                <th class="text-center">Subject</th>
+                                                <th class="text-center">Message</th>
+                                                <th class="text-center" style="width: 100px;">Image</th>
+                                                <th class="text-center">Remark</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Date/Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bg-light" *ngFor="let item of supportData;let i = index;">
+                                                <td class="">{{i+1}}</td>
+                                                <td>{{item.subject}}</td>
+                                                <td>{{item.message}}</td>
+                                                <td class="" style="width: 100px;">
+                                                    <a href="{{item.file}}" target="_blank">Download</a>
+                                                <td><p [innerHTML]="item.remark"></p></td>
+                                                <td class="">
+                                                    {{(item.status == 0)?'Pending':'Closed'}}
+                                                </td>
+                                                <td class="">{{item.createdAt | date:'dd MMM yyy hh:mm a'}}</td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Center Modal -->
+<ng-template #dataModal let-modal>
+    <div class="modal-body text-center p-5">
+        <button type="button" class="close" data-dismiss="modal" #close aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        <img src="{{imageModal}}" 
+        onerror="this.src='assets/images/image.png';" style="width: 100%; height: auto;" />
+    </div>
+  </ng-template>

@@ -1,0 +1,103 @@
+.wide-as-needed {
+    overflow: scroll;
+    padding-top: 10px;
+    /* // background: #fff; */
+  }
+  .category-item {
+    display:inline-flex;
+    margin-right: 20px;
+    margin-bottom: unset;
+  }
+  .category-card{
+    position: relative;
+    text-align: center;
+    border:unset;
+    text-align: center;
+    box-shadow: unset;
+    margin-bottom: unset;
+    display: block;
+    width: 150px;
+    padding: 10px;;
+    border-radius: 10px;
+    min-height: 100px;
+  }
+  .top-right {
+    position: absolute;
+    top: -11px;
+    cursor: pointer;
+    right: -7px;
+  }
+  .message::first-letter{
+    text-transform: capitalize;
+  }
+
+
+  .username{
+    text-transform: capitalize;
+  }
+
+  button.disabled-button {
+    border: none !important;
+  }
+
+  button:focus{
+    outline:none !important;
+    box-shadow: none !important;
+  }
+
+
+
+  /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .post-card{
+    padding: unset !important;
+  }
+
+  .post-user{
+    padding: 0.5rem 1rem !important;
+  }
+
+  .post-message{
+    padding: 0rem 1rem !important; 
+  }
+
+  .attachment-img{
+    max-height: 500px !important;
+    object-fit: cover !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .post-card{
+    padding: unset !important;
+  }
+
+  .post-user{
+    padding: 0.5rem 0.5rem !important;
+  }
+
+  .post-message{
+    padding: 0rem 1rem !important; 
+  }
+
+  .attachment-img{
+    max-height: 500px !important;
+    object-fit: cover !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  
+}

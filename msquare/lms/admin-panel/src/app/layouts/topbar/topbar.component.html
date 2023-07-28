@@ -1,0 +1,333 @@
+<header id="page-topbar" style="border-bottom: unset;background: #1e1e1e;">
+    <div class="layout-width">
+        <div class="navbar-header">
+            <div class="d-flex">
+                <!-- LOGO -->
+                <div class="navbar-brand-box horizontal-logo" style="padding-left: unset;">
+                    <a [routerLink]="['/pages/dashboard']" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <img src="assets/images/Desktop-White-Logo.png" alt="" height="22">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="assets/images/Desktop-White-Logo.png" alt="" height="70" width="245">
+                        </span>
+                    </a>
+
+                    <a [routerLink]="['/pages/dashboard']" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="assets/images/Desktop-White-Logo.png" alt="" height="22">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="assets/images/Desktop-White-Logo.png" alt="" height="65.5" width="252">
+                        </span>
+                    </a>
+                </div>
+
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+                    id="topnav-hamburger-icon" (click)="toggleMobileMenu($event)">
+                    <span class="hamburger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+
+
+            </div>
+
+            <div class="d-flex align-items-center">
+                <!-- App Search-->
+
+                <!-- <div class="ms-2 text-center position-relative  d-sm-flex bg-white cursor" style="border-radius:5px;width: 25px;height:25px;"
+                    [routerLink]="['/pages/notification']" routerLinkActive="active">
+                    <span *ngIf="newNotification" class="position-absolute top-0  translate-middle badge border border-light rounded-circle bg-primary p-1">
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    <i class="ri-notification-3-fill fs-18" style="margin: 0 auto;align-self: center; color:#bbb"></i>
+                </div>-->
+                <div class="topbar-head-dropdown ms-1 header-item dropdown" ngbDropdown (click)="changeCss2()">
+                    <div class="ms-2 text-center  d-sm-flex bg-white cursor notification-drop"
+                        style="border-radius:5px;width: 25px;height:25px;" data-bs-toggle="dropdown" ngbDropdownToggle
+                        (click)="dataService.unreadNotification = 0">
+                        <span *ngIf="dataService.unreadNotification > 0" style="padding: 2px 3px;font-size: 8px;"
+                            class="position-absolute top-40  translate-middle badge rounded-pill bg-primary">{{dataService.unreadNotification}}
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                        <i class="ri-notification-3-line fs-18"
+                            style="margin: 0 auto;align-self: center; color:#bbb"></i>
+                    </div>
+                    <div ngbDropdownMenu="" class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0">
+                        <div class="">
+                            <div *ngFor="let item of dataService.notifications"
+                                class="text-reset notification-item d-block dropdown-item position-relative"
+                                style="padding:0.50rem 0.75rem !important;">
+                                <div class="d-flex" *ngIf="item.title == 'New Program Allocation'"
+                                    [routerLink]="['/pages/my-programmes']">
+                                    <!-- <img src="assets/images/users/avatar-2.jpg" alt="user-pic"
+                                    class="me-3  avatar-sm" style="border-radius:10px;"> -->
+                                    <img class="cursor-pointer me-3  avatar-sm" src="{{item.image}}"
+                                        onerror="this.src='assets/images/image.png';" style="border-radius:10px;">
+                                    <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                                {{item.title}}</h6>
+                                        </a>
+                                        <div class="fs-12 text-muted">
+                                            <p class="mb-1" [innerHTML]="item.message"></p>
+                                        </div>
+                                        <!-- <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                            <span><i
+                                                    class="mdi mdi-clock-outline"></i>
+                                                Just 30 sec ago</span></p> -->
+                                    </div>
+                                </div>
+                                <div class="d-flex" *ngIf="item.title == 'New Course Allocation'"
+                                    [routerLink]="['/pages/my-courses']">
+                                    <!-- <img src="assets/images/users/avatar-2.jpg" alt="user-pic"
+                                    class="me-3  avatar-sm" style="border-radius:10px;"> -->
+                                    <img class="cursor-pointer me-3  avatar-sm" src="{{item.image}}"
+                                        onerror="this.src='assets/images/image.png';" style="border-radius:10px;">
+                                    <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                                {{item.title}}</h6>
+                                        </a>
+                                        <div class="fs-12 text-muted">
+                                            <p class="mb-1" [innerHTML]="item.message"></p>
+                                        </div>
+                                        <!-- <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                            <span><i
+                                                    class="mdi mdi-clock-outline"></i>
+                                                Just 30 sec ago</span></p> -->
+                                    </div>
+                                </div>
+                                <div class="d-flex" *ngIf="item.title == 'New Module Allocation'"
+                                    [routerLink]="['/pages/my-modules']">
+                                    <!-- <img src="assets/images/users/avatar-2.jpg" alt="user-pic"
+                                    class="me-3  avatar-sm" style="border-radius:10px;"> -->
+                                    <img class="cursor-pointer me-3  avatar-sm" src="{{item.image}}"
+                                        onerror="this.src='assets/images/image.png';" style="border-radius:10px;">
+                                    <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                                {{item.title}}</h6>
+                                        </a>
+                                        <div class="fs-12 text-muted">
+                                            <p class="mb-1" [innerHTML]="item.message"></p>
+                                        </div>
+                                        <!-- <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                            <span><i
+                                                    class="mdi mdi-clock-outline"></i>
+                                                Just 30 sec ago</span></p> -->
+                                    </div>
+                                </div>
+                                <div class="d-flex" *ngIf="item.title == 'New Learning Activity Allocation'"
+                                    [routerLink]="['/pages/my-learning-activities']">
+                                    <!-- <img src="assets/images/users/avatar-2.jpg" alt="user-pic"
+                                    class="me-3  avatar-sm" style="border-radius:10px;"> -->
+                                    <img class="cursor-pointer me-3  avatar-sm" src="{{item.image}}"
+                                        onerror="this.src='assets/images/image.png';" style="border-radius:10px;">
+                                    <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                                {{item.title}}</h6>
+                                        </a>
+                                        <div class="fs-12 text-muted">
+                                            <p class="mb-1" [innerHTML]="item.message"></p>
+                                        </div>
+                                        <!-- <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                            <span><i
+                                                    class="mdi mdi-clock-outline"></i>
+                                                Just 30 sec ago</span></p> -->
+                                    </div>
+                                </div>
+                                <div class="d-flex"
+                                    *ngIf="(item.title == 'Approved Post' || item.title == 'Rejected Post')"
+                                    [routerLink]="['/pages/active-wall']">
+                                    <!-- <img src="assets/images/users/avatar-2.jpg" alt="user-pic"
+                                    class="me-3  avatar-sm" style="border-radius:10px;"> -->
+                                    <img class="cursor-pointer me-3  avatar-sm" src="{{item.image}}"
+                                        onerror="this.src='assets/images/image.png';" style="border-radius:10px;">
+                                    <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                                {{item.title}}</h6>
+                                        </a>
+                                        <div class="fs-12 text-muted">
+                                            <p class="mb-1" [innerHTML]="item.message"></p>
+                                        </div>
+                                        <!-- <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                            <span><i
+                                                    class="mdi mdi-clock-outline"></i>
+                                                Just 30 sec ago</span></p> -->
+                                    </div>
+                                </div>
+                                <div class="d-flex" [routerLink]="['/pages/notification']"
+                                    *ngIf="item.title != 'New Program Allocation' && item.title != 'New Course Allocation' && item.title != 'New Module Allocation' && item.title != 'New Learning Activity Allocation' && item.title != 'Approved Post' && item.title != 'Rejected Post'">
+                                    <!-- <img src="assets/images/users/avatar-2.jpg" alt="user-pic"
+                                    class="me-3  avatar-sm" style="border-radius:10px;"> -->
+                                    <img class="cursor-pointer me-3  avatar-sm" src="{{item.image}}"
+                                        onerror="this.src='assets/images/image.png';" style="border-radius:10px;">
+                                    <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                                {{item.title}}</h6>
+                                        </a>
+                                        <div class="fs-12 text-muted">
+                                            <p class="mb-1" [innerHTML]="item.message"></p>
+                                        </div>
+                                        <!-- <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                            <span><i
+                                                    class="mdi mdi-clock-outline"></i>
+                                                Just 30 sec ago</span></p> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-3 text-center"><button type="button"
+                                    class="btn btn-sm btn-soft-primary waves-effect waves-light"
+                                    (click)="openNotification()">
+                                    View All Notifications <i class="ri-arrow-right-line align-middle"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ms-2 text-center  d-sm-flex bg-white cursor"
+                    style="border-radius:5px;width: 25px;height:25px;" [routerLink]="['/pages/active-wall']"
+                    routerLinkActive="active">
+                    <i class="ri-discuss-fill fs-18" style="margin: 0 auto;align-self: center; color:#bbb"></i>
+                </div>
+
+                <div class="ms-2 text-center  d-sm-flex bg-white cursor  me-2"
+                    style="border-radius:5px;width: 25px;height:25px;" [routerLink]="['/pages/help']"
+                    routerLinkActive="active">
+                    <i class="bx bx-support fs-18"
+                        style="margin: 0 auto;align-self: center; color:#bbb;line-height: unset;"></i>
+                </div>
+                <!-- <div class="header-item d-none d-sm-flex">
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        data-toggle="fullscreen" (click)="fullscreen()">
+                        <i class='bx bx-fullscreen fs-17'></i>
+                    </button>
+                </div> -->
+
+
+                <!-- <div class="dropdown topbar-head-dropdown ms-1 header-item" ngbDropdown>
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" ngbDropdownToggle>
+                        <i class='bx bx-bell fs-22'></i>
+                    </button>
+                   
+                </div> -->
+
+                <div class="dropdown header-item topbar-user" ngbDropdown style="background: #1e1e1e;">
+                    <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" ngbDropdownToggle
+                        style="border-left: 1px solid #fff;border-radius:unset">
+                        <span class="d-flex align-items-center">
+                            <span class="text-start me-xl-2" style="text-transform:lowercase;">
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"
+                                    style="text-transform:capitalize;">{{(authService.currentUserValue.salutation).toLowerCase()}}
+                                    {{(authService.currentUserValue.firstName).toLowerCase()}}
+                                    {{(authService.currentUserValue.lastName).toLowerCase()}}</span>
+                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"
+                                    style="color:#fff; text-transform:capitalize;">{{(designation == undefined || designation == '')?'-':(designation).toLowerCase()}}</span>
+                            </span>
+                            <img class="rounded-circle header-profile-user" src="{{profilephoto}}"
+                                onerror="this.src='assets/images/users/user.png';" alt="Header Avatar">
+
+                        </span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                        <!-- item-->
+                        <a class="dropdown-item" [routerLink]="['/pages/profile']"><i
+                                class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
+                                class="align-middle">{{'Profile' | translate}}</span></a>
+                        <!-- <a class="dropdown-item" *ngIf="authService.currentUserValue.issuperadmin" [routerLink]="['/admin/settings']"><i
+                                class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span
+                                class="align-middle">Settings</span></a> -->
+                        <a class="dropdown-item" href="javascript: void(0);" (click)="authService.logout()"><i
+                                class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
+                                class="align-middle" data-key="t-logout">{{'Logout' | translate}}</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<ng-template #filtetcontent let-offcanvas>
+    <div class="d-flex align-items-center bg-primary bg-gradient p-3 offcanvas-header">
+        <h5 class="m-0 me-2 text-white">My Notifications</h5>
+        <button type="button" class="btn-close btn-close-white ms-auto " data-bs-dismiss="offcanvas" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <ngx-simplebar class="h-100">
+            <div class="p-4">
+                <div *ngFor="let item of dataService.allNotifications"
+                    class="text-reset notification-item d-block dropdown-item position-relative"
+                    style="padding:0.50rem 0.75rem !important;">
+                    <div class="d-flex" *ngIf="item.title == 'New Program Allocation'">
+                        <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                    {{item.title}}</h6>
+                            </a>
+                            <div class="fs-12 text-muted">
+                                <p class="mb-1" [innerHTML]="item.message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" *ngIf="item.title == 'New Course Allocation'">
+                        <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                    {{item.title}}</h6>
+                            </a>
+                            <div class="fs-12 text-muted">
+                                <p class="mb-1" [innerHTML]="item.message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" *ngIf="item.title == 'New Module Allocation'">
+                        <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                    {{item.title}}</h6>
+                            </a>
+                            <div class="fs-12 text-muted">
+                                <p class="mb-1" [innerHTML]="item.message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" *ngIf="item.title == 'New Learning Activity Allocation'">
+                        <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                    {{item.title}}</h6>
+                            </a>
+                            <div class="fs-12 text-muted">
+                                <p class="mb-1" [innerHTML]="item.message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" *ngIf="(item.title == 'Approved Post' || item.title == 'Rejected Post')">
+                        <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                    {{item.title}}</h6>
+                            </a>
+                            <div class="fs-12 text-muted">
+                                <p class="mb-1" [innerHTML]="item.message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex"
+                        *ngIf="item.title != 'New Program Allocation' && item.title != 'New Course Allocation' && item.title != 'New Module Allocation' && item.title != 'New Learning Activity Allocation' && item.title != 'Approved Post' && item.title != 'Rejected Post'">
+                        <div class="flex-1"><a href="javascript:void(0);" class="stretched-link">
+                                <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                    {{item.title}}</h6>
+                            </a>
+                            <div class="fs-12 text-muted">
+                                <p class="mb-1" [innerHTML]="item.message"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin: unset;">
+                </div>
+
+            </div>
+        </ngx-simplebar>
+    </div>
+</ng-template>

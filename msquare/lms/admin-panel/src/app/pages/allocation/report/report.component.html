@@ -1,0 +1,395 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Report" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul ngbNav #Allocation="ngbNav" [activeId]="1"
+        class="nav nav-pills nav-customs nav-danger">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink class="nav-link">
+                    Program Allocation
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="bg-light text-muted">
+                                            <th style="min-width: 50px;">SR</th>
+                                            <th>Program</th>
+                                            <th>Employees</th>
+                                            <th>Type</th>
+                                            <th>Allocated By</th>
+                                            <th>Allocated On</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data ;let i = index">
+                                            <tr *ngIf="item.allocationType == 'Program'">
+                                                <td>{{i+1}}</td>
+                                                <td>P{{item.programData.programId?.code}} - {{item.programData.programId?.title}}</td>
+                                                <td>{{item.employeeData.length}}</td>
+                                                <td style="text-transform: capitalize;">{{item.allocateBy}}</td>
+                                                <td>{{item.createdBy?.firstName}} {{item.createdBy?.lastName}}</td>
+                                                <td>{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</td>
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0" *ngIf="!item.deleted">
+                                                        <li class="list-inline-item edit">
+                                                            <a class="text-primary d-inline-block edit-item-btn" (click)="openModal(detailsContent,item)" style="cursor: pointer;">
+                                                                <i class="ri-eye-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-inline-item edit">
+                                                            <a class="text-danger d-inline-block edit-item-btn" (click)="deleteAllocation(item)" style="cursor: pointer;">
+                                                                <i class="ri-delete-bin-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink class="nav-link">
+                    Learning Activity Allocation
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="bg-light text-muted">
+                                            <th style="min-width: 50px;">SR</th>
+                                            <th>Learning Activity</th>
+                                            <th>Employees</th>
+                                            <th>Type</th>
+                                            <th>Allocated By</th>
+                                            <th>Allocated On</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data ;let i = index">
+                                            <tr *ngIf="item.allocationType == 'Learning Activity'">
+                                                <td>{{i+1}}</td>
+                                                <td>P{{item.programData.programId?.code}} - {{item.programData.programId?.title}}</td>
+                                                <td>{{item.employeeData.length}}</td>
+                                                <td style="text-transform: capitalize;">{{item.allocateBy}}</td>
+                                                <td>{{item.createdBy?.firstName}} {{item.createdBy?.lastName}}</td>
+                                                <td>{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</td>
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0" *ngIf="!item.deleted">
+                                                        <li class="list-inline-item edit">
+                                                            <a class="text-primary d-inline-block edit-item-btn" (click)="openModal(detailsContent,item)" style="cursor: pointer;">
+                                                                <i class="ri-eye-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-inline-item edit">
+                                                            <a class="text-danger d-inline-block edit-item-btn" (click)="deleteAllocation(item)" style="cursor: pointer;">
+                                                                <i class="ri-delete-bin-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+                <a ngbNavLink class="nav-link">
+                    Course Allocation
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="bg-light text-muted">
+                                            <th style="min-width: 50px;">SR</th>
+                                            <th>Course</th>
+                                            <th>Employees</th>
+                                            <th>Type</th>
+                                            <th>Allocated By</th>
+                                            <th>Allocated On</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data ;let i = index">
+                                            <tr *ngIf="item.allocationType == 'Course'">
+                                                <td>{{i+1}}</td>
+                                                <td>C{{item.courseData.courseId?.code}} - {{item.courseData.courseId?.title}}</td>
+                                                <td>{{item.employeeData.length}}</td>
+                                                <td style="text-transform: capitalize;">{{item.allocateBy}}</td>
+                                                <td>{{item.createdBy?.firstName}} {{item.createdBy?.lastName}}</td>
+                                                <td>{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</td>
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0" *ngIf="!item.deleted">
+                                                        <li class="list-inline-item edit">
+                                                            <a class="text-primary d-inline-block edit-item-btn" (click)="openModal(detailsContent,item)" style="cursor: pointer;">
+                                                                <i class="ri-eye-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-inline-item edit">
+                                                            <a class="text-danger d-inline-block edit-item-btn" (click)="deleteAllocation(item)" style="cursor: pointer;">
+                                                                <i class="ri-delete-bin-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="4">
+                <a ngbNavLink class="nav-link">
+                    Module Allocation
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive table-card mb-2">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="bg-light text-muted">
+                                            <th style="min-width: 50px;">SR</th>
+                                            <th>Module</th>
+                                            <th>Employees</th>
+                                            <th>Type</th>
+                                            <th>Allocated By</th>
+                                            <th>Allocated On</th>
+                                            <th>Allocation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let item of data ;let i = index">
+                                            <tr *ngIf="item.allocationType == 'Module'">
+                                                <td>{{i+1}}</td>
+                                                <td>M{{item.moduleData.moduleId?.code}} - {{item.moduleData.moduleId?.title}}</td>
+                                                <td>{{item.employeeData.length}}</td>
+                                                <td style="text-transform: capitalize;">{{item.allocateBy}}</td>
+                                                <td>{{item.createdBy?.firstName}} {{item.createdBy?.lastName}}</td>
+                                                <td>{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</td>
+                                                <td>
+                                                    <ul class="list-inline hstack gap-2 mb-0" *ngIf="!item.deleted">
+                                                        <li class="list-inline-item edit">
+                                                            <a class="text-primary d-inline-block edit-item-btn" (click)="openModal(detailsContent,item)" style="cursor: pointer;">
+                                                                <i class="ri-eye-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="list-inline-item edit">
+                                                            <a class="text-danger d-inline-block edit-item-btn" (click)="deleteAllocation(item)" style="cursor: pointer;">
+                                                                <i class="ri-delete-bin-fill fs-16"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div [ngbNavOutlet]="Allocation"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Center Modal -->
+<ng-template #detailsContent let-modal>
+    <div class="modal-body" *ngIf="item.allocationType == 'Program'">
+        <div class="align-items-center d-flex mb-2">
+            <label class="mb-0 flex-grow-1"> <a class="text-primary">P{{item.programData.programId?.code}} - {{item.programData.programId?.title}}</a> | <b>{{item.employeeData.length}}</b> | {{item.allocateBy}}</label>
+            <div class="flex-shrink-0">
+                <button class="btn btn-sm btn-ghost-primary" (click)="modalService.dismissAll()">
+                    Close
+                </button>
+            </div>
+        </div>
+        <div class="loader-line"></div>
+        <div class="table-responsive mb-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-light text-muted">
+                        <th style="min-width: 50px;">SR</th>
+                        <th>Program Name</th>
+                        <th>User Name</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of allocationData ;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>P{{item.programId?.code}} - {{item.programId?.title}}</td>
+                        <td>{{item.employeeId?.firstName}} {{item.employeeId?.lastName}}</td>
+                        <td>{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</td>
+                        <td>
+                            <ul class="list-inline hstack gap-2 mb-0">
+                                <li class="list-inline-item edit">
+                                    <a class="text-danger d-inline-block edit-item-btn" (click)="deleteProgramWatch(item)" style="cursor: pointer;">
+                                        <i class="ri-delete-bin-fill fs-16"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-body" *ngIf="item.allocationType == 'Learning Activity'">
+        <div class="align-items-center d-flex mb-2">
+            <label class="mb-0 flex-grow-1"> <a class="text-primary">P{{item.programData.programId?.code}} - {{item.programData.programId?.title}}</a> | <b>{{item.employeeData.length}}</b> | {{item.allocateBy}}</label>
+            <div class="flex-shrink-0">
+                <button class="btn btn-sm btn-ghost-primary" (click)="modalService.dismissAll()">
+                    Close
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive mb-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-light text-muted">
+                        <th style="min-width: 50px;">SR</th>
+                        <th>Program Name</th>
+                        <th>User Name</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of allocationData ;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>P{{item.programId?.code}} - {{item.programId?.title}}</td>
+                        <td>{{item.employeeId?.firstName}} {{item.employeeId?.lastName}}</td>
+                        <td>{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</td>
+                        <td>
+                            <ul class="list-inline hstack gap-2 mb-0">
+                                <li class="list-inline-item edit">
+                                    <a class="text-danger d-inline-block edit-item-btn" (click)="deleteLearningActivityWatch(item)" style="cursor: pointer;">
+                                        <i class="ri-delete-bin-fill fs-16"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-body" *ngIf="item.allocationType == 'Course'">
+        <div class="align-items-center d-flex mb-2">
+            <label class="mb-0 flex-grow-1"> <a class="text-primary">C{{item.courseData.courseId?.code}} - {{item.courseData.courseId?.title}}</a> | <b>{{item.employeeData.length}}</b> | {{item.allocateBy}}</label>
+            <div class="flex-shrink-0">
+                <button class="btn btn-sm btn-ghost-primary" (click)="modalService.dismissAll()">
+                    Close
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive mb-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-light text-muted">
+                        <th style="min-width: 50px;">SR</th>
+                        <th>Course Name</th>
+                        <th>User Name</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of allocationData ;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>C{{item.courseId?.code}} - {{item.courseId?.title}}</td>
+                        <td>{{item.employeeId?.firstName}} {{item.employeeId?.lastName}}</td>
+                        <td>{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</td>
+                        <td>
+                            <ul class="list-inline hstack gap-2 mb-0">
+                                <li class="list-inline-item edit">
+                                    <a class="text-danger d-inline-block edit-item-btn" (click)="deleteCourseWatch(item)" style="cursor: pointer;">
+                                        <i class="ri-delete-bin-fill fs-16"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-body" *ngIf="item.allocationType == 'Module'">
+        <div class="align-items-center d-flex mb-2">
+            <label class="mb-0 flex-grow-1"> <a class="text-primary">M{{item.moduleData.moduleId?.code}} - {{item.moduleData.moduleId?.title}}</a> | <b>{{item.employeeData.length}}</b> | {{item.allocateBy}}</label>
+            <div class="flex-shrink-0">
+                <button class="btn btn-sm btn-ghost-primary" (click)="modalService.dismissAll()">
+                    Close
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive mb-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-light text-muted">
+                        <th style="min-width: 50px;">SR</th>
+                        <th>Module Name</th>
+                        <th>User Name</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of allocationData ;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>M{{item.moduleId?.code}} - {{item.moduleId?.title}}</td>
+                        <td>{{item.employeeId?.firstName}} {{item.employeeId?.lastName}}</td>
+                        <td>{{item.createdAt | date:'dd MMM, yyyy hh:mm a'}}</td>
+                        <td>
+                            <ul class="list-inline hstack gap-2 mb-0">
+                                <li class="list-inline-item edit">
+                                    <a class="text-danger d-inline-block edit-item-btn" (click)="deleteModuleWatch(item)" style="cursor: pointer;">
+                                        <i class="ri-delete-bin-fill fs-16"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>

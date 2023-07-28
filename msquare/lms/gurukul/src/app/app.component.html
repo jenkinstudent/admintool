@@ -1,0 +1,16 @@
+<router-outlet></router-outlet>
+
+<div class="content " *ngIf="isNativePlatForm && version != appversion && latest" style="position: fixed;bottom:0;width:100%;box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+border-start-start-radius: 15px; border-start-end-radius: 15px;">
+    <div class="d-flex bg-white" style="border-start-start-radius: 15px; border-start-end-radius: 15px; padding: 0.7rem !important">
+        <div class="flex-shrink-0"><img
+                src="assets/images/google-play.png" alt="" class="rounded" style="height: 2.3rem;
+                width: 2.3rem;"></div>
+        <div class="flex-grow-1 ms-3" style="margin-top: 7px;">
+            <h5 class="fs-15">New Update Available !!!</h5>
+        </div>
+        <div class="flex-shrink-0">
+            <a href="https://play.google.com/store/apps/details?id=com.msquare.fmldemployee" target="_blank"><button class="btn btn-outline-success btn-rounded">Update</button></a>
+        </div>
+    </div>
+</div>

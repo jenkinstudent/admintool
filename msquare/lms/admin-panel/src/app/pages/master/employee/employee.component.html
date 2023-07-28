@@ -1,0 +1,251 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Employee" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul ngbNav #ModifierCustom="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink class="nav-link">
+                    Statistics
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card crm-widget">
+                        <div class="card-body p-0">
+                            <div class="row row-cols-md-3 row-cols-1">
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Total
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{kpi.totalEmp}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Active
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0">
+                                                    <span
+                                                        class="counter-value text-primary">{{kpi.activeEmp}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            In Active
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{kpi.inactiveEmp}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            New
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{kpi.newEnroll}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content text-muted">
+            <div [ngbNavOutlet]="ModifierCustom"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control"
+                                    placeholder="Search" (keyup)="search($event)">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+
+                        <div class="col-xxl-2 col-sm-2">
+                            <div class="input-light">
+                                <select class="form-control bg-light border-light" data-choices
+                                    data-choices-search-false name="choices-single-default" id="idStatus"
+                                    (change)="filterByStatus($event)"
+                                    >
+                                    <option value="undefined">{{'All' | translate}}</option>
+                                    <option value="1" selected>Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-5 col-sm-10 flex items-end">
+                            <div class="text-md-right float-md-end ">
+                                <ul class="pagination">
+                                    <li class="page-item me-2" *ngIf="loading">
+                                        <span class="spinner-border flex-shrink-0 text-primary" role="status"><span class="visually-hidden">Loading...</span></span>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        <button class="btn btn-sm btn-soft-primary" [disabled]="page==1" (click)="previous()">
+                                            <span aria-hidden="true"><i class="ri-arrow-left-s-line fs-18"></i></span>
+                                        </button>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore" (click)="next()">
+                                            <span aria-hidden="true"><i class="ri-arrow-right-s-line fs-18"></i></span>
+                                        </button>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        <button type="button" (click)="exportAsXLSX()" class="btn btn-outline-primary btn-icon waves-effect waves-light"><i class="ri-download-cloud-2-line"></i></button>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        
+                                        <input id="file" type="file" style="display:none" (change)="onFileChange($event);" #importButton>
+                                        <label for="file">
+                                            <button type="button" *ngIf="!importLoader" (click)="inputFileClick()" class="btn btn-outline-primary btn-icon waves-effect waves-light"><i class="ri-upload-cloud-line"></i></button>
+                                            <button type="button" class="btn btn-outline-primary btn-icon waves-effect waves-light" disabled *ngIf="importLoader"><i class="mdi mdi-loading mdi-spin"></i></button>
+                                        </label>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        <button type="button" (click)="getData()" class="btn btn-outline-primary btn-icon waves-effect waves-light"><i class=" ri-refresh-line"></i></button>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table table-striped" >
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th>{{'SR' | translate}}</th>
+                                <th>{{'Emp Code' | translate}}</th>
+                                <th>{{'Name' | translate}}</th>
+                                <th>{{'Email' | translate}}</th>
+                                <th>{{'Mobile' | translate}}</th>
+                                <th>{{'M/F' | translate}}</th>
+                                <th>{{'Dpt.' | translate}}</th>
+                                <th>{{'Group' | translate}}</th>
+                                <th>{{'Status' | translate}}</th>
+                                <th>AW Approval Required?</th>
+                                <th>{{'Action' | translate}}</th>
+                                <th>{{'Delete Photo' | translate}}</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of employeesData;let i = index">
+                                <td >{{i+1}}</td>
+                                <td >{{item.employeeCode}}</td>
+                                <td >{{item.salutation}} {{item.firstName}} {{item.lastName}}</td>
+                                <td >{{item.email}}</td>
+                                <td >{{item.mobile}}</td>
+                                <td >{{item.gender}}</td>
+                                <td >{{item.department}}</td>
+                                <td >{{(item.groupDetails == undefined || item.groupDetails == '')?'':item.groupDetails[0].name}}</td>
+                                <td class="text-center">
+                                    <div dir="ltr"
+                                        class=" ms-1 form-check form-switch form-switch-success form-switch-md">
+
+                                        <input type="checkbox" id="customSwitchsizelg"
+                                            [checked]="item.status"
+                                            (change)="changeEmployeeStatus(item._id,$event)" class="form-check-input">
+
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div dir="ltr"
+                                        class=" ms-1 form-check form-switch form-switch-success form-switch-md">
+
+                                        <input type="checkbox" id="customSwitchsizelg"
+                                            [checked]="item.activeWallApproval"
+                                            (change)="changeEmployeeActiveWallStatus(item._id,$event)" class="form-check-input">
+
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <ul class="list-inline hstack gap-2 mb-0">
+                                        <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                            data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                            <a (click)="editEmployee(item._id)"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i class="ri-pencil-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-danger" *ngIf="item.profilephoto != '' && item.profilephoto != undefined && item.profilephoto != null"
+                                        (click)="deleteProfilePhoto(item)"><i class="ri-delete-bin-line"></i></button>
+                                </td>
+                              </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="text-md-right float-md-end ">
+                            <ul class="pagination">
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="page==1" (click)="previous()">
+                                        <span aria-hidden="true"><i class="ri-arrow-left-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore" (click)="next()">
+                                        <span aria-hidden="true"><i class="ri-arrow-right-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item" *ngIf="loading">
+                                    <span class="spinner-border flex-shrink-0 text-primary" role="status"><span class="visually-hidden">Loading...</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+</div>

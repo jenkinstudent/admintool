@@ -1,0 +1,180 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+
+<div class="card">
+    <div class="card-header">
+        <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+        <span class="card-title mb-0 text-primary">{{label}}</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Module Code</label>
+                            <input disabled="" type="text" class="form-control" value="M{{moduleCode}}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Keywords, Description, Tags <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Add Keywords, Description, Tags"
+                                [(ngModel)]="keywords" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Module Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Add Module Title"
+                                [(ngModel)]="moduleTitle" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Reward Points</label>
+                            <input type="number" class="form-control" placeholder="Add Reward Points"
+                                [(ngModel)]="reward" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Module Description <span class="text-danger">*</span></label>
+                            <textarea type="text" class="form-control" rows="7" placeholder="Add Module Description"
+                                [(ngModel)]="description" [ngModelOptions]="{standalone: true}"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Content Type (Video)</label>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" placeholder="https://www.youtube.com/embed/"
+                                        disabled>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group form-group">
+                                        <input name="text" placeholder="Add Youtube Id" type="text" class="form-control"
+                                            [(ngModel)]="youtubeLink" [ngModelOptions]="{standalone: true}">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-flat"
+                                                (click)="addYoutubeLink()"><i class="ri-add-circle-fill"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-1" *ngIf="youtubes.length > 0">
+                                <div *ngFor="let item of youtubes;let i =index;" class="mb-1">
+                                    <a href="{{item.path}}" target="_blank">{{'View Youtube Link' | translate}}</a>
+                                    <i (click)="deleteYoutubes(i)" style="margin-left:20px;color:red;cursor:pointer"
+                                        class="ri-delete-bin-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <span style="float: right;font-size: 16px;font-weight: bold;">{{documentspdf.length}}</span>
+                            <label class="form-label">Content Type (Document) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" multiple accept=".pdf"
+                                (change)="uploadDocumentFile($event)" #documentFileChild>
+                            <div class="mt-1" *ngIf="documentspdf.length > 0">
+                                <div *ngFor="let item of documentspdf;let i =index;" class="mb-1">
+                                    <a href="{{item.path}}" target="_blank">{{'View Document' | translate}}</a>
+                                    <i (click)="deleteDocument(i)" style="margin-left:20px;color:red;cursor:pointer"
+                                        class="ri-delete-bin-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <span style="float: right;font-size: 16px;font-weight: bold;">{{onePagers.length}}</span>
+                            <label class="form-label">Upload One Pager (Ratio:16:9) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" multiple accept="image/*"
+                                (change)="uploadOnePagerFile($event)" #onePagerChild>
+                            <div class="mt-1" *ngIf="onePagers.length > 0">
+                                <div *ngFor="let item of onePagers;let i =index;" class="mb-1">
+                                    <a href="{{item.path}}" target="_blank">{{'View One Pager' | translate}}</a>
+                                    <i (click)="deleteOnePager(i)" style="margin-left:20px;color:red;cursor:pointer"
+                                        class="ri-delete-bin-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Upload Thumbnail (300px X 200px)</label>
+                            <input type="file" class="form-control" accept="image/*" (change)="uploadThumbnail($event)" #thumbnailChild>
+                            <div class="mt-1" *ngIf="thumbnailLink != ''">
+                                <a href="{{thumbnailLink}}" target="_blank">
+                                    {{'View Thumbnail' | translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Module Watch Time In Minutes <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Add Module Watch Time In Minutes"
+                                [(ngModel)]="moduleWatchTime" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Assign Quiz <span class="text-danger">*</span></label>
+                            <div class="form-icon">
+                                <input type="search" placeholder="Search" (input)="getItems($event)"
+                                    class="form-control form-control-icon">
+                                <i class="ri-search-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="form-group"
+                            style="border:1px solid #D2D6DE;padding: 10px;height: 500px; overflow: auto;">
+                            <div class="form-check form-check-primary mb-3" *ngFor="let item of qbData;let i = index"
+                                style="margin-top:unset;border: 1px solid #eeeeee;padding: 10px;border-radius: 5px;">
+                                <input type="checkbox" id="qb{{i}}" [(ngModel)]="item.checked"
+                                    (click)="addQuestion($event,item,i)" [ngModelOptions]="{standalone: true}"
+                                    class="form-check-input ms-0 me-2">
+                                <label for="qb{{i}}" class="form-check-label">{{item.title}} </label>
+                                <br *ngIf="item?.questions?.length > 0">
+                                <label *ngIf="item?.questions?.length > 0"
+                                style="margin-top: 10px;margin-bottom: 10px;color: black; font-weight: bolder;">{{'Question Bank' | translate}}</label>
+
+                                <div class="form-group" *ngIf="item?.questions?.length > 0" style="margin-left:20px;">
+                                <div class="checkbox mt-0 mb-2" *ngFor="let question of item.questions;let index=index"
+                                    style="border: 1px solid #eeeeee;padding: 10px;border-radius: 5px;">
+                                    <p style="margin-bottom: unset;" [innerHTML]="question.question"></p>
+                                </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light" (click)="save()"
+            [disabled]="loader">{{label}} <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                style="margin-left: 10px;"></i></button>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="position-relative mx-n4 mt-n4">
+    <div class="profile-wid-bg profile-setting-img">
+        <img src="assets/images/profile-bg.jpg" class="profile-wid-img" alt="">
+        
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-xxl-3">
+        <div class="card mt-n5 " style="height: 250px;">
+            <div class="card-body p-4">
+                <div class="text-center">
+                    <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
+                        <img src="assets/images/users/avatar-1.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                        <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                            <input id="profile-img-file-input" type="file" class="profile-img-file-input">
+                            <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                <span class="avatar-title rounded-circle bg-light text-body">
+                                    <i class="ri-camera-fill"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <h5 class="fs-16 mb-1">{{authS.currentUserValue.name}}</h5>
+                    <p class="text-muted mb-0" *ngIf="!authS.currentUserValue.issuperadmin">{{authS.currentUserValue.role}}</p>
+                    <p class="text-muted mb-0" *ngIf="authS.currentUserValue.issuperadmin">Super Admin</p>
+                </div>
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+    <div class="col-xxl-9">
+        <div class="card mt-xxl-n5" style="height: 250px;">
+            <div class="card-header">
+              <ul ngbNav #customNav="ngbNav" [activeId]="1"  class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                <li [ngbNavItem]="1" class="nav-item">
+                    <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                      <i class="fas fa-home"></i>
+                      Personal Details
+                    </a>
+                    <ng-template ngbNavContent>
+                      <form action="javascript:void(0);">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter your name" value="{{authS.currentUserValue.name}}" readonly>
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" placeholder="Enter your email" value="{{authS.currentUserValue.email}}" readonly>
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Mobile No.</label>
+                                    <input type="number" class="form-control" placeholder="Enter your email" value="{{authS.currentUserValue.mobile}}" readonly>
+                                </div>
+                            </div><!--end col-->
+                            <!-- <div class="col-lg-12">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div> -->
+                        </div><!--end row-->
+                      </form>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2" class="nav-item">
+                    <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                      <i class="far fa-user"></i>
+                      Change Password
+                    </a>
+                    <ng-template ngbNavContent>
+                      <form action="javascript:void(0);">
+                        <div class="row g-2">
+                            <div class="col-lg-4">
+                                <div>
+                                    <label class="form-label required">Old Password</label>
+                                    <input type="password" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="oldPass" placeholder="Enter current password">
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-lg-4">
+                                <div>
+                                    <label class="form-label required">New Password</label>
+                                    <input type="password" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="newPass" placeholder="Enter new password">
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-lg-4">
+                                <div>
+                                    <label class="form-label required">Confirm Password</label>
+                                    <input type="password" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="confirmPass" placeholder="Confirm password">
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-lg-12">
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary" (click)="changePass()">Change Password</button>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </form>
+                    </ng-template>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body p-4">
+                <div class="tab-content">
+                  <div [ngbNavOutlet]="customNav"></div>
+                </div>
+            </div>
+        </div>
+    </div><!--end col-->
+  </div><!--end row-->
+  

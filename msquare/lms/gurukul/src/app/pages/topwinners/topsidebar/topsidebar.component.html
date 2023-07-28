@@ -1,0 +1,47 @@
+<div class="card d-none d-lg-block d-xl-block" style="height: calc(100vh - 146px);">
+
+    <ngb-accordion [closeOthers]="true" *ngIf="programmes.length > 0">
+        <ng-container *ngFor="let program of programmes;let p = index">
+            <ngb-panel id="program-{{p}}">
+                <ng-template ngbPanelTitle class="accordion-header">
+                    <h2 class="accordion-header progHeader" id="gen-ques-headingOne">
+                        <i class="ri-dashboard-line me-1 text-white"></i> {{program.programId?.title}}
+                    </h2>
+                </ng-template>
+                <ng-template ngbPanelContent *ngIf="program.programId?.courses.length > 0">
+
+                    <ngb-accordion class="course-acc" [closeOthers]="true">
+                        <ng-container *ngFor="let course of program.programId?.courses;let c = index">
+                            <ngb-panel id="course-{{c}}">
+                                <ng-template ngbPanelTitle class="accordion-header course-header">
+                                    <h2 class="accordion-header acHeader" id="gen-ques-headingOne1" style="color: white; font-size: 12px;">
+                                        {{course.courseId?.title}}
+                                    </h2>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <ng-container *ngFor="let module of course.courseId?.modules;let m = index">
+                                        <a>
+                                            <li class="moduleHeader">
+
+                                                {{module.moduleId?.title}}
+
+                                            </li>
+                                        </a>
+                                    </ng-container>
+                                    <hr style="color:white;margin: unset;opacity: 0.5;"
+                                        *ngIf="program.programId?.courses.length != c+1">
+                                </ng-template>
+                            </ngb-panel>
+
+                        </ng-container>
+                    </ngb-accordion>
+
+                    <hr style="color:white;margin: unset;opacity: 0.5;">
+                </ng-template>
+
+            </ngb-panel>
+
+        </ng-container>
+
+    </ngb-accordion>
+</div>

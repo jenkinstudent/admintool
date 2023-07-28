@@ -1,0 +1,25 @@
+.one-line{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+/*extra small devices*/
+@media only screen and (max-width : 600px){
+    .exceed{
+      position: unset !important;
+      transform:unset !important;
+    } 
+  }
+  
+  /*small devices*/
+  @media only screen and (min-width : 600px) and (max-width: 767px){
+    .exceed{
+      position: unset !important;
+      transform:unset !important;
+    } 
+  }
+  

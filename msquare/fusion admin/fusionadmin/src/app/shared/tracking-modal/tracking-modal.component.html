@@ -1,0 +1,87 @@
+
+<div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="type == 'utility'">Utility Bill Activity</h5>
+      <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="type == 'rent'">Rent Bill Activity</h5>
+      <h5 class="modal-title" id="exampleModalFullscreenLabel" *ngIf="type == 'courier'">Courier Activity</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+    </div>
+    <div class="modal-body">
+                    <div class="card"  id="tasksList">
+                        <div class="card-body">
+                            <div class="table-responsive table-card mb-2">
+                              <table class="table table-nowrap align-middle mb-0 ">
+                                <thead class="table-light text-muted">
+                                    <tr>
+                                        <th>Name </th>
+                                        <th>Email</th>
+                                        <th>Designation </th>
+                                        <th>Role </th>
+                                        <th>Status </th>
+                                        <th>Type</th>
+                                        <th>Remark</th>
+                                        <th>Document</th>
+                                        <th>Updated On</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <tr *ngFor="let item of data; let i=index">
+                                        <td>{{item.user?.name}}</td>
+                                        <td>{{item.user?.email}}</td>
+                                        <td>{{item?.user?.designation?.name}} - {{item?.user?.designation?.role}}</td>
+                                        <td style="text-transform:capitalize;">{{item.role}}<br>{{(item.slab == undefined)?"":item.slab?.min+" - "+item.slab?.max}}</td>
+                                        <td><span *ngIf="item.status == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                            <span *ngIf="item.status == 'Verified'" class="badge rounded-pill bg-success">Verify</span>
+                                        <td>Verfication</td>
+                                        <td>{{item.remark}}</td>
+                                        <td><a *ngIf="item.document != '' && item.document != undefined && item.document != null" href="{{baseURL}}retrieve/{{item.document}}" target="_blank">View Document</a></td>
+                                        <td>{{item.statusUpdatedOn | date:"dd MMM, yyyy hh:mm a"}}</td>
+                                        
+                                    </tr>
+                                    <tr *ngIf="data.length > 0">
+                                        <td>{{item.adminApproved?.name}}</td>
+                                        <td>{{item.adminApproved?.email}}</td>
+                                        <td>{{item.adminApproved?.designation.name}} - {{item.adminApproved?.designation.role}}</td>
+                                        <td>L2-Admin</td>
+                                        <td><span *ngIf="item.adminStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                            <span *ngIf="item.adminStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                        <td>Approval</td>
+                                        <td>{{item.adminStatusRemark}}</td>
+                                        <td><a *ngIf="item.adminStatusDocument != '' && item.adminStatusDocument != undefined && item.adminStatusDocument != null" href="{{baseURL}}retrieve/{{item.adminStatusDocument}}" target="_blank">View Document</a></td>
+                                        <td>{{item.adminStatusDate | date:"dd MMM, yyyy hh:mm a"}}</td>
+                                        
+                                    </tr>
+                                    <tr *ngFor="let item of fdata; let i=index">
+                                        <td>{{item.user?.name}}</td>
+                                        <td>{{item.user?.email}}</td>
+                                        <td>{{item?.user?.designation?.name}} - {{item?.user?.designation?.role}}</td>
+                                        <td style="text-transform:capitalize;">{{item.role}}<br>{{(item.slab == undefined)?"":item.slab?.min+" - "+item.slab?.max}}</td>
+                                        <td><span *ngIf="item.status == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                            <span *ngIf="item.status == 'Verified'" class="badge rounded-pill bg-success">Verify</span>
+                                        <td>Verfication</td>
+                                        <td>{{item.remark}}</td>
+                                        <td><a *ngIf="item.document != '' && item.document != undefined && item.document != null" href="{{baseURL}}retrieve/{{item.document}}" target="_blank">View Document</a></td>
+                                        <td>{{item.statusUpdatedOn | date:"dd MMM, yyyy hh:mm a"}}</td>
+                                        
+                                    </tr>
+                                    <tr *ngIf="fdata.length > 0">
+                                        <td>{{item.financeApproved?.name}}</td>
+                                        <td>{{item.financeApproved?.email}}</td>
+                                        <td>{{item.financeApproved?.designation.name}} - {{item.financeApproved?.designation.role}}</td>
+                                        <td>L2-Finance</td>
+                                        <td><span *ngIf="item.financeStatus == 'Pending'" class="badge rounded-pill bg-warning">Pending</span>
+                                            <span *ngIf="item.financeStatus == 'Approved'" class="badge rounded-pill bg-success">Approve</span>
+                                        <td>Approval</td>
+                                        <td>{{item.financeStatusRemark}}</td>
+                                        <td><a *ngIf="item.financeStatusDocument != '' && item.financeStatusDocument != undefined && item.financeStatusDocument != null" href="{{baseURL}}retrieve/{{item.financeStatusDocument}}" target="_blank">View Document</a></td>
+                                        <td>{{item.financeStatusDate | date:"dd MMM, yyyy hh:mm a"}}</td>
+                                        
+                                    </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                
+    </div>
+</div><!-- /.modal-content -->

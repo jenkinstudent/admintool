@@ -1,0 +1,205 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Dashboard"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card"  id="invoiceList">
+          <div class="card-body bg-soft-light border border-dashed border-start-0 border-end-0">
+            <form>
+                <div class="row g-3">
+                    <div class="col-xxl-5 col-sm-6">
+                        <div class="search-box">
+                            <input type="text"  name="searchTerm" class="form-control search bg-light border-light" placeholder="Search..." [(ngModel)]="searchTerm">
+                            <i class="ri-search-line search-icon"></i>
+                        </div>
+                    </div>
+                    <!--end col-->
+                    <div class="col-xxl-7 col-sm-6 text-end">
+                        <a class="btn btn-soft-primary add-btn me-2" href="{{baseUrl}}download-input"><i class="ri-download-line align-bottom me-1"></i> Input CSV</a>
+                        <button class="btn btn-soft-danger add-btn me-2" (click)="openModal(rangeContent)"><i class="ri-download-line align-bottom me-1"></i> Download</button>
+                        <button class="btn btn-danger add-btn" [routerLink]="['/admin/action/create']"><i class="ri-add-line align-bottom me-1"></i> Create</button>
+                    </div>
+                </div>
+                <!--end row-->
+            </form>
+        </div>
+        <div class="card-body"  style="padding-top: 0.6rem;">
+              <div>
+                  <div class="table-responsive table-card mb-2">
+                      <table class="table align-middle table-nowrap" id="invoiceTable" #table>
+                          <thead class="text-muted">
+                              <tr class="bg-light text-muted">
+                                <th class="text-uppercase" data-sort="customer_name">Sr. No.</th>
+                                  <th class="text-uppercase" data-sort="customer_name">Name of the Bank</th>
+                                  <th class="text-uppercase" data-sort="customer_name">Loan Name</th>
+                                  <th class="text-uppercase" data-sort="customer_name">Tranche Name </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Short Code </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Short Code Lender Wise </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Actual No </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Moratorium Status Phase 1 </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Moratorium Status Phase 2 </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Amount Sanctioned  </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Sanction Date </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Disbursement Date  </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Amount Disbursed </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Processing Fee % </th>
+                                  <th class="text-uppercase" data-sort="customer_name">FDR% </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Margin% </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Moratorium </th>
+                                  <th class="text-uppercase" data-sort="customer_name">ROI% </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Tenure </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Repayment Schedule  </th>
+                                  <th class="text-uppercase" data-sort="customer_name">EMI Start date </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Other Exp.% </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Int on FDR% </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Fund Raised during the FY </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Base Rate </th>
+                                  <th class="text-uppercase" data-sort="customer_name">ROI (Gross)% </th>
+                                  <th class="text-uppercase" data-sort="customer_name">ROI(Net)% </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Any change in interest during year </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Date of change of interest(ROI%) </th>
+                                  <th class="text-uppercase" data-sort="customer_name">New rate </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Current ROI% </th>
+                                  <th class="text-uppercase" data-sort="customer_name">ROI Type </th>
+                                  <th class="text-uppercase" data-sort="customer_name">PG </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Rating </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Availed Amount </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Terms of Text Repayment1_P </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Terms of Text Repayment2_P </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Terms of Text Repayment1_I </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Terms of Text Repayment2_I </th>
+                                  <th class="text-uppercase" data-sort="customer_name">TYPE OF LENDER1 </th>
+                                  <th class="text-uppercase" data-sort="customer_name">TYPE OF LENDER2 </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Nature Of Instrument1 </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Nature Of Instrument2 </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Nature Of Instrument3 </th>
+                                  <th class="text-uppercase" data-sort="customer_name">TYPE OF LENDER3 </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Type of Facility </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Payment Frequency </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Original Maturity of loan </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Interest Rate </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Sanction Letter </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Maturity Date - Formula Based </th>
+                                  <th class="text-uppercase" data-sort="customer_name">0th Date </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Compounding </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Change Effective Date </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Legal Fee </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Documentation Charges </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Stamp Duty </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Trustee Fee </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Arranger Fee </th>
+                                  <th class="text-uppercase" data-sort="customer_name">NSDL </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Linkintime-RTA </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Rating_Fee </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Listing </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Debenture Stamping </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Other Fee </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Step Down </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Step </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Applicable Taxes </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Flag </th>
+                                  <th class="text-uppercase" data-sort="customer_name">Created At </th>
+                              </tr>
+                          </thead>
+                          <tbody class="list form-check-all">
+                            <tr *ngFor="let data of data | filter:searchTerm | filter:statusTerm;let i =index">
+                                <td><a (click)="view(data._id)" class="fw-medium">#{{i+1}}</a></td>
+                                <td>{{data.bankName}}</td>
+                                <td>{{data.loanName}}</td>
+                                <td>{{data.trancheName}}</td>
+                                <td>{{data.shortCode}}</td>
+                                <td>{{data.shortCodeLenderWise}}</td>
+                                <td>{{data.actualNo}}</td>
+                                <td>{{data.moratoriumStatusPhase1}}</td>
+                                <td>{{data.moratoriumStatusPhase2}}</td>
+                                <td>{{data.amountSanctioned}}</td>
+                                <td>{{data.sanctionDate | date:'dd MMM yyy'}}</td>
+                                <td>{{data.disbursementDate | date:'dd MMM yyy'}}</td>
+                                <td>{{data.amountDisbursed}}</td>
+                                <td>{{data.processingFee}}</td>
+                                <td>{{data.fdr}}</td>
+                                <td>{{data.margin}}</td>
+                                <td>{{data.noOfMonthsMoratorium}}</td>
+                                <td>{{data.roi}}</td>
+                                <td>{{data.tenure}}</td>
+                                <td>{{data.repaymentSchedule}}</td>
+                                <td>{{data.emiStartDate | date:'dd MMM yyy'}}</td>
+                                <td>{{data.otherExp}}</td>
+                                <td>{{data.intOnFdr}}</td>
+                                <td>{{data.fundRaisedDuringFY}}</td>
+                                <td>{{data.baseRate}}</td>
+                                <td>{{data.roiGross}}</td>
+                                <td>{{data.roiNet}}</td>
+                                <td>{{data.anyChangeInInterestDuringYear}}</td>
+                                <td>{{data.dateOfChangeOfInterest | date:'dd MMM yyy'}}</td>
+                                <td>{{data.newRate}}</td>
+                                <td>{{data.currentRoi}}</td>
+                                <td>{{data.roiType}}</td>
+                                <td>{{data.pg}}</td>
+                                <td>{{data.rating}}</td>
+                                <td>{{data.availedAmount}}</td>
+                                <td>{{data.termsOfTextRepayment1_P}}</td>
+                                <td>{{data.termsOfTextRepayment2_P}}</td>
+                                <td>{{data.termsOfTextRepayment1_I}}</td>
+                                <td>{{data.termsOfTextRepayment2_I}}</td>
+                                <td>{{data.typeOfLender1}}</td>
+                                <td>{{data.typeOfLender2}}</td>
+                                <td>{{data.natureOfInstrument1}}</td>
+                                <td>{{data.natureOfInstrument2}}</td>
+                                <td>{{data.natureOfInstrument3}}</td>
+                                <td>{{data.typeOfLender3}}</td>
+                                <td>{{data.typeOfFacility}}</td>
+                                <td>{{data.paymentFrequency}}</td>
+                                <td>{{data.originalMaturityOfLoan}}</td>
+                                <td>{{data.interestRate}}</td>
+                                <td>{{data.sanctionLetter | date:'dd MMM yyy'}}</td>
+                                <td>{{data.maturityDate | date:'dd MMM yyy'}}</td>
+                                <td>{{data.thDate | date:'dd MMM yyy'}}</td>
+                                <td>{{data.compounding}}</td>
+                                <td>{{data.changeEffectiveDate | date:'dd MMM yyy'}}</td>
+                                <td>{{data.legalFee}}</td>
+                                <td>{{data.documentationCharges}}</td>
+                                <td>{{data.stampDuty}}</td>
+                                <td>{{data.trusteeFee}}</td>
+                                <td>{{data.arrangerFee}}</td>
+                                <td>{{data.nsdl}}</td>
+                                <td>{{data.linkinktimeRta}}</td>
+                                <td>{{data.ratingFee}}</td>
+                                <td>{{data.listing}}</td>
+                                <td>{{data.debentureStamping}}</td>
+                                <td>{{data.otherFee}}</td>
+                                <td>{{data.stempDown}}</td>
+                                <td>{{data.step}}</td>
+                                <td>{{data.applicableTaxes}}</td>
+                                <td>{{data.flag}}</td>
+                                <td>{{data.createdAt | date:'dd MMM yyy hh:ss a'}}</td>
+                                
+
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div><!--end col-->
+</div><!--end row-->
+
+
+<ng-template #rangeContent role="document" let-modal>
+    <div class="modal-header p-3 bg-soft-success">
+        <h5 class="modal-title" id="addmemberModalLabel">Download</h5>
+        <button type="button" class="btn-close" id="btn-close-member" data-bs-dismiss="modal" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body p-4">
+        <div class="flatpickr-input" (change)="changeDate($event)" placeholder="Select Date"
+        type="text" mwlFlatpickr  [altInput]="true" mode="range" [inline]="true" [convertModelValue]="true" ></div>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="!loader" class="btn btn-primary" (click)="download()">Download</button>
+        <button *ngIf="loader" class="btn btn-primary" disabled>Loading</button>
+    </div>
+</ng-template>

@@ -1,0 +1,160 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Help & Support" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control" placeholder="Search"
+                                    [(ngModel)]="searchTerm">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+
+                        <div class="col-xxl-2 col-sm-2">
+
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-5 col-sm-8 flex items-end">
+                            <div class="text-md-right float-md-end ">
+                                <ul class="pagination">
+
+                                    <li class="page-item me-2">
+                                        <button type="button" (click)="getData()"
+                                            class="btn btn-outline-primary btn-icon waves-effect waves-light"><i
+                                                class=" ri-refresh-line"></i></button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th>{{'SR' | translate}}</th>
+                                <th>{{'Subject' | translate}}</th>
+                                <th>{{'Message' | translate}}</th>
+                                <th>{{'Employee Name' | translate}}</th>
+                                <th>Status</th>
+                                <th>{{'Remark' | translate}}</th>
+                                <th>{{'Action' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of supportRequests;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.subject}}</td>
+                                <td><p [innerHTML]="item.message"></p></td>
+                                <td>{{item.usersData[0]?.salutation}} {{item.usersData[0]?.firstName}} {{item.usersData[0]?.lastName}}</td>
+                                <td>
+                                    <span class="badge badge-outline-success" *ngIf="item.status == 1">Resolved</span>
+                                    <span class="badge badge-outline-warning" *ngIf="item.status == 0">Pending</span>
+                                </td>
+                                <td><p [innerHTML]="item.remark"></p></td>
+                                <td>
+                                    <ul class="list-inline hstack gap-2 mb-0">
+                                        <li *ngIf="item.status == 0" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbtooltip="Edit" placement="top" class="list-inline-item edit">
+                                            <button class="btn btn-sm btn-outline-success" (click)="openModal(dataModal,item)">
+                                                <i class="ri-check-line"></i>
+                                            </button>
+                                        </li>
+                                        <li *ngIf="item.status == 0" data-bs-toggle="tooltip" data-bs-trigger="hover" ngbtooltip="Edit" placement="top" class="list-inline-item edit">
+                                            <button class="btn btn-sm btn-outline-info" (click)="showSupport(item)">
+                                                <i class="ri-guide-line"></i>
+                                            </button>
+                                        </li>
+                                        <li data-bs-toggle="tooltip" data-bs-trigger="hover" ngbtooltip="Edit" placement="top" class="list-inline-item edit">
+                                            <button class="btn btn-sm btn-outline-primary" (click)="displayDetails(item)">
+                                                <i class="ri-eye-line"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    
+                               </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+</div>
+
+<ng-template #filtetcontent let-offcanvas>
+    <div class="d-flex align-items-center bg-primary bg-gradient p-3 offcanvas-header">
+        <h5 class="m-0 me-2 text-white">Details</h5>
+        <button type="button" class="btn-close btn-close-white ms-auto " data-bs-dismiss="offcanvas" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <ngx-simplebar class="h-100">
+            <div class="p-4">
+                <div>
+                    <p class="m-0 p-0 text-muted">Status</p>
+                    <span class="badge badge-outline-success" *ngIf="displayDetailsItem.status == 1">Resolved</span>
+                    <span class="badge badge-outline-warning" *ngIf="displayDetailsItem.status == 0">Pending</span>
+                </div>
+                <hr>
+                <div>
+                    <p class="m-0 p-0 text-muted">Employee Name</p>
+                    <p>{{displayDetailsItem.usersData[0]?.salutation}} {{displayDetailsItem.usersData[0]?.firstName}} {{displayDetailsItem.usersData[0]?.lastName}}</p>
+                </div>
+                <hr>
+                <div>
+                    <p class="m-0 p-0 text-muted">Subject</p>
+                    <p>{{displayDetailsItem.subject}}</p>
+                </div>
+                <hr>
+                <div>
+                    <p class="m-0 p-0 text-muted">Message</p>
+                    <p [innerHTML]="displayDetailsItem.message"></p>
+                </div>
+                <hr>
+                <div>
+                    <p class="m-0 p-0 text-muted">Remark</p>
+                    <p [innerHTML]="displayDetailsItem.remark"></p>
+                </div>
+                <hr>
+
+
+            </div>
+        </ngx-simplebar>
+    </div>
+</ng-template>
+
+<!-- Center Modal -->
+<ng-template #dataModal let-modal>
+    <div class="d-flex align-items-center bg-primary bg-gradient p-3 offcanvas-header">
+        <h5 class="m-0 me-2 text-white">Mark Resolved</h5>
+        <button type="button" class="btn-close btn-close-white ms-auto " data-bs-dismiss="offcanvas" aria-label="Close"
+        (click)="modalService.dismissAll()"></button>
+    </div>
+    <div class="modal-body p-5 py-2">
+        <div class="form-group">
+            <label>{{'Remark' | translate}}</label><br>
+            <textarea rows="4" [(ngModel)]="remarkInput" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal" (click)="modalService.dismissAll" >{{'Close' | translate}}</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="updateStatus(displayDetailsItem._id)">{{'Update' | translate}}</button>
+        </div>
+</ng-template>

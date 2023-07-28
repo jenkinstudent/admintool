@@ -1,0 +1,162 @@
+<div class="card d-none d-lg-block d-xl-block" style="height: calc(100vh - 146px);">
+
+    <ngb-accordion activeIds="{{pActiveId}}" [closeOthers]="true" *ngIf=" type=='program' && programmes.length > 0" style="background-color:unset !important;">
+        <ng-container *ngFor="let program of programmes;let p = index">
+            <ngb-panel id="program-{{p}}" [disabled]="!program.unlock">
+                <ng-template ngbPanelTitle class="accordion-header">
+                    <h2 class="accordion-header progHeader" id="gen-ques-headingOne">
+                        <i class="ri-dashboard-line me-1 text-white"></i> {{program.programId?.title}}
+                        <!-- <button class="accordion-button progHeader" type="button"
+                            style="color: white; font-size: 12px;">
+                           
+                        </button> -->
+                    </h2>
+                </ng-template>
+                <ng-template ngbPanelContent *ngIf="program.courses.length > 0">
+
+                    <ngb-accordion activeIds="{{pcActiveId}}" class="course-acc" [closeOthers]="true">
+                        <ng-container *ngFor="let course of program.courses;let c = index">
+                            <ngb-panel id="course-{{c}}" [disabled]="!course.unlock">
+                                <ng-template ngbPanelTitle class="accordion-header course-header">
+                                    <h2 class="accordion-header acHeader" id="gen-ques-headingOne1" style="font-size: 12px; color:white;">
+                                        {{course.courseId?.title}}
+                                        <!-- <button class="accordion-button" type="button"
+                                            style="color: white; font-size: 12px;">
+                                            {{course.courseId?.title}}
+                                        </button> -->
+                                    </h2>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <ng-container *ngFor="let module of course.module;let m = index">
+                                        <a>
+                                            <li class="moduleHeader" *ngIf="module.unlock"
+                                                [routerLink]="['/pages/my-programmes/module-details',p,c,m]"
+                                                routerLinkActive="active">
+
+                                                {{module.moduleId?.title}}
+
+                                            </li>
+                                        </a>
+                                        <li style="font-size:10px;color: rgb(0,0,0,0.5); list-style-type:none; padding: 6px; cursor: unset !important;background-image: linear-gradient(#eeeeee, #e0e0e0, #bdbdbd);"
+                                            class="" *ngIf="!module.unlock">
+                                            {{module.moduleId?.title}}
+                                        </li>
+                                    </ng-container>
+                                    <hr style="color:white;margin: unset;opacity: 0.5;"
+                                        *ngIf="program.courses.length != c+1">
+                                </ng-template>
+                            </ngb-panel>
+
+                        </ng-container>
+                    </ngb-accordion>
+
+                    <hr style="color:white;margin: unset;opacity: 0.5;">
+                </ng-template>
+
+            </ngb-panel>
+
+        </ng-container>
+
+    </ngb-accordion>
+
+
+    <ngb-accordion activeIds="{{cActiveId}}" [closeOthers]="true" *ngIf=" type=='course' && courses.length > 0">
+        <ng-container *ngFor="let course of courses;let c = index">
+            <ngb-panel id="course-{{c}}" [disabled]="!course.unlock">
+                <ng-template ngbPanelTitle class="accordion-header">
+                    <h2 class="accordion-header progHeader" id="gen-ques-headingOne">
+                        <i class="ri-dashboard-line me-1 text-white"></i> {{course.courseId?.title}}
+                    </h2>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <ng-container *ngFor="let module of course.modules;let m = index">
+                        <a>
+                            <li class="moduleHeader" *ngIf="module.unlock"
+                                [routerLink]="['/pages/my-courses/module-details',c,m]"
+                                routerLinkActive="active">
+                                <!-- {{program.programId?.title  | firstletter}}{{c+1}}.{{m+1}}  -->
+                                {{module.moduleId?.title}}
+                            </li>
+                        </a>
+                        <li class=""
+                            style="font-size:10px;color: rgb(0,0,0,0.5); list-style-type:none; padding: 6px; cursor: unset !important; background-image: linear-gradient(#eeeeee, #e0e0e0, #bdbdbd);"
+                            *ngIf="!module.unlock">
+                            <!-- {{program.programId?.title  | firstletter}}{{c+1}}.{{m+1}}  -->
+                            {{module.moduleId?.title}}
+                        </li>
+                    </ng-container>
+                    <hr style="color:white;margin: unset;opacity: 0.5;">
+                </ng-template>
+            </ngb-panel>
+
+        </ng-container>
+    </ngb-accordion>
+
+
+
+    <div *ngIf="type=='module'">
+        <ng-container *ngFor="let module of modules;let c = index">
+            <a *ngIf="module.unlock">
+                <li class="moduleHeader"
+                    [routerLink]="['/pages/my-modules/module-details',c]"
+                    routerLinkActive="active">
+                    {{module.moduleId?.title}}
+                </li>
+            </a>
+            <a *ngIf="!module.unlock">
+                <li class=""
+                    style="font-size:10px;color: rgb(0,0,0,0.5); list-style-type:none; padding: 6px; cursor: unset !important; background-image: linear-gradient(#eeeeee, #e0e0e0, #bdbdbd);">
+                    {{module.moduleId?.title}}
+                </li>
+            </a>
+        </ng-container>
+    </div>
+
+    <ngb-accordion activeIds="{{lpActiveId}}" [closeOthers]="true"
+        *ngIf=" type=='learningActivity' && learningActivities.length > 0">
+        <ng-container *ngFor="let program of learningActivities;let p = index">
+            <ngb-panel id="program-{{p}}">
+                <ng-template ngbPanelTitle class="accordion-header">
+                    <h2 class="accordion-header progHeader" id="gen-ques-headingOne">
+                        <i class="ri-dashboard-line me-1 text-white"></i> {{program.programId?.title}}
+                    </h2>
+                </ng-template>
+                <ng-template ngbPanelContent *ngIf="program.programId?.courses.length > 0">
+
+                    <ngb-accordion class="course-acc" activeIds="{{lpcActiveId}}" [closeOthers]="true">
+                        <ng-container *ngFor="let course of program.programId?.courses;let c = index">
+                            <ngb-panel id="course-{{c}}">
+                                <ng-template ngbPanelTitle class="accordion-header course-header">
+                                    <h2 class="accordion-header acHeader" id="gen-ques-headingOne1" style="color: white; font-size: 12px;">
+                                        {{course.courseId?.title}}
+                                    </h2>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <ng-container *ngFor="let module of course.courseId?.modules;let m = index">
+                                        <a>
+                                            <li class="moduleHeader"
+                                                [routerLink]="['/pages/my-learning-activities/module-details',p,c,m]"
+                                                routerLinkActive="active">
+
+                                                {{module.moduleId?.title}}
+
+                                            </li>
+                                        </a>
+                                    </ng-container>
+                                    <hr style="color:white;margin: unset;opacity: 0.5;"
+                                        *ngIf="program.programId?.courses.length != c+1">
+                                </ng-template>
+                            </ngb-panel>
+
+                        </ng-container>
+                    </ngb-accordion>
+
+                    <hr style="color:white;margin: unset;opacity: 0.5;">
+                </ng-template>
+
+            </ngb-panel>
+
+        </ng-container>
+
+    </ngb-accordion>
+</div>

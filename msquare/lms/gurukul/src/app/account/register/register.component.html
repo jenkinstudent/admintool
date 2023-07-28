@@ -1,0 +1,498 @@
+<!-- auth-page wrapper -->
+<div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center" style="height: 100vh !important;">
+    <div class="bg-overlay"></div>
+    <!-- auth-page content -->
+    <div class="auth-page-content overflow-hidden pt-lg-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card overflow-hidden" style="border-radius: 10px;">
+                        <div class="row g-0"> 
+                            <div class="col-lg-6 d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block">
+                                <div class="auth-one-bg h-100" >
+                                    <div class="bg-overlay"></div>
+                                    <div class="position-relative d-flex flex-column" style="padding:20px !important; padding-bottom: unset;">
+                                        <h1 style=" margin-bottom: 10px; font-weight: normal;color:#666;">{{'Register Account' | translate}}</h1>
+                                        <h4 style="color:#666;font-weight: 300;"></h4>
+                                    </div>
+                                    <div style="display: block;margin: auto 0;">
+                                        <img src="assets/images/office.png" alt="" style="width:100%;height:auto;bottom: 0;
+                                        position: absolute;">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end col -->
+  
+                            <div class="col-lg-6" style="background-color: #754C29;">
+                                <div class="p-lg-5 p-4" style="padding:20px 20px !important;">
+                                    
+                                    <div class="text-center">
+                                        <a style="margin: 0 auto;"><img src="assets/images/Desktop-White-Logo.png" alt="" style="width: 252px; height: 65.5px;"></a>
+                                    </div>
+  
+                                    <div class="m-5 mt-4 mb-0">
+                                        <form autocomplete="off" role="presentation">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="mb-2">
+                                                        <input type="text" class="form-control idInput" placeholder="{{'Employee Code' | translate}}" [(ngModel)]="employeeCode" [ngModelOptions]="{standalone: true}" style="text-transform: capitalize;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <input type="text" class="form-control" placeholder="{{'First Name' | translate}}" [(ngModel)]="firstName" [ngModelOptions]="{standalone: true}">
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <input type="text" class="form-control" placeholder="{{'Last Name'  | translate}}" [(ngModel)]="lastName" [ngModelOptions]="{standalone: true}">
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <input type="number" class="form-control" type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" placeholder="{{'Mobile No.' | translate}}" [(ngModel)]="mobile" [ngModelOptions]="{standalone: true}">
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <input type="text" max="9999-12-31" onfocus="(this.type='date')" class="form-control" placeholder="{{'Date of Birth' | translate}}" [(ngModel)]="dob" [ngModelOptions]="{standalone: true}">
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <ng-select [(ngModel)]="department" [ngModelOptions]="{standalone: true}">
+                                                            <ng-option value="" disabled="">{{'Department'  | translate}}</ng-option>
+                                                            <ng-option value="Management">Management</ng-option>
+                                                            <ng-option value="Recovery And Collection">Recovery And Collection</ng-option>
+                                                            <ng-option value="Business Operations">Business Operations</ng-option>
+                                                            <ng-option value="Credit And Operations">Credit And Operations</ng-option>
+                                                            <ng-option value="Credit">Credit</ng-option>
+                                                            <ng-option value="Finance & Accounts">Finance & Accounts</ng-option>
+                                                            <ng-option value="Internal Audit">Internal Audit</ng-option>
+                                                            <ng-option value="Finance & Treasury">Finance & Treasury</ng-option>
+                                                            <ng-option value="Operations">Operations</ng-option>
+                                                            <ng-option value="Company Secretary">Company Secretary</ng-option>
+                                                            <ng-option value="Back Office Operations">Back Office Operations</ng-option>
+                                                            <ng-option value="Information Technology">Information Technology</ng-option>
+                                                            <ng-option value="Administration">Administration</ng-option>
+                                                            <ng-option value="SPM & CSR">SPM & CSR</ng-option>
+                                                            <ng-option value="Learning and Development">Learning and Development</ng-option>
+                                                            <ng-option value="Human Resources">Human Resources</ng-option>
+                                                            <ng-option value="Fraud Control Unit">Fraud Control Unit</ng-option>
+                                                            <ng-option value="Product And Strategy">Product And Strategy</ng-option>
+                                                            <ng-option value="Sales And Distribution">Sales And Distribution</ng-option>
+                                                            <ng-option value="Collection And Legal Recovery">Collection And Legal Recovery</ng-option>
+                                                            <ng-option value="Policy And Hindsighting">Policy And Hindsighting</ng-option>
+                                                            <ng-option value="Fraud Prevention Unit">Fraud Prevention Unit</ng-option>
+                                                            <ng-option value="Risk Management">Risk Management</ng-option>
+                                                            <ng-option value="Corporate Communication">Corporate Communication</ng-option>
+                                                            <ng-option value="Business excellence">Business excellence</ng-option>
+                                                        </ng-select>
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <ng-select [(ngModel)]="gender" [ngModelOptions]="{standalone: true}">
+                                                            <ng-option value="" selected disabled="">{{'Gender'  | translate}}</ng-option>
+                                                            <ng-option value="Male">Male</ng-option>
+                                                            <ng-option value="Female">Female</ng-option>
+                                                        </ng-select>
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <ng-select [(ngModel)]="state" [ngModelOptions]="{standalone: true}">
+                                                            <ng-option value="" disabled="">{{'State'  | translate}}</ng-option>
+                                                            <ng-option value="Haryana">Haryana</ng-option>
+                                                            <ng-option value="Delhi">Delhi</ng-option>
+                                                            <ng-option value="Uttarakhand">Uttarakhand</ng-option>
+                                                            <ng-option value="Uttar Pradesh">Uttar Pradesh</ng-option>
+                                                            <ng-option value="Madhya Pradesh">Madhya Pradesh</ng-option>
+                                                            <ng-option value="Rajasthan">Rajasthan</ng-option>
+                                                            <ng-option value="Chhattisgarh">Chhattisgarh</ng-option>
+                                                            <ng-option value="Jharkhand">Jharkhand</ng-option>
+                                                            <ng-option value="Gujarat">Gujarat</ng-option>
+                                                            <ng-option value="Bihar">Bihar</ng-option>
+                                                            <ng-option value="Punjab">Punjab</ng-option>
+                                                            <ng-option value="Orissa">Orissa</ng-option>
+                                                            <ng-option value="Maharashtra">Maharashtra</ng-option>
+                                                            <ng-option value="West Bengal">West Bengal</ng-option>
+                                                            <ng-option value="Himachal Pradesh">Himachal Pradesh</ng-option>
+                                                            <ng-option value="Assam">Assam</ng-option>
+                                                            <ng-option value="Tamil Nadu">Tamil Nadu</ng-option>
+                                                            <ng-option value="Pondicherry">Pondicherry</ng-option>
+                                                            <ng-option value="Jammu and Kashmir">Jammu and Kashmir</ng-option>
+                                                            <ng-option value="Karnataka">Karnataka</ng-option>
+                                                        </ng-select>
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <ng-select [(ngModel)]="cluster" [ngModelOptions]="{standalone: true}">
+                                                            <ng-option value="" disabled="">{{'Cluster'  | translate}}</ng-option>
+                                                            <ng-option value="Corporate Office">Corporate Office</ng-option>
+                                                            <ng-option value="Karnal Cluster">Karnal Cluster</ng-option>
+                                                            <ng-option value="Shamli Cluster">Shamli Cluster</ng-option>
+                                                            <ng-option value="Haridwar Cluster">Haridwar Cluster</ng-option>
+                                                            <ng-option value="Bijnor Cluster">Bijnor Cluster</ng-option>
+                                                            <ng-option value="Bhopal Cluster">Bhopal Cluster</ng-option>
+                                                            <ng-option value="Head Office">Head Office</ng-option>
+                                                            <ng-option value="Payagipur (Sultanpur) Cluster">Payagipur (Sultanpur) Cluster</ng-option>
+                                                            <ng-option value="Mau Cluster">Mau Cluster</ng-option>
+                                                            <ng-option value="Regional Office">Regional Office</ng-option>
+                                                            <ng-option value="MultaiCluster">MultaiCluster</ng-option>
+                                                            <ng-option value="Pandhana Cluster">Pandhana Cluster</ng-option>
+                                                            <ng-option value="Saharanpur Cluster">Saharanpur Cluster</ng-option>
+                                                            <ng-option value="Churu Cluster">Churu Cluster</ng-option>
+                                                            <ng-option value="Burhar Cluster">Burhar Cluster</ng-option>
+                                                            <ng-option value="Modinagar Cluster">Modinagar Cluster</ng-option>
+                                                            <ng-option value="Agra Cluster">Agra Cluster</ng-option>
+                                                            <ng-option value="Barabanki Cluster">Barabanki Cluster</ng-option>
+                                                            <ng-option value="Basti Cluster">Basti Cluster</ng-option>
+                                                            <ng-option value="Allahabad Cluster">Allahabad Cluster</ng-option>
+                                                            <ng-option value="Ranchi Cluster">Ranchi Cluster</ng-option>
+                                                            <ng-option value="Dehradun Cluster">Dehradun Cluster</ng-option>
+                                                            <ng-option value="Malpura Cluster">Malpura Cluster</ng-option>
+                                                            <ng-option value="Roorkee Cluster">Roorkee Cluster</ng-option>
+                                                            <ng-option value="Tatibandh Cluster">Tatibandh Cluster</ng-option>
+                                                            <ng-option value="Gorakhpur Cluster">Gorakhpur Cluster</ng-option>
+                                                            <ng-option value="Guna Cluster">Guna Cluster</ng-option>
+                                                            <ng-option value="Charthawal Cluster">Charthawal Cluster </ng-option>
+                                                            <ng-option value="Anjora Cluster">Anjora Cluster</ng-option>
+                                                            <ng-option value="Jhansi Cluster">Jhansi Cluster</ng-option>
+                                                            <ng-option value="Sitapur Cluster">Sitapur Cluster</ng-option>
+                                                            <ng-option value="Chhindwara Cluster">Chhindwara Cluster</ng-option>
+                                                            <ng-option value="Tundla Cluster">Tundla Cluster</ng-option>
+                                                            <ng-option value="Vadodara Cluster">Vadodara Cluster</ng-option>
+                                                            <ng-option value="Bareilly Cluster">Bareilly Cluster</ng-option>
+                                                            <ng-option value="Sagar Cluster">Sagar Cluster</ng-option>
+                                                            <ng-option value="Chandausi Cluster">Chandausi Cluster</ng-option>
+                                                            <ng-option value="Shahjahanpur Cluster">Shahjahanpur Cluster</ng-option>
+                                                            <ng-option value="Rohtak Cluster">Rohtak Cluster</ng-option>
+                                                            <ng-option value="PATNA CLUSTER">PATNA CLUSTER</ng-option>
+                                                            <ng-option value="Budaun Cluster">Budaun Cluster</ng-option>
+                                                            <ng-option value="Mathura Cluster">Mathura Cluster</ng-option>
+                                                            <ng-option value="Sarangpur Cluster">Sarangpur Cluster</ng-option>
+                                                            <ng-option value="Chhatarpur Cluster">Chhatarpur Cluster</ng-option>
+                                                            <ng-option value="Petlad Cluster">Petlad Cluster</ng-option>
+                                                            <ng-option value="Haldwani Cluster">Haldwani Cluster</ng-option>
+                                                            <ng-option value="Jabalpur Cluster">Jabalpur Cluster</ng-option>
+                                                            <ng-option value="LudhianaCluster">LudhianaCluster</ng-option>
+                                                            <ng-option value="Gopalganj Cluster">Gopalganj Cluster</ng-option>
+                                                            <ng-option value="Mandasour Cluster">Mandasour Cluster</ng-option>
+                                                            <ng-option value="Jalandhar Cluster">Jalandhar Cluster</ng-option>
+                                                            <ng-option value="Robertsganj Cluster">Robertsganj Cluster</ng-option>
+                                                            <ng-option value="Dhampur Cluster">Dhampur Cluster</ng-option>
+                                                            <ng-option value="Dhar Cluster">Dhar Cluster</ng-option>
+                                                            <ng-option value="Noorpur Cluster">Noorpur Cluster</ng-option>
+                                                            <ng-option value="Bulandshahr Cluster">Bulandshahr Cluster</ng-option>
+                                                            <ng-option value="Abu Road Cluster">Abu Road Cluster</ng-option>
+                                                            <ng-option value="Pukhrayan Cluster">Pukhrayan Cluster</ng-option>
+                                                            <ng-option value="Kashipur Cluster">Kashipur Cluster</ng-option>
+                                                            <ng-option value="DeoriaCluster">DeoriaCluster</ng-option>
+                                                            <ng-option value="Ratlam Cluster">Ratlam Cluster</ng-option>
+                                                            <ng-option value="Hajipur Cluster">Hajipur Cluster</ng-option>
+                                                            <ng-option value="Lakhisarai Cluster">Lakhisarai Cluster</ng-option>
+                                                            <ng-option value="Darbhanga Cluster">Darbhanga Cluster</ng-option>
+                                                            <ng-option value="Purnia Cluster">Purnia Cluster</ng-option>
+                                                            <ng-option value="Aurangabad Cluster">Aurangabad Cluster</ng-option>
+                                                            <ng-option value="Saharsa Cluster">Saharsa Cluster</ng-option>
+                                                            <ng-option value="Chhapra Cluster">Chhapra Cluster</ng-option>
+                                                            <ng-option value="Gaya Cluster">Gaya Cluster</ng-option>
+                                                            <ng-option value="Begusarai Cluster">Begusarai Cluster</ng-option>
+                                                            <ng-option value="Yamunanagar Cluster">Yamunanagar Cluster</ng-option>
+                                                            <ng-option value="Aara Cluster">Aara Cluster</ng-option>
+                                                            <ng-option value="Jeypore Cluster">Jeypore Cluster</ng-option>
+                                                            <ng-option value="Muzaffarpur Cluster">Muzaffarpur Cluster</ng-option>
+                                                            <ng-option value="Samastipur Cluster">Samastipur Cluster</ng-option>
+                                                            <ng-option value="Sanchore Cluster">Sanchore Cluster</ng-option>
+                                                            <ng-option value="Sitamarhi Cluster">Sitamarhi Cluster</ng-option>
+                                                            <ng-option value="Latehar Cluster">Latehar Cluster</ng-option>
+                                                            <ng-option value="Shahpura Cluster">Shahpura Cluster</ng-option>
+                                                            <ng-option value="Anjad Cluster">Anjad Cluster</ng-option>
+                                                            <ng-option value="ITARSI CLUSTER">ITARSI CLUSTER</ng-option>
+                                                            <ng-option value="Varanasi Cluster">Varanasi Cluster</ng-option>
+                                                            <ng-option value="Banswara Cluster">Banswara Cluster</ng-option>
+                                                            <ng-option value="Indore Cluster">Indore Cluster</ng-option>
+                                                            <ng-option value="Bihar Sharif Cluster">Bihar Sharif Cluster</ng-option>
+                                                            <ng-option value="Hazaribagh Cluster">Hazaribagh Cluster</ng-option>
+                                                            <ng-option value="Deoghar Cluster">Deoghar Cluster</ng-option>
+                                                            <ng-option value="Giridih Cluster">Giridih Cluster</ng-option>
+                                                            <ng-option value="Hathras Cluster">Hathras Cluster</ng-option>
+                                                            <ng-option value="Jamshedpur Cluster">Jamshedpur Cluster</ng-option>
+                                                            <ng-option value="Motihari Cluster">Motihari Cluster</ng-option>
+                                                            <ng-option value="Satna Cluster">Satna Cluster</ng-option>
+                                                            <ng-option value="Ghazipur Cluster">Ghazipur Cluster</ng-option>
+                                                            <ng-option value="Dabra Cluster">Dabra Cluster</ng-option>
+                                                            <ng-option value="Sakri Cluster">Sakri Cluster</ng-option>
+                                                            <ng-option value="BhagalpurCluster">BhagalpurCluster</ng-option>
+                                                            <ng-option value="Padrauna Cluster">Padrauna Cluster</ng-option>
+                                                            <ng-option value="Sri Muktsar Cluster">Sri Muktsar Cluster</ng-option>
+                                                            <ng-option value="Moga Cluster">Moga Cluster</ng-option>
+                                                            <ng-option value="Garhwa Cluster">Garhwa Cluster</ng-option>
+                                                            <ng-option value="Khair Cluster">Khair Cluster</ng-option>
+                                                            <ng-option value="Raebareli  Cluster">Raebareli  Cluster</ng-option>
+                                                            <ng-option value="Madhubani Cluster">Madhubani Cluster</ng-option>
+                                                            <ng-option value="Lalgopal Ganj Cluster">Lalgopal Ganj Cluster</ng-option>
+                                                            <ng-option value="Aklera Cluster">Aklera Cluster</ng-option>
+                                                            <ng-option value="Dhamnod Cluster">Dhamnod Cluster</ng-option>
+                                                            <ng-option value="Jaunpur Cluster">Jaunpur Cluster</ng-option>
+                                                            <ng-option value="Asika Cluster">Asika Cluster</ng-option>
+                                                            <ng-option value="Bhadrak Cluster">Bhadrak Cluster</ng-option>
+                                                            <ng-option value="Sundargarh Cluster">Sundargarh Cluster</ng-option>
+                                                            <ng-option value="Sangrur Cluster">Sangrur Cluster</ng-option>
+                                                            <ng-option value="Keonjhar Cluster">Keonjhar Cluster</ng-option>
+                                                            <ng-option value="Ratangarh Cluster">Ratangarh Cluster</ng-option>
+                                                            <ng-option value="Dholpur Cluster">Dholpur Cluster</ng-option>
+                                                            <ng-option value="Dhenkanal Cluster">Dhenkanal Cluster</ng-option>
+                                                            <ng-option value="Rajkanika Cluster">Rajkanika Cluster</ng-option>
+                                                            <ng-option value="Angul Cluster">Angul Cluster</ng-option>
+                                                            <ng-option value="NagpurCluster">NagpurCluster</ng-option>
+                                                            <ng-option value="Raniganj Cluster">Raniganj Cluster</ng-option>
+                                                            <ng-option value="Maharajganj (UP) Cluster">Maharajganj (UP) Cluster</ng-option>
+                                                            <ng-option value="Jind Cluster">Jind Cluster</ng-option>
+                                                            <ng-option value="Rayagada Cluster">Rayagada Cluster</ng-option>
+                                                            <ng-option value="Anandpur Cluster">Anandpur Cluster</ng-option>
+                                                            <ng-option value="SubarnapurCluster">SubarnapurCluster</ng-option>
+                                                            <ng-option value="Gurdaspur Cluster">Gurdaspur Cluster</ng-option>
+                                                            <ng-option value="Deogarh Cluster">Deogarh Cluster</ng-option>
+                                                            <ng-option value="Balangir Cluster">Balangir Cluster</ng-option>
+                                                            <ng-option value="Sidhi Cluster">Sidhi Cluster</ng-option>
+                                                            <ng-option value="Dalsinghsarai Cluster">Dalsinghsarai Cluster</ng-option>
+                                                            <ng-option value="Yavatmal Cluster">Yavatmal Cluster</ng-option>
+                                                            <ng-option value="Odagaon Cluster">Odagaon Cluster</ng-option>
+                                                            <ng-option value="Baraut Cluster">Baraut Cluster</ng-option>
+                                                            <ng-option value="Hapur Cluster">Hapur Cluster</ng-option>
+                                                            <ng-option value="Sirsa Cluster">Sirsa Cluster</ng-option>
+                                                            <ng-option value="Ambikapur Cluster">Ambikapur Cluster</ng-option>
+                                                            <ng-option value="Daltanganj Cluster">Daltanganj Cluster</ng-option>
+                                                            <ng-option value="Jhabreda Cluster">Jhabreda Cluster</ng-option>
+                                                            <ng-option value="Santrampur Cluster">Santrampur Cluster</ng-option>
+                                                            <ng-option value="Khandapada Cluster">Khandapada Cluster</ng-option>
+                                                            <ng-option value="Nuapada Cluster">Nuapada Cluster</ng-option>
+                                                            <ng-option value="Bettiah Cluster">Bettiah Cluster</ng-option>
+                                                            <ng-option value="Dhanbad Cluster">Dhanbad Cluster</ng-option>
+                                                            <ng-option value="Dunguripali Cluster">Dunguripali Cluster</ng-option>
+                                                            <ng-option value="Nabarangpur Cluster">Nabarangpur Cluster</ng-option>
+                                                            <ng-option value="Sarangarh Cluster">Sarangarh Cluster</ng-option>
+                                                            <ng-option value="Kotputli Cluster">Kotputli Cluster</ng-option>
+                                                            <ng-option value="BhubaneswarCO">BhubaneswarCO</ng-option>
+                                                            <ng-option value="Barhawa Cluster">Barhawa Cluster</ng-option>
+                                                            <ng-option value="Bhawanipatna Cluster">Bhawanipatna Cluster</ng-option>
+                                                            <ng-option value="Anandpur Sahib Cluster">Anandpur Sahib Cluster</ng-option>
+                                                            <ng-option value="Kharsia Cluster">Kharsia Cluster</ng-option>
+                                                            <ng-option value="Rewari Cluster">Rewari Cluster</ng-option>
+                                                            <ng-option value="Dumka Cluster">Dumka Cluster</ng-option>
+                                                            <ng-option value="Jodhpur Cluster">Jodhpur Cluster</ng-option>
+                                                            <ng-option value="Kota Cluster">Kota Cluster</ng-option>
+                                                            <ng-option value="Burdwan Cluster">Burdwan Cluster</ng-option>
+                                                            <ng-option value="Jhanjharpur Cluster">Jhanjharpur Cluster</ng-option>
+                                                            <ng-option value="Kondagaon Cluster">Kondagaon Cluster</ng-option>
+                                                            <ng-option value="Chandol Cluster">Chandol Cluster</ng-option>
+                                                            <ng-option value="Nakur Cluster">Nakur Cluster</ng-option>
+                                                            <ng-option value="Kuliana Cluster">Kuliana Cluster</ng-option>
+                                                            <ng-option value="Ajmer Cluster">Ajmer Cluster</ng-option>
+                                                            <ng-option value="Hooghly Cluster">Hooghly Cluster</ng-option>
+                                                            <ng-option value="Vadali Cluster">Vadali Cluster</ng-option>
+                                                            <ng-option value="Rewa Cluster">Rewa Cluster</ng-option>
+                                                            <ng-option value="Baisinga Cluster">Baisinga Cluster</ng-option>
+                                                            <ng-option value="Mansa Cluster">Mansa Cluster</ng-option>
+                                                            <ng-option value="Malkangiri Cluster">Malkangiri Cluster</ng-option>
+                                                            <ng-option value="Dharapuram Cluster">Dharapuram Cluster</ng-option>
+                                                            <ng-option value="Dhampur">Dhampur</ng-option>
+                                                            <ng-option value="Guwahati Cluster">Guwahati Cluster</ng-option>
+                                                            <ng-option value="Tezpur Cluster">Tezpur Cluster</ng-option>
+                                                            <ng-option value="Dibrugarh Cluster">Dibrugarh Cluster</ng-option>
+                                                            <ng-option value="Golaghat Cluster">Golaghat Cluster</ng-option>
+                                                            <ng-option value="Jorhat Cluster">Jorhat Cluster</ng-option>
+                                                            <ng-option value="Tindivanam Cluster">Tindivanam Cluster</ng-option>
+                                                            <ng-option value="Puducherry Cluster">Puducherry Cluster</ng-option>
+                                                            <ng-option value="Narwana Cluster">Narwana Cluster</ng-option>
+                                                            <ng-option value="Chennai Cluster">Chennai Cluster</ng-option>
+                                                            <ng-option value="Mirzapur Cluster">Mirzapur Cluster</ng-option>
+                                                            <ng-option value="Ghoghamba Cluster">Ghoghamba Cluster</ng-option>
+                                                            <ng-option value="Kuchinda Cluster">Kuchinda Cluster </ng-option>
+                                                            <ng-option value="Balrampur Cluster">Balrampur Cluster</ng-option>
+                                                            <ng-option value="Vallioor Cluster">Vallioor Cluster</ng-option>
+                                                            <ng-option value="Krishnagiri Cluster">Krishnagiri Cluster</ng-option>
+                                                            <ng-option value="Virudhunagar Cluster">Virudhunagar Cluster</ng-option>
+                                                            <ng-option value="Fatehabad Cluster">Fatehabad Cluster</ng-option>
+                                                            <ng-option value="Mayiladuthurai Cluster">Mayiladuthurai Cluster</ng-option>
+                                                            <ng-option value="Vellore Cluster">Vellore Cluster</ng-option>
+                                                            <ng-option value="Lucknow">Lucknow</ng-option>
+                                                            <ng-option value="Ariyalur Cluster">Ariyalur Cluster</ng-option>
+                                                            <ng-option value="Thanjavur Cluster">Thanjavur Cluster</ng-option>
+                                                            <ng-option value="Tiruvannamalai Cluster">Tiruvannamalai Cluster</ng-option>
+                                                            <ng-option value="Araria Cluster">Araria Cluster</ng-option>
+                                                            <ng-option value="Bikaner Cluster">Bikaner Cluster</ng-option>
+                                                            <ng-option value="Hanumangarh Cluster">Hanumangarh Cluster</ng-option>
+                                                            <ng-option value="Palacode Cluster">Palacode Cluster</ng-option>
+                                                            <ng-option value="Chittorgarh Cluster">Chittorgarh Cluster</ng-option>
+                                                            <ng-option value="Tiruchirappalli Cluster">Tiruchirappalli Cluster</ng-option>
+                                                            <ng-option value="Melur Cluster">Melur Cluster</ng-option>
+                                                            <ng-option value="Hisar Cluster">Hisar Cluster</ng-option>
+                                                            <ng-option value="Sojat Cluster">Sojat Cluster</ng-option>
+                                                            <ng-option value="Kallakurichi Cluster">Kallakurichi Cluster</ng-option>
+                                                            <ng-option value="Gondal Cluster">Gondal Cluster</ng-option>
+                                                            <ng-option value="Thoothukudi Cluster">Thoothukudi Cluster</ng-option>
+                                                            <ng-option value="Alangudi Cluster">Alangudi Cluster</ng-option>
+                                                            <ng-option value="Thirukovilur Cluster">Thirukovilur Cluster</ng-option>
+                                                            <ng-option value="Kallakuruchi Cluster">Kallakuruchi Cluster</ng-option>
+                                                            <ng-option value="Chennimalai Cluster">Chennimalai Cluster</ng-option>
+                                                            <ng-option value="Tiruchengode Cluster">Tiruchengode Cluster</ng-option>
+                                                            <ng-option value="Karaikudi Cluster">Karaikudi Cluster</ng-option>
+                                                            <ng-option value="Limbdi Cluster">Limbdi Cluster</ng-option>
+                                                            <ng-option value="Delhi NCR">Delhi NCR</ng-option>
+                                                            <ng-option value="Jaipur MSME">Jaipur MSME</ng-option>
+                                                            <ng-option value="Sagwara Cluster">Sagwara Cluster</ng-option>
+                                                            <ng-option value="Rasipuram Cluster">Rasipuram Cluster</ng-option>
+                                                            <ng-option value="Pathankot Cluster">Pathankot Cluster</ng-option>
+                                                            <ng-option value="Ludhiana MSME">Ludhiana MSME</ng-option>
+                                                            <ng-option value="Agra MSME">Agra MSME</ng-option>
+                                                            <ng-option value="Ludhiana">Ludhiana</ng-option>
+                                                            <ng-option value="Barmer Cluster">Barmer Cluster</ng-option>
+                                                            <ng-option value="Karnal MSME">Karnal MSME</ng-option>
+                                                            <ng-option value="Kapurthala Cluster">Kapurthala Cluster</ng-option>
+                                                            <ng-option value="Thondamuthur Cluster">Thondamuthur Cluster</ng-option>
+                                                            <ng-option value="Bhilwara Cluster">Bhilwara Cluster</ng-option>
+                                                            <ng-option value="Sanganer Cluster">Sanganer Cluster</ng-option>
+                                                            <ng-option value="Indore MSME">Indore MSME</ng-option>
+                                                            <ng-option value="Rewari MSME">Rewari MSME</ng-option>
+                                                            <ng-option value="Jhansi MSME">Jhansi MSME</ng-option>
+                                                            <ng-option value="Katihar Cluster">Katihar Cluster</ng-option>
+                                                            <ng-option value="Lucknow MSME">Lucknow MSME</ng-option>
+                                                            <ng-option value="Batala Cluster">Batala Cluster</ng-option>
+                                                            <ng-option value="South And East Delhi Cluster">South And East Delhi Cluster</ng-option>
+                                                            <ng-option value="Gogri Jamalpur Cluster">Gogri Jamalpur Cluster</ng-option>
+                                                            <ng-option value="Dharbhanga Cluster">Dharbhanga Cluster</ng-option>
+                                                            <ng-option value="Patnagarh Cluster">Patnagarh Cluster</ng-option>
+                                                            <ng-option value="Baddi Cluster">Baddi Cluster</ng-option>
+                                                            <ng-option value="Sakra Cluster">Sakra Cluster</ng-option>
+                                                            <ng-option value="Kannauj Cluster">Kannauj Cluster</ng-option>
+                                                            <ng-option value="Netrang Cluster">Netrang Cluster</ng-option>
+                                                            <ng-option value="Hamirpur Cluster">Hamirpur Cluster</ng-option>
+                                                            <ng-option value="Benipur Cluster">Benipur Cluster</ng-option>
+                                                            <ng-option value="Raebareli Cluster">Raebareli Cluster</ng-option>
+                                                            <ng-option value="Salumbar Cluster">Salumbar Cluster</ng-option>
+                                                            <ng-option value="Thuraiyur Cluster">Thuraiyur Cluster</ng-option>
+                                                            <ng-option value="Barauni Cluster">Barauni Cluster</ng-option>
+                                                            <ng-option value="Trichy Cluster">Trichy Cluster</ng-option>
+                                                            <ng-option value="Sultanpur Lodhi Cluster">Sultanpur Lodhi Cluster</ng-option>
+                                                            <ng-option value="Manjhaul cluster">Manjhaul cluster</ng-option>
+                                                            <ng-option value="Gola Jharkhand Cluster">Gola Jharkhand Cluster</ng-option>
+                                                            <ng-option value="Bhanjanagar Cluster">Bhanjanagar Cluster</ng-option>
+                                                            <ng-option value="East Delhi">East Delhi</ng-option>
+                                                            <ng-option value="Mandya Cluster">Mandya Cluster</ng-option>
+                                                            <ng-option value="Sahnewal Cluster">Sahnewal Cluster</ng-option>
+                                                            <ng-option value="Purvanchal MSME">Purvanchal MSME</ng-option>
+                                                            <ng-option value="Bareilly MSME">Bareilly MSME</ng-option>
+                                                            <ng-option value="Avadh MSME">Avadh MSME</ng-option>
+                                                        </ng-select>
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <input type="text" class="form-control" placeholder="{{'Branch'  | translate}}" [(ngModel)]="branch" [ngModelOptions]="{standalone: true}">
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <ng-select [(ngModel)]="designation" [ngModelOptions]="{standalone: true}">
+                                                            <ng-option value="" disabled="">{{'Designation' | translate}}</ng-option>
+                                                            <ng-option value="Chief Executive Officer">Chief Executive Officer</ng-option>
+                                                            <ng-option value="Sr Assistant Vice President">Sr Assistant Vice President</ng-option>
+                                                            <ng-option value="Senior Branch Manager">Senior Branch Manager</ng-option>
+                                                            <ng-option value="Sr Relationship Officer">Sr Relationship Officer</ng-option>
+                                                            <ng-option value="Senior Divisional Manager">Senior Divisional Manager</ng-option>
+                                                            <ng-option value="Divisional Manager">Divisional Manager</ng-option>
+                                                            <ng-option value="Deputy Vice President">Deputy Vice President</ng-option>
+                                                            <ng-option value="Senior Manager">Senior Manager</ng-option>
+                                                            <ng-option value="Deputy Manager">Deputy Manager</ng-option>
+                                                            <ng-option value="Senior Area Manager">Senior Area Manager</ng-option>
+                                                            <ng-option value="Regional Manager">Regional Manager</ng-option>
+                                                            <ng-option value="Assistant Vice President">Assistant Vice President</ng-option>
+                                                            <ng-option value="Area Manager">Area Manager</ng-option>
+                                                            <ng-option value="Sr Divisional Collection Manager">Sr Divisional Collection Manager</ng-option>
+                                                            <ng-option value="Manager">Manager</ng-option>
+                                                            <ng-option value="Assistant Manager">Assistant Manager</ng-option>
+                                                            <ng-option value="Senior Executive">Senior Executive</ng-option>
+                                                            <ng-option value="Vice President">Vice President</ng-option>
+                                                            <ng-option value="Branch Manager">Branch Manager</ng-option>
+                                                            <ng-option value="Sr Collection Officer">Sr Collection Officer</ng-option>
+                                                            <ng-option value="Assistant Branch Manager">Assistant Branch Manager</ng-option>
+                                                            <ng-option value="Divisional Collection Manager">Divisional Collection Manager</ng-option>
+                                                            <ng-option value="Executive">Executive</ng-option>
+                                                            <ng-option value="Senior Vice President">Senior Vice President</ng-option>
+                                                            <ng-option value="Senior Credit Officer">Senior Credit Officer</ng-option>
+                                                            <ng-option value="Data Entry Operator">Data Entry Operator</ng-option>
+                                                            <ng-option value="Senior Audit Officer">Senior Audit Officer</ng-option>
+                                                            <ng-option value="Assistant Collection Manager">Assistant Collection Manager</ng-option>
+                                                            <ng-option value="Collection Manager">Collection Manager</ng-option>
+                                                            <ng-option value="Chief Financial Officer">Chief Financial Officer</ng-option>
+                                                            <ng-option value="Sr Collection Manager">Sr Collection Manager</ng-option>
+                                                            <ng-option value="Cashier">Cashier</ng-option>
+                                                            <ng-option value="Credit Officer">Credit Officer</ng-option>
+                                                            <ng-option value="Relationship Officer">Relationship Officer</ng-option>
+                                                            <ng-option value="Collection Officer">Collection Officer</ng-option>
+                                                            <ng-option value="Business Development Officer">Business Development Officer</ng-option>
+                                                            <ng-option value="Business Development Manager">Business Development Manager</ng-option>
+                                                            <ng-option value="Sr Business Development Officer">Sr Business Development Officer</ng-option>
+                                                            <ng-option value="Audit Officer">Audit Officer</ng-option>
+                                                            <ng-option value="Central Credit Manager">Central Credit Manager</ng-option>
+                                                            <ng-option value="Chief Risk Officer">Chief Risk Officer</ng-option>
+                                                            <ng-option value="Officer - Collection and Recovery">Officer - Collection and Recovery</ng-option>
+                                                            <ng-option value="Management Trainee">Management Trainee</ng-option>
+                                                            <ng-option value="Chief Human Resource Officer">Chief Human Resource Officer</ng-option>
+                                                        </ng-select>
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-2">
+                                                        <input type="email" autocomplete="off" role="presentation" class="form-control" placeholder="{{'Email' | translate}}" [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <div class="position-relative auth-pass-inputgroup mb-3">
+                                                            <input [type]="fieldTextType ? 'text' : 'password'" class="form-control pe-5" (paste)="(false)" autocomplete="off" role="presentation" placeholder="{{'Password' | translate}}" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+                                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="mdi align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType
+                                                            }" (click)="toggleFieldTextType()"></i></button>
+                                                        </div>
+                                                    </div>        
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-2">
+                                                        <div class="position-relative auth-pass-inputgroup mb-3">
+                                                            <input [type]="fieldTextType1 ? 'text' : 'password'" class="form-control pe-5" (paste)="(false)" placeholder="{{'Confirm Password' | translate}}" [(ngModel)]="confirm_password" [ngModelOptions]="{standalone: true}">
+                                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="mdi align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType1, 'mdi-eye-outline': fieldTextType1
+                                                            }" (click)="toggleFieldTextType1()"></i></button>
+                                                        </div>
+                                                    </div>        
+                                                </div>
+                                            </div>  
+                                        </form>
+                                    </div>
+                                    <button type="button" style="display: block;margin:0 auto;" class="btn btn-light ps-4 pe-4 mt-2" (click)="register()">{{'Sign Up' | translate}}</button>
+
+                                    <div class="mt-4 text-center">
+                                        <a class="mb-0 text-white" routerLink="/auth/login" >{{'Already Employee? Signin'  | translate}}</a>
+                                    </div> 
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                    </div>
+                    <!-- end card -->
+                </div>
+                <!-- end col -->
+  
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end auth page content -->
+  </div>
+  <!-- end auth-page-wrapper -->
+  

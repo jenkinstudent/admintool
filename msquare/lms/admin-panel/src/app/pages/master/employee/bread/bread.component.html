@@ -1,0 +1,133 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="back()"></i>
+                <span class="card-title mb-0 text-primary">Edit Employee</span>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-6 border-right">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Salutation' | translate}}</label>
+                                    <select class="form-control" [(ngModel)]="empSalutation" disabled>
+                                        <option value="Mr.">Mr.</option>
+                                        <option value="Mrs.">Mrs.</option>
+                                        <option value="Miss.">Miss.</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'First Name' | translate}}</label>
+                                    <input placeholder="Enter First Name" type="text" class="form-control"
+                                        [(ngModel)]="empFirstName" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Last Name' | translate}}</label>
+                                    <input placeholder="Enter Last Name" type="text" class="form-control"
+                                        [(ngModel)]="empLastName" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Mobile' | translate}}</label>
+                                    <input placeholder="Enter Mobile" type="number" class="form-control"
+                                        [(ngModel)]="empMobile">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'DOB' | translate}}</label>
+                                    <input placeholder="Enter DOB" type="date" class="form-control" [(ngModel)]="empDOB"
+                                        disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Email' | translate}}</label>
+                                    <input placeholder="Enter Email" type="email" class="form-control"
+                                        [(ngModel)]="empEmail" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Gender' | translate}}</label>
+                                    <select class="form-control" [(ngModel)]="empGender" disabled>
+                                        <option value="Female">Female</option>
+                                        <option value="Male">Male</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Designation' | translate}}</label>
+                                    <input placeholder="Enter Designation" type="text" class="form-control"
+                                        [(ngModel)]="empDesignation" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Department' | translate}}</label>
+                                    <input placeholder="Enter Department" type="text" class="form-control"
+                                        [(ngModel)]="empDepartment" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Branch' | translate}}</label>
+                                    <input placeholder="Enter Branch" type="text" class="form-control"
+                                        [(ngModel)]="empBranch" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'Cluster' | translate}}</label>
+                                    <input placeholder="Enter Cluster" type="text" class="form-control"
+                                        [(ngModel)]="empCluster" disabled>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label>{{'State' | translate}}</label>
+                                    <input placeholder="Enter State" type="text" class="form-control"
+                                        [(ngModel)]="empState" disabled>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+                <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light"
+                    (click)="editEmployee()" [disabled]="loader">Save <i class="fa fa-circle-o-notch fa-spin"
+                        *ngIf="loader" style="margin-left: 10px;"></i></button>
+                <button type="button" style="float: right;" class="btn btn-ghost-primary waves-effect waves-light me-3"
+                    (click)="back()" [disabled]="loader">Back</button>
+            </div>
+        </div>
+    </div>
+</div>

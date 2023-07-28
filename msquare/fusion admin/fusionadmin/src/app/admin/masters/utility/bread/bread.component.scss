@@ -1,0 +1,24 @@
+.fs-15{
+    font-weight: bold;
+}
+@media screen and (min-width: 992px) {
+    .border-right{
+        border-right: 1px solid #bdbdbd;
+    }
+}
+.required:after {
+    content:" *";
+    color: red;
+}
+      
+    
+.table-responsive {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .table-responsive td,
+  .table-responsive th {
+    min-width: 120px;
+    padding: 10px;
+  }

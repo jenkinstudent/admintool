@@ -1,0 +1,58 @@
+<app-breadcrumbs title="{{'Calender'  | translate}}"></app-breadcrumbs>
+
+<div class="row project-wrapper">
+    
+    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 h-100">
+        <div class="p-2">
+            <div class="card margin" style="background-color: #fff;box-shadow:unset;">
+                <div class="card-body p-4">
+                    <img src="assets/images/Calender.jpg" width="100%"><br><br>
+                    <br>
+                    <div class="row" style="    border: 1px solid #ccc;padding: 10px;border-radius: 5px;">
+                        <div class="col-lg-8 col-md-8 calendar">
+                            <div class="flatpickr-input" type="text" mwlFlatpickr (change)="getDate($event)"
+                             [altInput]="true" [convertModelValue]="true"
+                            [inline]="true"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <h2 class="mt-3" style="font-weight: unset;color:#cd5e29;">{{currentSelectedDate | date:'dd'}} <span style="font-size: 21px; text-transform: uppercase;color:black;">{{currentSelectedDate | date:'MMMM'}}</span><br> <span style="font-size: 21px;color:black;">{{currentSelectedDate | date:'EEEE'}}</span></h2>
+                            <div class="card" *ngFor="let item of pevents" id="box2" style="background-color: #cd5e29;border-radius: 10px 0px 10px 0px !important; margin-bottom: 10px;">
+                                <div class="card-body" style="padding:8px;" *ngIf="!item.programId?.isWatch" [routerLink]="['/pages/my-programmes/course',item._id]">
+                                    <i class="ri-arrow-right-s-line text-white fs-13" style="float: right;font-weight: bold;"></i>
+                                    <h4 class="mb-0 fs-16 text-white" style="font-weight: unset;">{{(item.programId?.title != undefined)?item.programId?.title:'-'}}</h4>
+                                </div>
+                            </div>
+                            <div class="card" *ngFor="let item of cevents" id="box2" style="background-color: #cd5e29;border-radius: 10px 0px 10px 0px !important; margin-bottom: 10px;">
+                                <div class="card-body" style="padding:8px;" *ngIf="!item.courseId?.isWatch" [routerLink]="['/pages/my-courses/module',item._id]">
+                                    <i class="ri-arrow-right-s-line text-white fs-13" style="float: right;font-weight: bold;"></i>
+                                    <h4 class="mb-0 fs-16 text-white" style="font-weight: unset;">{{(item.courseId?.title != undefined)?item.courseId?.title:'-'}}</h4>
+                                </div>
+                            </div>
+                            <div class="card" *ngFor="let item of mevents" id="box2" style="background-color: #cd5e29;border-radius: 10px 0px 10px 0px !important; margin-bottom: 10px;">
+                                <div class="card-body" style="padding:8px;" *ngIf="!item.moduleId?.isWatch" [routerLink]="['/pages/my-modules']">
+                                    <i class="ri-arrow-right-s-line text-white fs-13" style="float: right;font-weight: bold;"></i>
+                                    <h4 class="mb-0 fs-16 text-white" style="font-weight: unset;">{{(item.moduleId?.title != undefined)?item.moduleId?.title:'-'}}</h4>
+                                </div>
+                            </div>
+                            <div class="card" *ngFor="let item of aevents" id="box2" style="background-color: #cd5e29;border-radius: 10px 0px 10px 0px !important; margin-bottom: 10px;">
+                                <div class="card-body" style="padding:8px;" *ngIf="!item.programId?.isWatch" [routerLink]="['/pages/my-learning-activities/course',item._id]">
+                                    <i class="ri-arrow-right-s-line text-white fs-13" style="float: right;font-weight: bold;"></i>
+                                    <h4 class="mb-0 fs-16 text-white" style="font-weight: unset;">{{(item.programId?.title != undefined)?item.programId?.title:'-'}}</h4>
+                                </div>
+                            </div>
+                            <div *ngIf="pevents.length == 0 && cevents.length == 0 && mevents.length == 0 && aevents.length == 0" class="card" id="box2" style="background-color: #cd5e29;border-radius: 10px 0px 10px 0px !important; margin-bottom: 10px;">
+                                <div class="card-body text-center" style="padding:8px;">
+                                    <h4 class="mb-0 fs-16 text-white" style="font-weight: unset;">{{'No Events Found' | translate}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

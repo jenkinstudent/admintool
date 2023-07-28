@@ -1,0 +1,142 @@
+<!-- <app-breadcrumbs title="{{pageTitle}}" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+
+<div class="card">
+    <div class="card-header">
+        <i class="ri-arrow-go-back-fill" style="cursor:pointer; margin-right: 10px;" (click)="_location.back();"></i>
+        <span class="card-title mb-0 text-primary">{{label}}</span>
+    </div><!-- end card header -->
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Program Code</label>
+                            <input disabled="" type="text" class="form-control" value="P{{programCode}}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Keywords, Description, Tags <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Add Keywords, Description, Tags"
+                                [(ngModel)]="programKeywords" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Program Description <span class="text-danger">*</span></label>
+                            <textarea type="text" class="form-control" rows="7" placeholder="Add Program Description"
+                                [(ngModel)]="programDesc" [ngModelOptions]="{standalone: true}"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Program Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Add Program Title"
+                                [(ngModel)]="programTitle" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Upload Thumbnail (300px X 200px)</label>
+                            <input type="file" class="form-control" (change)="uploadThumbnail($event)" #thumbnailChild>
+                            <div class="mt-1" *ngIf="thumbnailLink != ''">
+                                <a href="{{thumbnailLink}}" target="_blank">
+                                    {{'View Thumbnail' | translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <div class="form-check form-check-primary mb-3">
+                                <input type="checkbox" id="certificate" [(ngModel)]="isCertificate"
+                                    [ngModelOptions]="{standalone: true}" class="form-check-input">
+                                <label for="certificate" class="form-check-label"> Is Certificate? </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label">Choose Course <span class="text-danger">*</span></label>
+                            <div class="form-icon">
+                                <input type="search" placeholder="Search" (input)="getItems($event)"
+                                    class="form-control form-control-icon">
+                                <i class="ri-search-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="" style="border:1px solid #D2D6DE;">
+                    <div class="row" cdkDropListGroup>
+                        <div class="col-lg-6">
+                            <div class="form-group" style="padding: 10px;">
+                                <label>{{'Available Courses' | translate}}</label>
+                                <div style="height: 500px; overflow: auto;" class="example-list">
+                                    <div class="align-items-center d-flex example-box" *ngFor="let item of allCourse;let i=index">
+                                        <label class="mb-0 flex-grow-1"> C{{item.code}} - {{item.title}}</label>
+                                        <div class="flex-shrink-0">
+                                            <button class="btn btn-sm btn-outline-primary" (click)="checkCourse(i)">
+                                                <i class="ri-add-line"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group" style="padding: 10px">
+                                <label style="font-weight: bold;">{{'Selected Courses' | translate}}</label>
+                                <div style="height: 500px; overflow: auto;" cdkDropList
+                                    [cdkDropListData]="moduleChecked" class="example-list"
+                                    (cdkDropListDropped)="drop($event)" >
+                                    <div class="example-box ribbon-box ribbon-fill right" *ngFor="let item of moduleChecked;let i=index" cdkDrag>
+                                        <div class="ribbon ribbon-success">
+                                            {{i+1}}
+                                        </div>
+                                        <div class="align-items-center d-flex" >
+                                            <label class="mb-0 flex-grow-1"> C{{item.code}} - {{item.title}}</label>
+                                            <div class="flex-shrink-0">
+                                                <label style="margin-right: 10px;"></label>
+                                                <button class="btn btn-sm btn-outline-danger" style="margin-right:40px" (click)="deleteCourse(i)">
+                                                    <i class="ri-delete-bin-line"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="display: block; margin-left: 10px;">
+                                            <label
+                                                style="margin-top: 10px;margin-bottom: 10px;color: black; font-weight: bolder;">{{'Modules' | translate}}</label>
+                                            <div *ngFor="let data of item.modules;let index=index"
+                                                style="border: 1px solid #eeeeee;padding: 10px;border-radius: 5px; margin-bottom: 10px;">
+                                                <label>
+                                                    M{{data.moduleId?.code}} -
+                                                    {{data.moduleId?.title}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light" (click)="save()"
+            [disabled]="loader">{{label}} <i class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                style="margin-left: 10px;"></i></button>
+    </div>
+</div>

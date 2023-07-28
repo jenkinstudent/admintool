@@ -1,0 +1,92 @@
+const db = require("../models");
+const {
+    cluster: Cluster,branch:Branch
+} = db;
+var _ = require('lodash');
+
+const mongooseErrorHandler = require('mongoose-validation-error-message-handler');
+
+exports.create = (req, res) => {
+    // const cluster = new Cluster(req.body);
+
+    // cluster.save((err, data) => {
+    //     if (err) {
+    //         const error = mongooseErrorHandler(err);
+    //         res.status(error.status || 500);
+    //         res.json({
+    //             error: {
+    //                 status: "error",
+    //                 message: error.message
+    //             }
+    //         });
+
+    //         return;
+    //     }
+
+    //     res.status(200).send({
+    //         status: 'success',
+    //         message: "Cluster created successfully!"
+    //     });
+    // });
+};
+
+exports.get = async (req, res) => {
+    let cluster = await Branch.find({_id:{$in:req.branches}});
+    var groups = _.groupBy(cluster, "cluster");
+    var array = [];
+    _.forOwn(groups, function(value, key){
+        array.push(key);
+    });
+    res.status(200).send({
+        status: "success",
+        message: "All Clusters retrieved",
+        data: array
+    });
+}
+
+exports.single = async (req, res) => {
+    // let cluster = await Cluster.findById(req.params.id).populate("zone").populate("division");
+    // res.status(200).send({
+    //     status: "success",
+    //     message: "Single Cluster retrieved",
+    //     data: cluster
+    // });
+}
+
+exports.update = async (req, res) => {
+    // Cluster.findByIdAndUpdate(req.params.id,{$set:req.body}, (err, data) => {
+    //     if (err) {
+    //         res.status(500).send({
+    //             error: {
+    //                 status: "error",
+    //                 message: err
+    //             }
+    //         });
+    //         return;
+    //     }
+
+    //     res.status(200).send({
+    //         status: "success",
+    //         message: "Cluster successfully Updated",
+    //     });
+    // });
+}
+
+exports.delete = async (req, res) => {
+    // Cluster.findByIdAndDelete(req.params.id, (err, data) => {
+    //     if (err) {
+    //         res.status(500).send({
+    //             error: {
+    //                 status: "error",
+    //                 message: err
+    //             }
+    //         });
+    //         return;
+    //     }
+
+    //     res.status(200).send({
+    //         status: "success",
+    //         message: "Cluster successfully Deleted",
+    //     });
+    // });
+}

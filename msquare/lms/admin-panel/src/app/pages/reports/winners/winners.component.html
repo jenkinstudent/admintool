@@ -1,0 +1,186 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Winners Report" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control" [(ngModel)]="searchTerm"
+                                    placeholder="Search" >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+
+                        <div class="col-xxl-7 col-sm-12 flex items-end">
+                            <div class="text-md-right float-md-end ">
+                                <ul class="pagination">
+                                    <li class="page-item me-2">
+                                        <button type="button" (click)="getData()" class="btn btn-outline-primary btn-icon waves-effect waves-light"><i class="ri-download-cloud-2-line"></i></button>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </div>
+                            
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table table-striped" >
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th>SR</th>
+                                <th>Quiz Name</th>
+                                <th>Top 10</th>
+                                <th>Top 100</th>
+                                <th>Quiz Date</th>
+                                <th>Action</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of winners;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.quizId?.title}}</td>
+                                <td>{{getTop10Count(item.winners)}}</td>
+                                <td>{{item.winners.length}}</td>
+                                <td>{{item.quizLiveDate | date:'dd MMM, yyyy hh:mm a'}}</td>
+                                <td>  
+                                    <ul
+                                    class="list-inline hstack gap-2 mb-0">
+                                        <li class="list-inline-item edit"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-trigger="hover"
+                                            ngbTooltip="Edit"
+                                            placement="top">
+                                            <a (click)="openDetails(detailsModal,item)"
+                                                class="text-primary d-inline-block edit-item-btn">
+                                                <i
+                                                    class="ri-eye-fill fs-16"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+</div>
+
+<ng-template #detailsModal let-modal>
+    <div class="modal-body">
+        <div class="align-items-center d-flex mb-2">
+            <label class="mb-0 flex-grow-1"> <a class="text-primary">{{item.quizId?.title}}</a> | {{item.quizLiveDate | date:'dd MMM, yyyy hh:mm a'}} | Top 10: <b>{{getTop10Count(item.winners)}}</b> | Top 100: <b>{{item.winners.length}}</b></label>
+            <div class="flex-shrink-0">
+                <button class="btn btn-sm btn-ghost-primary" style="float:right" (click)="modalService.dismissAll()">
+                    Close
+                </button>
+            </div>
+        </div>
+        <ul ngbNav #allocation="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger"
+            role="tablist">
+            <li [ngbNavItem]="1" class="nav-item">
+                <a ngbNavLink class="nav-link">
+                    Top 10
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="table-responsive mb-2" style="height: 400px; overflow: auto;">
+                        <table class="table table-nowrap table-striped">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th class="text-center">Rank</th>
+                                    <th class="text-center">Employee Name</th>
+                                    <th class="text-center">Designation</th>
+                                    <th class="text-center">Department</th>
+                                    <th class="text-center">Branch</th>
+                                    <th class="text-center">State</th>
+                                    <th class="text-center">Exam Start Time</th>
+                                    <th class="text-center">Time Taken</th>
+                                    <th class="text-center">Exam End Time</th>
+                                    <th class="text-center">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let data of item.winners;let i = index">
+                                    <tr *ngIf="data.top10">
+                                        <td class="text-center">{{i+1}}</td>
+                                        <td class="text-center">{{data.employeeId?.firstName}} {{data.employeeId?.lastName}}</td>
+                                        <td class="text-center">{{data.employeeId?.designation}}</td>
+                                        <td class="text-center">{{data.employeeId?.department}}</td>
+                                        <td class="text-center">{{data.employeeId?.branch}}</td>
+                                        <td class="text-center">{{data.employeeId?.stateEmp}}</td>
+                                        <td class="text-center">{{data.examStartTime | date:'dd MMM,yyyy hh:mm:ss'}}</td>
+                                        <td class="text-center">{{data.examTime}}</td>
+                                        <td class="text-center">{{data.quizScoreId?.createdAt | date:'dd MMM,yyyy hh:mm:ss'}}</td>
+                                        <td class="text-center">{{data.quizScore}}%</td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2" class="nav-item">
+                <a ngbNavLink class="nav-link">
+                    Top 100
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="table-responsive mb-2" style="height: 400px; overflow: auto;">
+                        <table class="table table-nowrap table-striped">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th class="text-center">Rank</th>
+                                    <th class="text-center">Employee Name</th>
+                                    <th class="text-center">Designation</th>
+                                    <th class="text-center">Department</th>
+                                    <th class="text-center">Branch</th>
+                                    <th class="text-center">State</th>
+                                    <th class="text-center">Exam Start Time</th>
+                                    <th class="text-center">Time Taken</th>
+                                    <th class="text-center">Exam End Time</th>
+                                    <th class="text-center">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let data of item.winners;let i = index">
+                                    <tr>
+                                        <td class="text-center">{{i+1}}</td>
+                                        <td class="text-center">{{data.employeeId?.firstName}} {{data.employeeId?.lastName}}</td>
+                                        <td class="text-center">{{data.employeeId?.designation}}</td>
+                                        <td class="text-center">{{data.employeeId?.department}}</td>
+                                        <td class="text-center">{{data.employeeId?.branch}}</td>
+                                        <td class="text-center">{{data.employeeId?.stateEmp}}</td>
+                                        <td class="text-center">{{data.examStartTime | date:'dd MMM,yyyy hh:mm:ss'}}</td>
+                                        <td class="text-center">{{data.examTime}}</td>
+                                        <td class="text-center">{{data.quizScoreId?.createdAt | date:'dd MMM,yyyy hh:mm:ss'}}</td>
+                                        <td class="text-center">{{data.quizScore}}%</td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div [ngbNavOutlet]="allocation"></div>
+        </div>
+    </div>
+</ng-template>

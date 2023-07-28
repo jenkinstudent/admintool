@@ -1,0 +1,178 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Session Activity Report" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card crm-widget">
+            <div class="card-body p-0">
+                <div class="row row-cols-md-3 row-cols-1">
+                    <div class="col col-lg border-end">
+                        <div class="py-4 px-3">
+                            <h5 class="text-muted text-uppercase fs-13">
+                                Total Logged In
+                            </h5>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <h2 class="mb-0"><span
+                                            class="counter-value text-primary">{{kpi.total}}</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-lg border-end">
+                        <div class="py-4 px-3">
+                            <h5 class="text-muted text-uppercase fs-13">
+                                Today Logged In
+                            </h5>
+                            <div class="d-flex align-items-center">
+
+                                <div class="flex-grow-1">
+                                    <h2 class="mb-0">
+                                        <span
+                                            class="counter-value text-primary">{{kpi.today}}</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-lg border-end">
+                        <div class="py-4 px-3" >
+                            <h5 class="text-muted text-uppercase fs-13">
+                                7 Days Logged In
+                            </h5>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <h2 class="mb-0"><span
+                                            class="counter-value text-primary">{{kpi.sevenDay}}</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-12">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control" (keyup)="search($event)"
+                                    placeholder="Search" >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+
+                        <div class="col-xxl-7 col-sm-12 flex items-end">
+                            <div class="text-md-right float-md-end ">
+                                <ul class="pagination">
+                                    <li class="page-item me-2" *ngIf="loading">
+                                        <span class="spinner-border flex-shrink-0 text-primary" role="status"><span class="visually-hidden">Loading...</span></span>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        <button class="btn btn-sm btn-soft-primary" [disabled]="page==1" (click)="previous()">
+                                            <span aria-hidden="true"><i class="ri-arrow-left-s-line fs-18"></i></span>
+                                        </button>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore" (click)="next()">
+                                            <span aria-hidden="true"><i class="ri-arrow-right-s-line fs-18"></i></span>
+                                        </button>
+                                    </li>
+                                    <li class="page-item me-2">
+                                        <button type="button" (click)="exportAsXLSX()" [disabled]="printData.length == 0" class="btn btn-outline-primary btn-icon waves-effect waves-light"><i *ngIf="printData.length > 0" class="ri-download-cloud-2-line"></i>
+                                            <i class="ri-refresh-line fa-spin" *ngIf="printData.length == 0"></i></button>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </div>
+                            
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table table-striped" >
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th >{{'SR' | translate}}</th>
+                                <th class="text-center">{{'Login Time' | translate}}</th>
+                                <th class="text-center">{{'Logout Time' | translate}}</th>
+                                <th >{{'Emp Code' | translate}}</th>
+                                <th >{{'Name' | translate}}</th>
+                                <th >{{'Designation' | translate}}</th>
+                                <th >{{'Department' | translate}}</th>
+                                <th >{{'Branch' | translate}}</th>
+                                <th >{{'Cluster' | translate}}</th>
+                                <!-- <th class="text-center">{{'State' | translate}}</th> -->
+                                <th >{{'Mobile' | translate}}</th>
+                                <th class="text-center">{{'Time Duration' | translate}}</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of employeesData;let i = index">
+                                <td >{{i+1}}</td>
+                                <td class="text-center">{{item.lastLoginOn | date:'dd MMM, yyyy hh:mm:ss a'}}</td>
+                                <td class="text-center">{{item.logoutTime | date:'dd MMM, yyyy hh:mm:ss a'}}</td>
+                                <td >{{item.employeeCode}}</td>
+                                <td >{{item.salutation}} {{item.firstName}} {{item.lastName}}</td>
+                                <td >{{item.designation}}</td>
+                                <td >{{item.department}}</td>
+                                <td >{{item.branch}}</td>
+                                <td >{{item.cluster}}</td>
+                                <!-- <td class="text-center">
+                                    
+                                  <a class="text-success" *ngIf="item.state == 'Online'; else offlineBlock"><i class="fa fa-square"></i></a>
+                                  <ng-template #offlineBlock><a class="text-danger"><i class="fa fa-square"></i></a></ng-template>
+                              </td> -->
+                                <td >{{item.mobile}}</td>
+                                <td class="text-center">{{item.timeDuration}}</td>
+                              
+                              </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="text-md-right float-md-end ">
+                            <ul class="pagination">
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="page==1" (click)="previous()">
+                                        <span aria-hidden="true"><i class="ri-arrow-left-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore" (click)="next()">
+                                        <span aria-hidden="true"><i class="ri-arrow-right-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item" *ngIf="loading">
+                                    <span class="spinner-border flex-shrink-0 text-primary" role="status"><span class="visually-hidden">Loading...</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+</div>

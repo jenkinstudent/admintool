@@ -1,0 +1,219 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Shakti Master" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <ul ngbNav #ModifierCustom="ngbNav" [activeId]="1" class="nav nav-pills nav-customs nav-danger">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink class="nav-link">
+                    Statistics
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="card crm-widget">
+                        <div class="card-body p-0">
+                            <div class="grid-container">
+                                <div class="grid-item border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Total Branches
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{totalBranches}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-item border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Total Clusters
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{clusters.length}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-item border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Total Divisions
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0">
+                                                    <span class="counter-value text-primary">{{divisions.length}}</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid-item border-end">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Total State
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{states.length}}</span></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid-item">
+                                    <div class="py-4 px-3">
+                                        <h5 class="text-muted text-uppercase fs-13">
+                                            Total Zone
+                                        </h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h2 class="mb-0"><span
+                                                        class="counter-value text-primary">{{zones.length}}</span></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content text-muted">
+            <div [ngbNavOutlet]="ModifierCustom"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-5">
+                            <div class="search-box">
+                                <input type="text" name="searchTerm" class="form-control" (keyup)="searchBranch($event)"
+                                    placeholder="Search for Branch Code, Name, Cluster, Division">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-7 col-sm-7 flex items-end">
+                            <input type="file" style="display: none;" id="file" accept=".xlsx, .xls"
+                                (change)="selectImportFile($event)">
+                            <label style="float:right;" class="ms-2">
+                                <button type="button" style="float: right;" class="btn btn-primary"
+                                    (click)="inputFileClick()" [disabled]="loader">Import <i
+                                        class="fa fa-circle-o-notch fa-spin" *ngIf="loader"
+                                        style="margin-left: 10px;"></i></button>
+                            </label>
+                            <button type="button" class="btn btn-soft-primary ms-2" style="float:right;"
+                                [routerLink]="['action/create']"><a href="{{baseURL}}download/SampleFile.xlsx"
+                                    target="_blank" style="color: unset;" download> <i
+                                        class="ri-download-fill me-1 align-bottom"></i>
+                                    Sample File</a>
+                            </button>
+                            <button type="button" class="btn btn-primary" style="float:right;"
+                                [routerLink]="['action/create']"> <i class="ri-add-fill me-1 align-bottom"></i>
+                                Create
+                            </button>
+                        </div>
+                        <!--end col-->
+
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+            <!--end card-body-->
+            <div class="card-body">
+                <div>
+                    <div class="table-responsive table-card mb-2">
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-light text-muted">
+                                    <th style="min-width: 50px;">SR</th>
+                                    <th>Branch</th>
+                                    <th>Cluster</th>
+                                    <th>Division</th>
+                                    <th>State</th>
+                                    <th>Zone</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of branches;let i = index;">
+                                    <td style="min-width: 50px;">{{i+1}}</td>
+                                    <td>#{{item.code}} - {{item.name}}</td>
+                                    <td>{{item.cluster}}</td>
+                                    <td>{{item.division}}</td>
+                                    <td>{{item.state}}</td>
+                                    <td>{{item.zone}}</td>
+                                    <td>
+                                        <div dir="ltr"
+                                            class=" ms-1 form-check form-switch form-switch-success form-switch-md">
+
+                                            <input type="checkbox" id="customSwitchsizelg"
+                                                [checked]="item.status == 'Active'"
+                                                (change)="changeStatus($event,item._id,i)" class="form-check-input">
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <ul class="list-inline hstack gap-2 mb-0">
+                                            <li class="list-inline-item edit" data-bs-toggle="tooltip"
+                                                data-bs-trigger="hover" ngbTooltip="Edit" placement="top">
+                                                <a (click)="edit(item._id)"
+                                                    class="text-primary d-inline-block edit-item-btn">
+                                                    <i class="ri-pencil-fill fs-16"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="text-md-right float-md-end ">
+                            <ul class="pagination">
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="page==1" (click)="previousPage()">
+                                        <span aria-hidden="true"><i class="ri-arrow-left-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore" (click)="nextPage()">
+                                        <span aria-hidden="true"><i class="ri-arrow-right-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item" *ngIf="loading">
+                                    <span class="spinner-border flex-shrink-0" role="status"><span class="visually-hidden">Loading...</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!--end card-->
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->

@@ -1,0 +1,42 @@
+/*small devices*/
+@media only screen and (min-width : 600px) and (max-width: 767px){
+    .thumbnail{
+        height: 180px;
+    }
+}
+
+/*medium devices*/
+@media only screen and (min-width : 768px)  and (max-width: 991px){
+    .thumbnail{
+        height: 140px;
+    }
+}
+
+/*large devices*/
+@media only screen and (min-width : 992px)  and (max-width: 1199px){
+    .thumbnail{
+        height: 150px;
+    }
+}
+
+/*extra large devices*/
+@media only screen and (min-width : 1200px){
+    .thumbnail{
+        height: 160px;
+    }
+}
+
+/*small devices*/
+@media only screen and (max-width : 600px){
+    .thumbnail{
+        height: 180px;
+    }
+}
+
+.btn-cust{
+    padding:2px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    color:white;
+    align-self: center;
+}

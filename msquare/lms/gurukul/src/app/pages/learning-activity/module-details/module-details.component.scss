@@ -1,0 +1,223 @@
+@media only screen and (max-width: 600px) {
+    .quizCard{
+        width: 100%;
+    }
+    
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+    .h125Responsive{
+        height: calc(50vh - 115px);
+    }
+    .h115Responsive{
+        height: calc(60vh - 115px);
+    }
+    .h90Responsive{
+        height:calc(50vh - 90px);
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .videoCard{
+        margin: 0px 40px 20px;
+        box-shadow: unset;
+    }
+    .quizCard{
+        width: 100%;
+    }
+    
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+    .h125Responsive{
+        height: calc(50vh - 115px);
+    }
+    .h115Responsive{
+        height: calc(60vh - 115px);
+    }
+    .h90Responsive{
+        height:calc(50vh - 90px);
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .quizCard{
+        width: 100%;
+    }
+
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr 1fr 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+    .h125Responsive{
+        height: calc(80vh - 115px);
+    }
+    .h115Responsive{
+        height: calc(80vh - 115px);
+    }
+    .h90Responsive{
+        height:calc(80vh - 90px);
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .quizCard{
+        width: 80%;
+    }
+
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+    .h125Responsive{
+        height: calc(80vh - 115px);
+    }
+    .h115Responsive{
+        height: calc(80vh - 115px);
+    }
+    .h90Responsive{
+        height:calc(80vh - 90px);
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .quizCard{
+        width: 60%;
+    }
+    .grid-container1{
+        display: grid; 
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        padding: 20px;
+    }
+    .grid-item1{
+        padding:10px;
+        margin-bottom: 20px;
+    }
+    .h125Responsive{
+        height: calc(80vh - 115px);
+    }
+    .h115Responsive{
+        height: calc(80vh - 115px);
+    }
+    .h90Responsive{
+        height:calc(80vh - 90px);
+    }
+}
+
+
+.time{
+    margin-right: 55px;
+    color: white;
+    background-color: #1e1e1e;
+    padding: 2px 7px;
+    border-radius: 3px 3px 0px 0px;
+}
+
+input[type="radio"]:checked + label {
+    
+      background-color: #CD5E29 !important;
+      a{
+        color: white !important;
+      }
+      
+    
+    }
+
+
+.grid-container{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.grid-item{
+    padding: 10px;
+    text-align: center;
+}
+
+.nav-0:first-child{
+    &::after {
+        transform: unset !important;
+    }
+}
+
+.certified{
+    background-color: #cd5e29;
+    padding: 10px;
+    position: absolute;
+    left: 75px;
+    top: 20px;
+    margin-bottom: unset;
+}
+
+.totalP{
+    background-color: #cd5e29;
+    padding: 10px;
+    position: absolute;
+    right: 75px;
+    top: 20px;
+    margin-bottom: unset;
+}
+
+.profile-user .profile-photo-edit {
+    position: absolute;
+    right: auto;
+    left: -8px;
+    top: -7px;
+    cursor: pointer;
+}
+
+.input-option{
+    display: block;
+    float: left;
+    background-color: white;
+    border-radius: 50%;
+    padding: 4px 6px;
+    width: 28px;
+    height: 28px;
+    color: black;
+    margin-right: 4px;
+}
+
+.input-btn{
+    display: block;
+    text-align: justify;
+}
+
+.avatar-sm {
+    height: 3rem;
+    width: 3rem;
+}
+
+@media (max-width: 768px) { /* Small screens and below */
+    .my-element {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 768px) { /* Medium screens and above */
+    .my-element {
+      display: flex;
+    }
+  }

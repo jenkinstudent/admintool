@@ -1,0 +1,114 @@
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .moduleName {
+      height: 0;
+      width: 100%;
+      border-bottom: 26px solid #cd5e29;
+      border-left: 20px solid transparent;
+      border-right: 0px solid #cd5e29;
+      padding-right: 10px;
+    }
+    
+    .moduleName p {
+      text-align: right;
+      padding-top:5px;
+      margin-bottom: unset;
+      font-weight: bold;
+      font-size: 14px !important;
+    }
+    // .page-title-right{
+    //     width: 100%;
+    // }
+  }
+  
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  @media only screen and (min-width: 600px) {
+    .moduleName {
+      height: 0;
+      width: 100%;
+      border-bottom: 26px solid #cd5e29;
+      border-left: 20px solid transparent;
+      border-right: 0px solid #cd5e29;
+      padding-right: 10px;
+    }
+    
+    .moduleName p {
+      text-align: right;
+      padding-top:5px;
+      margin-bottom: unset;
+      font-weight: bold;
+      font-size: 14px !important;
+    }
+    // .page-title-right{
+    //     width: 50%;
+    // }
+  }
+  
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .moduleName {
+      height: 0;
+      width: 100%;
+      border-bottom: 26px solid #cd5e29;
+      border-left: 20px solid transparent;
+      border-right: 0px solid #cd5e29;
+      padding-right: 10px;
+    }
+    
+    .moduleName p {
+      text-align: right;
+      padding-top:5px;
+      margin-bottom: unset;
+      font-weight: bold;
+      font-size: 14px !important;
+    }
+    // .page-title-right{
+    //     width: 40%;
+    // }
+  } 
+  
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .moduleName {
+      height: 0;
+      width: 100%;
+      border-bottom: 26px solid #cd5e29;
+      border-left: 20px solid transparent;
+      border-right: 0px solid #cd5e29;
+      padding-right: 10px;
+    }
+    
+    .moduleName p {
+      text-align: right;
+      padding-top:5px;
+      margin-bottom: unset;
+      font-weight: bold;
+      font-size: 14px !important;
+    }
+    // .page-title-right{
+    //     width: 30%;
+    // }
+  } 
+  
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    .moduleName {
+      height: 0;
+      width: 100%;
+      border-bottom: 26px solid #cd5e29;
+      border-left: 20px solid transparent;
+      border-right: 0px solid #cd5e29;
+      padding-right: 10px;
+    }
+    
+    .moduleName p {
+      text-align: right;
+      padding-top:5px;
+      margin-bottom: unset;
+      font-weight: bold;
+      font-size: 14px !important;
+    }
+    // .page-title-right{
+    //     width: 30%;
+    // }
+  }

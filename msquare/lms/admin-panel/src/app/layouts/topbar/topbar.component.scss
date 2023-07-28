@@ -1,0 +1,32 @@
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+#page-header-user-dropdown{
+    border-left: unset !important;
+}
+}
+
+.dropdown-toggle::after{
+    content: unset !important;
+    display: unset;
+    margin-left: unset;
+    font-size: unset;
+    line-height: unset;
+}
+
+
+.active{
+    background-color: #cd5e29 !important;
+    i{
+        color:white !important;
+    }
+}
+
+
+
+.item{
+    background-color: #f0f0f1;
+}
+
+.cursor {
+    cursor: pointer;
+}

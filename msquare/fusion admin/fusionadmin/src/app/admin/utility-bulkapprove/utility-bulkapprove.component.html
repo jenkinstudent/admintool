@@ -1,0 +1,187 @@
+
+<div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalFullscreenLabel">Bulk Approve/Reject</h5>
+      
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalService.dismissAll()"></button>
+    </div>
+    <div class="modal-body">
+        <div class="card" id="tasksList" style="box-shadow: unset;">
+            <div class="card-header mb-2" style="padding:unset;border-bottom:unset;">
+                <button class="btn btn-outline-primary" *ngIf="type == 'admin'" (click)="adminRejectAll()" style="float: right;" [disabled]="rloading">Reject Selected</button>
+                <button class="btn btn-primary me-2" *ngIf="type == 'admin'" (click)="adminApproveAll()" style="float: right;"[disabled]="aloading">Approve Selected</button>
+                <button class="btn btn-outline-primary" *ngIf="type == 'finance'" (click)="financeRejectAll()" style="float: right;" [disabled]="rloading">Reject Selected</button>
+                <button class="btn btn-primary me-2" *ngIf="type == 'finance'" (click)="financeApproveAll()" style="float: right;"[disabled]="aloading">Approve Selected</button>
+            </div>
+            
+                <div class="table-responsive mb-2" >
+                    <table class="table table-nowrap align-middle mb-0 ">
+                        <thead class="table-light text-muted">
+                            <tr>
+                                <th class="text-center" *ngIf="type == 'admin'">
+                                    <div class="form-check">
+                                        <input class="form-check-input" (change)="allAdminSelection($event)" type="checkbox">
+                                    </div>
+                                    <!-- <input style="vertical-align: middle;" type="checkbox" (change)="allAdminSelection($event)"> -->
+                                </th>
+                                <th class="text-center" *ngIf="type == 'finance'">
+                                    <div class="form-check">
+                                        <input class="form-check-input" (change)="allFinanceSelection($event)" type="checkbox">
+                                    </div>
+                                </th>
+                                <th>Sr. No.</th>
+                                <th>Voucher No.</th>
+                                <th>Branch </th>
+                                <th>Cluster </th>
+                                <th>Division </th>
+                                <th>State </th>
+                                <th>Zone </th>
+                                <th>Utility Name </th>
+                                <th>Premises Type</th>
+                                <th>Bill No.</th>
+                                <th>Invoice Date</th>
+                                <th>Date Raised On</th>
+                                <th>Due Date</th>
+                                <th>Vendor Name</th>
+                                <th>Consumption</th>
+                                <th>Gross Amt</th>
+                                <th>Exceeded</th>
+                                <th>Admin Approval</th>
+                                <th>Finance Approval</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of data;let i=index">
+                                <tr
+                                    *ngIf="type == 'admin' && item?.adminStatus == 'Pending' && item?.financeStatus == 'Pending' && authS.hasApprovePermission('utility',item.grossAmount, item.verifyStatus)">
+                                    <td class="text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" [(ngModel)]="item.checked" (click)="check(i)" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>{{i+1}}</td>
+                                    <td>{{item?.voucherNo}}<br><span *ngIf="item.old" class="badge badge-soft-primary badge-border">Old</span></td>
+                                    <td>{{item?.branch?.code}} -
+                                        {{item?.branch?.name}}</td>
+                                    <td>{{item?.branch?.cluster}}</td>
+                                    <td>{{item?.branch?.division}}</td>
+                                    <td>{{item?.branch?.state}}</td>
+                                    <td>{{item?.branch?.zone}}</td>
+                                    <td>{{item?.utility?.utility?.name}} </td>
+                                    <td>{{item?.utility?.premisesType}}</td>
+                                    <td>{{item?.billNo}}</td>
+                                    <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                    <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                    <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                    <td>{{item?.vendorName}}</td>
+                                    <td>{{item?.consumption}}</td>
+                                    <td>₹ {{item?.grossAmount}}</td>
+                                    <td>₹
+                                        {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                    </td>
+                                    <td><span *ngIf="item?.adminStatus == 'Pending'"
+                                            class="badge rounded-pill bg-warning">Pending</span>
+                                        <span
+                                            ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                            placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                            class="badge rounded-pill bg-success">Approve</span>
+                                        <span
+                                            ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                            placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                            class="badge rounded-pill bg-danger">Reject</span></td>
+                                    <td><span *ngIf="item?.financeStatus == 'Pending'"
+                                            class="badge rounded-pill bg-warning">Pending</span>
+                                        <span
+                                            ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                            placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                            class="badge rounded-pill bg-success">Approve</span>
+                                        <span
+                                            ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                            placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                            class="badge rounded-pill bg-danger">Reject</span></td>
+                                </tr>
+                                <tr
+                                    *ngIf="type == 'finance' && item?.adminStatus == 'Approved' && item?.financeStatus == 'Pending' && authS.hasFApprovePermission('utility',item.grossAmount, item.fverifyStatus)">
+                                    <td class="text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" [(ngModel)]="item.checked" (click)="check(i)" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>{{i+1}}</td>
+                                    <td>{{item?.voucherNo}}<br><span *ngIf="item.old" class="badge badge-soft-primary badge-border">Old</span></td>
+                                    <td>{{item?.branch?.code}} -
+                                        {{item?.branch?.name}}</td>
+                                    <td>{{item?.branch?.cluster}}</td>
+                                    <td>{{item?.branch?.division}}</td>
+                                    <td>{{item?.branch?.state}}</td>
+                                    <td>{{item?.branch?.zone}}</td>
+                                    <td>{{item?.utility?.utility?.name}} </td>
+                                    <td>{{item?.utility?.premisesType}}</td>
+                                    <td>{{item?.billNo}}</td>
+                                    <td>{{item?.invoiceDate | date:"dd MMM, yyyy"}}</td>
+                                    <td>{{item?.date | date:"dd MMM, yyyy"}}</td>
+                                    <td>{{item?.dueDate | date:"dd MMM, yyyy"}}</td>
+                                    <td>{{item?.vendorName}}</td>
+                                    <td>{{item?.consumption}}</td>
+                                    <td>₹ {{item?.grossAmount}}</td>
+                                    <td>₹
+                                        {{(item.grossAmount > item.meter?.maximumConsumption)?(item.grossAmount - item.meter?.maximumConsumption):0}}
+                                    </td>
+                                    <td><span *ngIf="item?.adminStatus == 'Pending'"
+                                            class="badge rounded-pill bg-warning">Pending</span>
+                                        <span
+                                            ngbTooltip="Approve By {{item?.adminApproved?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                            placement="top" *ngIf="item?.adminStatus == 'Approved'"
+                                            class="badge rounded-pill bg-success">Approve</span>
+                                        <span
+                                            ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.adminStatusDate | date:'dd MMM, yyyy'}}"
+                                            placement="top" *ngIf="item?.adminStatus == 'Rejected'"
+                                            class="badge rounded-pill bg-danger">Reject</span></td>
+                                    <td><span *ngIf="item?.financeStatus == 'Pending'"
+                                            class="badge rounded-pill bg-warning">Pending</span>
+                                        <span
+                                            ngbTooltip="Approve By {{item?.financeApproved?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                            placement="top" *ngIf="item?.financeStatus == 'Approved'"
+                                            class="badge rounded-pill bg-success">Approve</span>
+                                        <span
+                                            ngbTooltip="Reject By {{item?.rejectedBy?.name}} On {{item?.financeStatusDate | date:'dd MMM, yyyy'}}"
+                                            placement="top" *ngIf="item?.financeStatus == 'Rejected'"
+                                            class="badge rounded-pill bg-danger">Reject</span></td>
+                                </tr>
+                            </ng-container>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="text-md-right float-md-end ">
+                            <ul class="pagination">
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="page==1"
+                                        (click)="previousPage()">
+                                        <span aria-hidden="true"><i
+                                                class="ri-arrow-left-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item me-2">
+                                    <button class="btn btn-sm btn-soft-primary" [disabled]="!hasMore"
+                                        (click)="nextPage()">
+                                        <span aria-hidden="true"><i
+                                                class="ri-arrow-right-s-line fs-18"></i></span>
+                                    </button>
+                                </li>
+                                <li class="page-item" *ngIf="loading">
+                                    <span class="spinner-border flex-shrink-0" role="status"><span
+                                            class="visually-hidden">Loading...</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!--end card-->
+    </div>
+    <!--end col-->
+</div>

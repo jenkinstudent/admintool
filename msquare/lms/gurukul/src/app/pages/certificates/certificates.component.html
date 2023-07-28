@@ -1,0 +1,222 @@
+<app-breadcrumbs title="{{'Certificates & Rewards' | translate}}"></app-breadcrumbs>
+
+<div class="row project-wrapper">
+
+    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 h-100" *ngIf="!knowMore && !rewardPoint">
+        <div class="p-2">
+            <div class="card margin" style="background-color: #fff;box-shadow:unset;">
+                <div class="card-body p-4">
+                    <img src="assets/images/Certificate.jpg" width="100%"><br><br>
+
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12"
+                                    *ngFor="let item of certificates;let i=index">
+                                    <div class="card card-height-100" style="box-shadow: unset; border:1px solid #e0e0e0;">
+                                        <div class="card-body">
+                                            <h5 class="fs-16 mb-1 text-center fw-bold title" ngbTooltip="{{(item.program ==undefined || item.program == '' || item.program == null)?'-':item.program}}" placement="top">{{(item.program ==undefined || item.program == '' || item.program == null)?'-':item.program}}
+                                            </h5>
+                                            <h5 class="fs-16 mb-1 text-center fw-bold title" ngbTooltip="{{item.data?.quizId?.title}}" placement="top">({{item.data?.quizId?.title}})
+                                            </h5>
+                                            <img src="{{baseURL}}/retrieve/certificate/{{item.data?.certificate}}" onerror="this.src='assets/images/certificate.png';"
+                                                class="image" style="display: block; height:250px;margin: 10px auto;">
+                                            <div class="grid-container">
+                                                <div class="grid-item">
+                                                    <a href="{{baseURL}}/retrieve/certificate/{{item.data?.certificate}}"
+                                                        target="_blank"> <button class="btn btn-primary"
+                                                            style="width: 100%; ">{{'View' | translate}}</button></a>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <a (click)="convertImageToPDF(item.data?.certificate)"> <button
+                                                            class="btn btn-primary"
+                                                            style="width: 100%;">{{'Download' | translate}}</button></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                            <div class="card" style="box-shadow: unset;">
+                                <div class="card-header"
+                                    style="background-color: #cd5e29; padding: 0.8rem 1rem;border-bottom: unset !important;">
+                                    <h5 class="fs-16 mb-0 text-center text-white fw-bold">{{'Reward Points' | translate}}</h5>
+                                </div>
+                                <div class="card-body"
+                                    style="background-color: #323030;border-radius: 0px 0px 5px 5px;">
+                                    <span
+                                        style="color: #1AA1DB; font-weight:bolder;font-size:45px; display:block; text-align:center;">{{total}}</span>
+                                    <img src="assets/images/Reward.png" style="width: 100%;
+                                    height: 180px;
+                                    object-fit: contain;">
+                                    <div class="text-center">
+                                        <button class="btn btn-primary"
+                                            style="background-color: #1AA1DB; border:unset; margin-right: 2.5%;"
+                                            (click)="knowMore = true;">{{'Know More' | translate}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 h-100" *ngIf="knowMore && !rewardPoint">
+        <div class="p-2">
+            <div class="card margin" style="background-color: #fff;box-shadow:unset;">
+                <div class="card-body p-4">
+                    <img src="assets/images/Reward.jpg" width="100%"><br><br>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered table-striped">
+                                        <thead class="text-light " style="background-color: #1AA1DB;">
+                                            <tr>
+                                                <th colspan="2" class="text-center">{{'Module & Quiz' | translate}}</th>
+                                                <th class="text-center" style="width: 200px;">{{'Reward Points' | translate}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bg-light" *ngFor="let item of rewardPoints;let i=index">
+                                                <td class="text-center">{{i+1}}</td>
+                                                <td>{{item.title}}</td>
+                                                <td class="text-center" *ngIf="item.type == 'credit'">{{item.points}}</td>
+                                                <td class="text-center" *ngIf="item.type == 'debit'">-{{item.points}}</td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tfoot class="text-light " style="background-color: #1AA1DB;">
+                                            <tr>
+                                                <th colspan="2" class="text-center">{{'Total Points Earned' | translate}}</th>
+                                                <th class="text-center" style="width: 200px;">{{total}}</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" (click)="rewardPoint = true">
+                                        {{'Redeem Your Reward Points' | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 h-100" *ngIf="knowMore && rewardPoint">
+        <div class="p-2">
+            <div class="card margin" style="background-color: #fff;box-shadow:unset;">
+                <div class="card-body p-4">
+                    <img src="assets/images/Reward.jpg" width="100%"><br><br>
+
+                    <div class="row" style="margin: unset;">
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <div class="p-3" style="background-color: #f0f0f1;border-radius: 10px;">
+                                <h6 class="fw-bold">*{{'You can redeem your Reward Points for 500 or more.' | translate}}</h6>
+                                <div class="row">
+                                    <ng-container  *ngFor="let item of redeemItems;let i=index">
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                                       *ngIf="item.status == 1">
+                                        <div class="card redeem-card" id="{{i}}" style="height: 250px;"
+                                            (click)="getRedeemItemData(item,i)">
+                                            <div class="card-body">
+                                                <div class="m-3">
+                                                    <img src="{{item.photo}}"
+                                                        style="width: 100%;
+                                                        height: 120px;
+                                                        object-fit: contain;">
+                                                </div>
+                                                <hr>
+                                                <h5 class="fs-14 text-center text-dark item-title">{{item.name}}</h5>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    </ng-container>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="p-3" style="background-color: #f0f0f1;border-radius: 10px;">
+                                <div class="d-flex mb-2 align-items-center" *ngFor="let item of items;let i=index">
+                                    <div class="flex-grow-1">
+                                        <span>{{item.itemId?.name}}</span>
+                                        <br>
+                                        <span class="text-muted">{{'Points' | translate}}: <b>{{item.itemId?.points}}</b></span>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <input type="number" class="form-control me-1" placeholder="Qty" [(ngModel)]="item.qty" (keyup)="getQty(item,i,$event)"
+                                                style="width: 80px;display: inline;padding:0.3rem 0.9rem;">
+                                        <button class="btn btn-ghost-danger btn-sm fw-bold" style="vertical-align: top;" (click)="deleteItem(i)"><i class="ri-delete-bin-line"></i></button>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex mb-2 align-items-center">
+                                    <div class="flex-grow-1">
+                                        <span>500 x <input type="number" class="form-control"
+                                                style="width: 80px;display: inline;padding:0.3rem 0.9rem;"></span>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <span>= <input type="number" class="form-control"
+                                                style="width: 80px;display: inline;padding:0.3rem 0.9rem;"></span>
+                                    </div>
+                                </div> -->
+                                <div class="d-flex mb-2 align-items-center">
+                                    <div class="flex-grow-1">
+                                        <span>{{'Total Reedemed Points' | translate}}</span>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <span>= <input type="number" class="form-control" readonly value="{{totalRedeemPoints}}"
+                                                style="width: 80px;display: inline;padding:0.3rem 0.9rem;"></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="flex-grow-1 ">
+                                        <span>{{'Remaining Reward Points' | translate}}</span>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <span>= <input type="number" class="form-control" readonly value="{{remainingRedeemPoints}}"
+                                                style="width: 80px;display: inline;padding:0.3rem 0.9rem;"></span>
+                                    </div>
+                                </div>
+                                <h4 class="text-center fw-bold mt-4">{{'Add Address' | translate}}</h4>
+
+                                <input type="text" class="form-control mb-2" placeholder="{{'Address Line 1' | translate}}"
+                                    style="display: inline;padding:0.3rem 0.9rem;" [(ngModel)]="addressLine1">
+                                <input type="text" class="form-control mb-2" placeholder="{{'Address Line 2' | translate}}"
+                                    style="display: inline;padding:0.3rem 0.9rem;" [(ngModel)]="addressLine2">
+                                <input type="text" class="form-control mb-2" placeholder="{{'City' | translate}}"
+                                    style="display: inline;padding:0.3rem 0.9rem;" [(ngModel)]="city">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="flex-grow-1 me-1">
+                                        <input type="text" class="form-control mb-2 " placeholder="{{'State' | translate}}"
+                                            style="display: inline;padding:0.3rem 0.9rem;" [(ngModel)]="state">
+                                    </div>
+                                    <div class="flex-grow-1 ms-1">
+                                        <input type="text" class="form-control mb-2" placeholder="{{'Country' | translate}}"
+                                            style="display: inline;padding:0.3rem 0.9rem;" [(ngModel)]="country">
+                                    </div>
+                                </div>
+                                <input type="number" class="form-control mb-2 me-2" placeholder="{{'Pincode' | translate}}"
+                                    style=" width:130px;display: inline;padding:0.3rem 0.9rem;" [(ngModel)]="pincode">
+                                <button class="btn btn-primary btn-sm"
+                                    style="padding:0.3rem 0.9rem; vertical-align:top;" (click)="submit()">{{'Submit' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

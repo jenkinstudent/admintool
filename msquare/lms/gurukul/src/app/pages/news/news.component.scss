@@ -1,0 +1,130 @@
+.news{
+    display: -webkit-box !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    height: unset !important;
+  
+  
+  }
+  
+  .fusionnews{
+    height: 0;
+    width: 90%;
+    border-radius: 5px;
+    border-bottom: 32px solid #cd5e29;
+    border-left: 15px solid #cd5e29;
+    border-right: 15px solid transparent;
+    padding-right: 10px;
+  }
+  
+  .fusionnews p {
+    padding-top:5px;
+  }
+
+  .fusionnews1{
+    height: 0;
+    width: 90%;
+    border-radius: 5px;
+    border-bottom: 32px solid #000;
+    border-left: 15px solid #000;
+    border-right: 15px solid transparent;
+    padding-right: 10px;
+  }
+  
+  .fusionnews1 p {
+    padding-top:5px;
+  }
+
+  
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+      }
+      .grid-item{
+        padding: 10px 20px;
+      }
+      .grid-container1 {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+      }
+      .grid-item1{
+        padding: 10px 20px;
+      }
+  }
+  
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  @media only screen and (min-width: 600px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 4fr;
+      }
+      .grid-item{
+        padding: 10px 20px;
+      }
+      .grid-container1 {
+        display: grid;
+        grid-template-columns: 4fr 2fr;
+      }
+      .grid-item1{
+        padding: 10px 20px;
+      }
+  }
+  
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 4fr;
+      }
+      .grid-item{
+        padding: 10px 20px;
+      }
+      .grid-container1 {
+        display: grid;
+        grid-template-columns: 4fr 2fr;
+      }
+      .grid-item1{
+        padding: 10px 20px;
+      }
+  } 
+  
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 5fr;
+      }
+      .grid-item{
+        padding: 10px 20px;
+      }
+      .grid-container1 {
+        display: grid;
+        grid-template-columns: 5fr 2fr;
+      }
+      .grid-item1{
+        padding: 10px 20px;
+      }
+  } 
+  
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 6fr;
+      }
+      .grid-item{
+        padding: 10px 20px;
+      }
+      .grid-container1 {
+        display: grid;
+        grid-template-columns: 6fr 2fr;
+      }
+      .grid-item1{
+        padding: 10px 20px;
+      }
+  }
